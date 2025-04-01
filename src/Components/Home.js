@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, Play } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronRight, Play, Users, Clock, Star, BookOpen, Award, TrendingUp } from 'lucide-react';
 import ProductCard from './ProductCard';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const [popularProducts] = useState([
     {
       id: 1,
@@ -112,28 +115,81 @@ const Home = () => {
     }
   ]);
 
+  const [activeFeature, setActiveFeature] = useState(0);
+  const features = [
+    {
+      icon: <BookOpen className="w-6 h-6" />,
+      title: "Expert-Led Courses",
+      description: "Learn from industry veterans with years of practical experience"
+    },
+    {
+      icon: <Clock className="w-6 h-6" />,
+      title: "Lifetime Access",
+      description: "Study at your own pace with unlimited access to course content"
+    },
+    {
+      icon: <Award className="w-6 h-6" />,
+      title: "Certification",
+      description: "Earn verified certificates upon course completion"
+    }
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden mb-12 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-20 rounded-2xl">
-        {/* Background Pattern */}
+      {/* Enhanced Hero Section */}
+      <div className="relative overflow-hidden mb-12 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white py-24 rounded-3xl">
+        {/* Animated Background Patterns */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute transform rotate-45 -right-20 -top-20 w-80 h-80 bg-white rounded-full"></div>
-          <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-white rounded-full"></div>
+          <motion.div
+            animate={{
+              rotate: [0, 360],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute transform -right-20 -top-20 w-96 h-96 bg-white rounded-full"
+          />
+          <motion.div
+            animate={{
+              rotate: [360, 0],
+              scale: [1, 1.3, 1],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute -left-20 -bottom-20 w-96 h-96 bg-white rounded-full"
+          />
         </div>
 
+        {/* Animated Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-600/20 to-blue-900/30" />
+
         <div className="relative z-10 container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center justify-between">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
             {/* Left Content */}
-            <div className="text-left lg:w-1/2 mb-8 lg:mb-0">
+            <div className="text-left lg:w-1/2">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-block px-4 py-2 rounded-full bg-white/10 backdrop-blur-lg mb-6"
+              >
+                <span className="text-yellow-300 font-semibold">🎉 New:</span>
+                <span className="ml-2">Advanced TypeScript Course Launch</span>
+              </motion.div>
+
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-4xl lg:text-5xl font-bold mb-6"
+                className="text-5xl lg:text-6xl font-bold mb-6 leading-tight"
               >
-                Level Up Your Skills with Our
-                <span className="block mt-2 text-yellow-300">
-                  Premium Tech Courses
+                Master Modern
+                <span className="block mt-2 bg-gradient-to-r from-yellow-300 via-pink-300 to-yellow-300 text-transparent bg-clip-text">
+                  Web Development
                 </span>
               </motion.h1>
               
@@ -141,85 +197,146 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-xl mb-8 text-gray-100"
+                className="text-xl mb-8 text-gray-100 leading-relaxed"
               >
-                Master modern web development with industry experts. Join over 50,000+ developers who have transformed their careers.
+                Join our comprehensive learning platform and transform your career. 
+                Get hands-on experience with real-world projects and learn from industry experts.
               </motion.p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 mb-12">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold flex items-center gap-2"
+                  onClick={() => {
+                    console.log('Button clicked'); // Add this for debugging
+                    navigate('/register');
+                  }}
+                  className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  Get Started
+                  Start Learning Now
                   <ChevronRight className="w-5 h-5" />
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border-2 border-white px-8 py-3 rounded-full font-semibold flex items-center gap-2"
+                  className="border-2 border-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 hover:bg-white/10 transition-all duration-300"
                 >
-                  View Courses
+                  Watch Demo
                   <Play className="w-5 h-5" />
                 </motion.button>
               </div>
 
-              {/* Stats */}
-              <div className="flex gap-8 mt-12">
-                <div>
-                  <h3 className="text-3xl font-bold">50K+</h3>
-                  <p className="text-gray-200">Students</p>
-                </div>
-                <div>
-                  <h3 className="text-3xl font-bold">100+</h3>
-                  <p className="text-gray-200">Courses</p>
-                </div>
-                <div>
-                  <h3 className="text-3xl font-bold">4.8</h3>
-                  <p className="text-gray-200">Rating</p>
-                </div>
+              {/* Stats with Animations */}
+              <div className="grid grid-cols-3 gap-8">
+                {[
+                  { number: "50K+", label: "Students", icon: <Users className="w-6 h-6" /> },
+                  { number: "100+", label: "Courses", icon: <BookOpen className="w-6 h-6" /> },
+                  { number: "4.8", label: "Rating", icon: <Star className="w-6 h-6" /> }
+                ].map((stat, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 + (index * 0.1) }}
+                    className="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center"
+                  >
+                    {stat.icon}
+                    <h3 className="text-3xl font-bold mt-2">{stat.number}</h3>
+                    <p className="text-gray-200">{stat.label}</p>
+                  </motion.div>
+                ))}
               </div>
             </div>
 
-            {/* Right Content - Tech Stack Animation */}
+            {/* Right Content - Interactive Tech Stack */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
               className="lg:w-1/2 relative"
             >
-              <div className="grid grid-cols-3 gap-4 p-6 bg-white/10 backdrop-blur-lg rounded-2xl">
-                {[
-                  { name: 'React', icon: '/icons/react.svg', delay: 0 },
-                  { name: 'Node.js', icon: '/icons/nodejs.svg', delay: 0.2 },
-                  { name: 'MongoDB', icon: '/icons/mongodb.svg', delay: 0.4 },
-                  { name: 'JavaScript', icon: '/icons/javascript.svg', delay: 0.6 },
-                  { name: 'TypeScript', icon: '/icons/typescript.svg', delay: 0.8 },
-                  { name: 'Python', icon: '/icons/python.svg', delay: 1 }
-                ].map((tech, index) => (
-                  <motion.div
-                    key={tech.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: tech.delay }}
-                    className="flex flex-col items-center p-4 bg-white/5 rounded-lg"
-                  >
-                    <img 
-                      src={tech.icon} 
-                      alt={tech.name} 
-                      className="w-12 h-12 mb-2"
-                    />
-                    <span className="text-sm">{tech.name}</span>
-                  </motion.div>
-                ))}
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
+                <div className="grid grid-cols-3 gap-6">
+                  {[
+                    { name: 'React', icon: '/icons/react.svg', delay: 0, color: '#61DAFB' },
+                    { name: 'Node.js', icon: '/icons/nodejs.svg', delay: 0.2, color: '#339933' },
+                    { name: 'MongoDB', icon: '/icons/mongodb.svg', delay: 0.4, color: '#47A248' },
+                    { name: 'JavaScript', icon: '/icons/javascript.svg', delay: 0.6, color: '#F7DF1E' },
+                    { name: 'TypeScript', icon: '/icons/typescript.svg', delay: 0.8, color: '#3178C6' },
+                    { name: 'Python', icon: '/icons/python.svg', delay: 1, color: '#3776AB' }
+                  ].map((tech, index) => (
+                    <motion.div
+                      key={tech.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      whileHover={{ scale: 1.05, y: -5 }}
+                      transition={{ delay: tech.delay }}
+                      className="flex flex-col items-center p-4 bg-white/5 rounded-xl hover:bg-white/20 transition-all duration-300"
+                    >
+                      <div className="w-16 h-16 mb-4 relative">
+                        <img 
+                          src={tech.icon} 
+                          alt={tech.name} 
+                          className="w-full h-full object-contain"
+                        />
+                        <motion.div
+                          className="absolute inset-0 rounded-full"
+                          animate={{
+                            boxShadow: [
+                              `0 0 0 0px ${tech.color}20`,
+                              `0 0 0 10px ${tech.color}00`
+                            ]
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeOut"
+                          }}
+                        />
+                      </div>
+                      <span className="font-medium">{tech.name}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Feature Carousel */}
+                <div className="mt-8">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeFeature}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className="text-center p-4"
+                    >
+                      {features[activeFeature].icon}
+                      <h3 className="text-xl font-semibold mt-2">
+                        {features[activeFeature].title}
+                      </h3>
+                      <p className="text-gray-300 mt-1">
+                        {features[activeFeature].description}
+                      </p>
+                    </motion.div>
+                  </AnimatePresence>
+                  <div className="flex justify-center gap-2 mt-4">
+                    {features.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setActiveFeature(index)}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === activeFeature ? 'bg-white w-6' : 'bg-white/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* Floating Elements */}
               <motion.div
                 animate={{ 
-                  y: [0, -10, 0],
+                  y: [0, -15, 0],
                   rotate: [0, 5, 0]
                 }}
                 transition={{ 
@@ -227,11 +344,11 @@ const Home = () => {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="absolute -top-8 -right-8 w-20 h-20 bg-yellow-300/20 rounded-full backdrop-blur-lg"
+                className="absolute -top-8 -right-8 w-24 h-24 bg-gradient-to-r from-yellow-300/20 to-pink-300/20 rounded-full backdrop-blur-lg"
               />
               <motion.div
                 animate={{ 
-                  y: [0, 10, 0],
+                  y: [0, 15, 0],
                   rotate: [0, -5, 0]
                 }}
                 transition={{ 
@@ -239,7 +356,7 @@ const Home = () => {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="absolute -bottom-8 -left-8 w-16 h-16 bg-blue-300/20 rounded-full backdrop-blur-lg"
+                className="absolute -bottom-8 -left-8 w-20 h-20 bg-gradient-to-r from-blue-300/20 to-purple-300/20 rounded-full backdrop-blur-lg"
               />
             </motion.div>
           </div>
