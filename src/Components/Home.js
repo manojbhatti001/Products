@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ChevronRight, Play, Users, Clock, Star, BookOpen, Award, TrendingUp } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
+import CountUp from 'react-countup';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -134,6 +135,9 @@ const Home = () => {
     }
   ];
 
+  const statsRef = useRef(null);
+  const isInView = useInView(statsRef, { once: false }); // Set once: false to trigger multiple times
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Enhanced Hero Section */}
@@ -228,11 +232,11 @@ const Home = () => {
               </div>
 
               {/* Stats with Animations */}
-              <div className="grid grid-cols-3 gap-8">
+              <div ref={statsRef} className="grid grid-cols-3 gap-8">
                 {[
-                  { number: "50K+", label: "Students", icon: <Users className="w-6 h-6" /> },
-                  { number: "100+", label: "Courses", icon: <BookOpen className="w-6 h-6" /> },
-                  { number: "4.8", label: "Rating", icon: <Star className="w-6 h-6" /> }
+                  { number: 50000, suffix: "+", label: "Students", icon: <Users className="w-6 h-6" /> },
+                  { number: 100, suffix: "+", label: "Courses", icon: <BookOpen className="w-6 h-6" /> },
+                  { number: 4.8, decimals: 1, label: "Rating", icon: <Star className="w-6 h-6" /> }
                 ].map((stat, index) => (
                   <motion.div
                     key={index}
@@ -242,7 +246,21 @@ const Home = () => {
                     className="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center"
                   >
                     {stat.icon}
-                    <h3 className="text-3xl font-bold mt-2">{stat.number}</h3>
+                    <h3 className="text-3xl font-bold mt-2">
+                      <CountUp
+                        start={0}
+                        end={stat.number}
+                        duration={2.5}
+                        separator=","
+                        decimals={stat.decimals || 0}
+                        suffix={stat.suffix || ""}
+                        key={isInView ? 1 : 0} // This forces the CountUp to reset when coming into view
+                      >
+                        {({ countUpRef }) => (
+                          <span ref={countUpRef} />
+                        )}
+                      </CountUp>
+                    </h3>
                     <p className="text-gray-200">{stat.label}</p>
                   </motion.div>
                 ))}
@@ -259,7 +277,7 @@ const Home = () => {
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
                 <div className="grid grid-cols-3 gap-6">
                   {[
-                    { name: 'React', icon: '/icons/react.svg', delay: 0, color: '#61DAFB' },
+                    { name: 'React', icon: '/images/react.png', delay: 0, color: '#61DAFB' },
                     { name: 'Node.js', icon: '/icons/nodejs.svg', delay: 0.2, color: '#339933' },
                     { name: 'MongoDB', icon: '/icons/mongodb.svg', delay: 0.4, color: '#47A248' },
                     { name: 'JavaScript', icon: '/icons/javascript.svg', delay: 0.6, color: '#F7DF1E' },

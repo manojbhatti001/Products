@@ -26,7 +26,13 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             className="flex items-center"
           >
-            <Link to="/" className="text-xl font-bold">Logo</Link>
+            <Link to="/" className="flex items-center">
+              <img 
+                src="/images/mainlogo.webp" 
+                alt="Company Logo" 
+                className="h-20 w-auto" // Increased height from h-8 to h-12
+              />
+            </Link>
           </motion.div>
 
           {/* Desktop Menu */}
