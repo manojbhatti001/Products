@@ -16,6 +16,21 @@ const Navbar = () => {
     'Plugins',
   ];
 
+  // Helper function to get the correct route for each category
+  const getCategoryRoute = (category) => {
+    // Convert category to lowercase for consistent routing
+    const lowerCategory = category.toLowerCase();
+    // Special cases for specific routes
+    if (lowerCategory === 'wordpress') {
+      return '/wordpress';
+    }
+    if (lowerCategory === 'php') {
+      return '/php';
+    }
+    // Default case for other categories
+    return `/categories/${lowerCategory}`;
+  };
+
   return (
     <nav className="bg-white shadow-lg fixed top-0 left-0 right-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
@@ -70,7 +85,7 @@ const Navbar = () => {
                   {categories.map((category, index) => (
                     <Link
                       key={index}
-                      to={`/categories/${category.toLowerCase()}`}
+                      to={getCategoryRoute(category)}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       {category}
@@ -149,7 +164,7 @@ const Navbar = () => {
                       {categories.map((category, index) => (
                         <Link
                           key={index}
-                          to={`/categories/${category.toLowerCase()}`}
+                          to={getCategoryRoute(category)}
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           onClick={() => {
                             setIsMenuOpen(false);

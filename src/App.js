@@ -6,8 +6,8 @@ import Home from './Components/Home';
 import Categories from './Components/Categories';
 import Login from './Components/Login';
 import Register from './Components/Register';
-// import CategoryDetail from './Components/CategoryDetail';
-
+import WordPressPage from './Components/CategoriesSection/WordPress';
+import PHPPage from './Components/CategoriesSection/PHP';
 
 function App() {
   return (
@@ -17,9 +17,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/categories" element={<Categories />} />
-          {/* <Route path="/categories/:category" element={<CategoryDetail />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/wordpress" element={<WordPressPage />} />
+          <Route path="/php" element={<PHPPage />} />
         </Routes>
       </div>
       <Footer />

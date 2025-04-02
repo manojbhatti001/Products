@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.your-class {
+  /* Using a placeholder image service */
+  background-image: url('https://placehold.co/600x400');
+}

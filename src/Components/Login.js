@@ -107,23 +107,7 @@ const Login = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                type="button"
-                className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5 mr-2" />
-                Google
-              </button>
-              <button
-                type="button"
-                className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook" className="w-5 h-5 mr-2" />
-                Facebook
-              </button>
-            </div>
-
+           
             <p className="text-center text-sm text-gray-600 mt-4">
               Don't have an account?{' '}
               <a href="/register" className="text-blue-600 hover:text-blue-800 font-semibold">
