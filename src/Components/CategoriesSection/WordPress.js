@@ -108,66 +108,125 @@ const WordPressPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Hero Section with Animated Background */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-24">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -right-1/4 -top-1/4 w-96 h-96 bg-blue-500 rounded-full opacity-20"
-        />
-        <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [360, 180, 0],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute -left-1/4 -bottom-1/4 w-96 h-96 bg-blue-400 rounded-full opacity-20"
-        />
-        
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800 text-white py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          {/* CSS grid pattern */}
+          <div 
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+              backgroundSize: '40px 40px'
+            }}
+          ></div>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <div className="inline-block px-4 py-2 rounded-full bg-blue-500 bg-opacity-30 mb-6">
-              <span className="text-yellow-300 font-semibold">🔥 Hot & New:</span>
-              <span className="ml-2">WordPress 6.0 Features Included</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Become a WordPress
-              <span className="block mt-2 bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 text-transparent bg-clip-text">
-                Development Master
+            animate={{
+              rotate: [0, 360],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute -right-1/4 -top-1/4 w-64 sm:w-72 md:w-80 lg:w-96 h-64 sm:h-72 md:h-80 lg:h-96 bg-blue-500/30 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              rotate: [360, 0],
+              scale: [1, 1.3, 1],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute -left-1/4 -bottom-1/4 w-64 sm:w-72 md:w-80 lg:w-96 h-64 sm:h-72 md:h-80 lg:h-96 bg-purple-500/30 rounded-full blur-3xl"
+          />
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-block mb-4 sm:mb-6 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+            >
+              <span className="text-xs sm:text-sm font-semibold">🚀 The Most Comprehensive WordPress Learning Platform</span>
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight"
+            >
+              Master
+              <span className="relative inline-block">
+                <span className="relative z-10 px-1 sm:px-2 mx-1 sm:mx-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg">
+                  WordPress
+                </span>
+                <motion.span
+                  className="absolute inset-0 bg-white/20 rounded-lg -rotate-2"
+                  animate={{ rotate: [2, -2, 2] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                />
               </span>
-            </h1>
-            
-            <p className="text-xl mb-8 max-w-2xl mx-auto text-blue-100">
-              Join over 50,000 students in mastering WordPress development. 
-              From basics to advanced techniques, we've got you covered.
-            </p>
+              Development
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 md:mb-12 text-blue-100 px-4"
+            >
+              From fundamentals to advanced concepts, join over 50,000+ developers who've 
+              mastered WordPress with our industry-leading curriculum
+            </motion.p>
 
             {/* Enhanced Search Bar */}
-            <div className="max-w-xl mx-auto relative">
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="relative"
-              >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="relative max-w-2xl mx-auto"
+            >
+              <div className="absolute inset-0 bg-white/5 rounded-full blur"></div>
+              <div className="relative flex items-center">
                 <input
                   type="text"
-                  placeholder="Search WordPress courses..."
+                  placeholder="Search WordPress courses, topics, or concepts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-6 py-4 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-lg"
+                  className="w-full px-8 py-5 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl pl-14"
                 />
-                <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              </motion.div>
-            </div>
-          </motion.div>
+                <Search className="absolute left-5 text-gray-400 w-5 h-5" />
+                <button className="absolute right-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300">
+                  Search
+                </button>
+              </div>
+            </motion.div>
+
+            {/* Quick Stats */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="flex justify-center gap-8 mt-12"
+            >
+              {[
+                { label: "Active Students", value: "50K+" },
+                { label: "Video Hours", value: "1,200+" },
+                { label: "5-Star Reviews", value: "15K+" },
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-2xl font-bold">{stat.value}</div>
+                  <div className="text-sm text-blue-200">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
 

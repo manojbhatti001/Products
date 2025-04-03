@@ -10,7 +10,7 @@ const Navbar = () => {
   const categories = [
     'Wordpress',
     'PHP',
-    'Moblie',
+    'Mobile',
     'HTML5',
     'JavaScript',
     'Plugins',
@@ -18,17 +18,23 @@ const Navbar = () => {
 
   // Helper function to get the correct route for each category
   const getCategoryRoute = (category) => {
-    // Convert category to lowercase for consistent routing
     const lowerCategory = category.toLowerCase();
-    // Special cases for specific routes
-    if (lowerCategory === 'wordpress') {
-      return '/wordpress';
+    switch (lowerCategory) {
+      case 'wordpress':
+        return '/wordpress';
+      case 'php':
+        return '/php';
+      case 'mobile':
+        return '/mobile';
+      case 'html5':
+        return '/html';
+      case 'javascript':
+        return '/javascript';
+      case 'plugins':
+        return '/plugins';
+      default:
+        return `/categories/${lowerCategory}`;
     }
-    if (lowerCategory === 'php') {
-      return '/php';
-    }
-    // Default case for other categories
-    return `/categories/${lowerCategory}`;
   };
 
   return (

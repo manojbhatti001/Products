@@ -8,6 +8,8 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import WordPressPage from './Components/CategoriesSection/WordPress';
 import PHPPage from './Components/CategoriesSection/PHP';
+import Mobile from './Components/CategoriesSection/MobileAppDevelopment';
+import HTMLPage from './Components/CategoriesSection/HTML';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/wordpress" element={<WordPressPage />} />
           <Route path="/php" element={<PHPPage />} />
+          <Route path="/mobile" element={<Mobile />} />
+          <Route path="/html" element={<HTMLPage />} />
         </Routes>
       </div>
       <Footer />
