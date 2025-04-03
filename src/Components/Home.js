@@ -136,7 +136,12 @@ const Home = () => {
   ];
 
   const statsRef = useRef(null);
-  const isInView = useInView(statsRef, { once: false }); // Set once: false to trigger multiple times
+  const isInView = useInView(statsRef, { 
+    once: true, 
+    threshold: 0.2,
+    triggerOnce: false,
+    rootMargin: '-50px'
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -232,23 +237,21 @@ const Home = () => {
               </div>
 
               {/* Stats with Animations */}
-              <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+              <div ref={statsRef} className="grid grid-cols-3 gap-8">
                 {[
-                  { number: 50000, suffix: "+", label: "Students", icon: <Users className="w-5 h-5 sm:w-6 sm:h-6" /> },
-                  { number: 100, suffix: "+", label: "Courses", icon: <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" /> },
-                  { number: 4.8, decimals: 1, label: "Rating", icon: <Star className="w-5 h-5 sm:w-6 sm:h-6" /> }
+                  { number: 50000, suffix: "+", label: "Students", icon: <Users className="w-6 h-6" /> },
+                  { number: 100, suffix: "+", label: "Courses", icon: <BookOpen className="w-6 h-6" /> },
+                  { number: 4.8, decimals: 1, label: "Rating", icon: <Star className="w-6 h-6" /> }
                 ].map((stat, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 + (index * 0.1) }}
-                    className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 text-center flex flex-col items-center justify-center"
+                    className="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center"
                   >
-                    <div className="mb-1 sm:mb-2">
-                      {stat.icon}
-                    </div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold">
+                    {stat.icon}
+                    <h3 className="text-3xl font-bold mt-2">
                       <CountUp
                         start={0}
                         end={stat.number}
@@ -256,14 +259,17 @@ const Home = () => {
                         separator=","
                         decimals={stat.decimals || 0}
                         suffix={stat.suffix || ""}
-                        key={isInView ? 1 : 0}
+                        useEasing={true}
+                        enableScrollSpy={true}
+                        scrollSpyDelay={200}
+                        scrollSpyOnce={false}
                       >
                         {({ countUpRef }) => (
                           <span ref={countUpRef} />
                         )}
                       </CountUp>
                     </h3>
-                    <p className="text-sm sm:text-base text-gray-200 mt-1">{stat.label}</p>
+                    <p className="text-gray-200">{stat.label}</p>
                   </motion.div>
                 ))}
               </div>
