@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, Search, User, UserPlus } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, ChevronDown, Search, User, UserPlus, LogOut, ShoppingCart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [cartItemsCount, setCartItemsCount] = useState(0);
   const location = useLocation();
+
+  useEffect(() => {
+    // Update cart count whenever localStorage changes
+    const updateCartCount = () => {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      setCartItemsCount(cart.length);
+    };
+
+    // Initial count
+    updateCartCount();
+
+    // Listen for storage changes
+    window.addEventListener('storage', updateCartCount);
+    return () => window.removeEventListener('storage', updateCartCount);
+  }, []);
 
   const categories = [
     {
@@ -132,6 +148,19 @@ const Navbar = () => {
               />
             </div>
 
+            {/* Updated Cart Icon */}
+            <Link
+              to="/cart"
+              className="relative inline-flex items-center p-2 text-gray-700 hover:text-gray-900 rounded-full hover:bg-gray-100"
+            >
+              <ShoppingCart className="w-6 h-6" />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+            </Link>
+
             {/* Auth Links */}
             <div className="flex items-center space-x-2">
               <Link 
@@ -153,12 +182,12 @@ const Navbar = () => {
                 <span>Register</span>
               </Link>
               <Link 
-                to="/admin/dashboard" 
+                to="/admin-login" 
                 className={`text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md ${
-                  location.pathname.startsWith('/admin') ? 'bg-gray-100' : ''
+                  location.pathname === '/admin-login' ? 'bg-gray-100' : ''
                 }`}
               >
-                Admin Dashboard
+                Admin Login
               </Link>
             </div>
           </div>
@@ -184,6 +213,16 @@ const Navbar = () => {
               className="md:hidden"
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
+                {/* Add Cart Link in mobile menu */}
+                <Link
+                  to="/cart"
+                  className="flex items-center gap-2 text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  <span>Cart</span>
+                </Link>
+
                 {navigationLinks.map((link) => (
                   <Link
                     key={link.path}
@@ -253,13 +292,13 @@ const Navbar = () => {
                   Register
                 </Link>
                 <Link 
-                  to="/admin/dashboard" 
+                  to="/admin-login" 
                   className={`block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md ${
-                    location.pathname.startsWith('/admin') ? 'bg-gray-100' : ''
+                    location.pathname === '/admin-login' ? 'bg-gray-100' : ''
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Admin Dashboard
+                  Admin Login
                 </Link>
               </div>
             </motion.div>

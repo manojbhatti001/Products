@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Star, Clock, Users, ChevronRight } from 'lucide-react';
 
@@ -11,6 +11,30 @@ const ProductCard = ({ product }) => {
       currency: 'INR',
       maximumFractionDigits: 0,
     }).format(priceInRupees);
+  };
+
+  const navigate = useNavigate();
+
+  const handleViewCourse = () => {
+    // Store the current product in localStorage
+    const products = JSON.parse(localStorage.getItem('products') || '[]');
+    const existingProduct = products.find(p => p.id === product.id);
+    
+    if (!existingProduct) {
+      products.push({
+        id: product.id,
+        name: product.title,  // Changed from name to title to match your data structure
+        price: product.price,
+        originalPrice: product.originalPrice,
+        category: product.badge || 'Course',  // Using badge as category if available
+        description: product.description,
+        imageUrl: product.thumbnail,  // Changed from imageUrl to thumbnail
+        rating: product.rating
+      });
+      localStorage.setItem('products', JSON.stringify(products));
+    }
+    
+    navigate(`/product/${product.id}`);
   };
 
   return (
@@ -79,6 +103,7 @@ const ProductCard = ({ product }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleViewCourse}  // Changed from navigate to handleViewCourse
             className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
           >
             View Course
