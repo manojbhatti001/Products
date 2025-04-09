@@ -1,6 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, ChevronDown, Search, User, UserPlus, LogOut, ShoppingCart, UserCog, ShoppingBag, History } from 'lucide-react';
+import { 
+  Menu, 
+  X, 
+  Search, 
+  ShoppingCart, 
+  User, 
+  UserPlus, 
+  LogOut,
+  LayoutGrid,  // Changed from Grid to LayoutGrid
+  ChevronDown,
+  Code,
+  Smartphone,
+  Puzzle,
+  UserCog,
+  ShoppingBag,
+  History
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
@@ -9,6 +25,7 @@ const Navbar = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [mobileCategoryDropdown, setMobileCategoryDropdown] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -183,22 +200,15 @@ const Navbar = () => {
                     <UserPlus className="w-4 h-4 xl:w-5 xl:h-5" />
                     <span className="hidden xl:inline">Register</span>
                   </Link>
-                  
                 </>
               ) : (
                 <div className="relative">
-                  <button 
+                  <button
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                    onBlur={() => setTimeout(() => setIsProfileDropdownOpen(false), 200)}
-                    className={`flex items-center gap-1 text-gray-700 hover:text-gray-900 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md ${
-                      isActive('/profile') ? 'bg-gray-100' : ''
-                    }`}
+                    className="flex items-center gap-1 text-gray-700 hover:text-gray-900 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md"
                   >
                     <User className="w-4 h-4 xl:w-5 xl:h-5" />
                     <span className="hidden xl:inline">Profile</span>
-                    <ChevronDown className={`ml-1 h-4 w-4 transform transition-transform duration-200 ${
-                      isProfileDropdownOpen ? 'rotate-180' : ''
-                    }`} />
                   </button>
 
                   {/* Profile Dropdown Menu */}
@@ -297,93 +307,146 @@ const Navbar = () => {
                   </div>
                 </div>
 
-                {/* Keep existing mobile menu items */}
-                <Link
-                  to="/cart"
-                  className="flex items-center gap-2 text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <ShoppingCart className="w-5 h-5" />
-                  <span>Cart</span>
-                </Link>
-
-                {navigationLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md ${
-                      isActive(link.path) ? 'bg-gray-100' : ''
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                
-                {/* Mobile Categories Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => setCategoryDropdownOpen(!isCategoryDropdownOpen)}
-                    className="w-full text-left text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md flex justify-between items-center"
-                  >
-                    <span>Categories</span>
-                    <ChevronDown className={`h-5 w-5 transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  {isCategoryDropdownOpen && (
-                    <div className="bg-gray-50 rounded-md mt-1">
-                      {categories.map((category, index) => (
-                        <Link
-                          key={index}
-                          to={category.route}
-                          className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${
-                            isActive(category.route) ? 'bg-gray-100' : ''
-                          }`}
-                          onClick={() => {
-                            setIsMenuOpen(false);
-                            setCategoryDropdownOpen(false);
-                          }}
-                        >
-                          {category.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
+                {/* Categories Dropdown for Mobile */}
                 <div className="px-3 py-2">
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-full px-4 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+                  <button 
+                    onClick={() => setMobileCategoryDropdown(!mobileCategoryDropdown)}
+                    className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900 py-2"
+                  >
+                    <span className="flex items-center gap-2">
+                      <LayoutGrid className="w-5 h-5" />
+                      Categories
+                    </span>
+                    <ChevronDown 
+                      className={`w-5 h-5 transform transition-transform duration-200 ${
+                        mobileCategoryDropdown ? 'rotate-180' : ''
+                      }`} 
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {mobileCategoryDropdown && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="mt-2 space-y-2 pl-4"
+                      >
+                        {categories.map((category, index) => (
+                          <Link
+                            key={index}
+                            to={category.route}
+                            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 py-2"
+                            onClick={() => {
+                              setMobileCategoryDropdown(false);
+                              setIsMenuOpen(false);
+                            }}
+                          >
+                            <span className="text-xl">{category.icon}</span>
+                            <span>{category.name}</span>
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <Link 
-                  to="/login" 
-                  className={`block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md ${
-                    isActive('/login') ? 'bg-gray-100' : ''
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link 
-                  to="/register" 
-                  className={`block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md ${
-                    isActive('/register') ? 'bg-gray-100' : ''
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Register
-                </Link>
-                <Link 
-                  to="/admin-login" 
-                  className={`block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md ${
-                    location.pathname === '/admin-login' ? 'bg-gray-100' : ''
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Admin Login
-                </Link>
+
+                {/* Auth Links for Mobile */}
+                {!isLoggedIn ? (
+                  <div className="px-3 py-2 space-y-1">
+                    <Link
+                      to="/login"
+                      className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 w-full"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <User className="w-5 h-5" />
+                      <span>Login</span>
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="flex items-center gap-2 bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 w-full"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <UserPlus className="w-5 h-5" />
+                      <span>Register</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="px-3 py-2">
+                    {/* Profile Button for Mobile */}
+                    <button
+                      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                      className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900 py-2"
+                    >
+                      <span className="flex items-center gap-2">
+                        <User className="w-5 h-5" />
+                        <span>Profile</span>
+                      </span>
+                      <ChevronDown 
+                        className={`w-5 h-5 transform transition-transform duration-200 ${
+                          isProfileDropdownOpen ? 'rotate-180' : ''
+                        }`} 
+                      />
+                    </button>
+
+                    <AnimatePresence>
+                      {isProfileDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="mt-2 space-y-1 pl-4"
+                        >
+                          <Link
+                            to="/profile/details"
+                            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2"
+                            onClick={() => {
+                              setIsProfileDropdownOpen(false);
+                              setIsMenuOpen(false);
+                            }}
+                          >
+                            <UserCog className="w-5 h-5" />
+                            <span>Profile Details</span>
+                          </Link>
+                          <Link
+                            to="/profile/purchases"
+                            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2"
+                            onClick={() => {
+                              setIsProfileDropdownOpen(false);
+                              setIsMenuOpen(false);
+                            }}
+                          >
+                            <ShoppingBag className="w-5 h-5" />
+                            <span>Purchase Products</span>
+                          </Link>
+                          <Link
+                            to="/profile/payment-history"
+                            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2"
+                            onClick={() => {
+                              setIsProfileDropdownOpen(false);
+                              setIsMenuOpen(false);
+                            }}
+                          >
+                            <History className="w-5 h-5" />
+                            <span>Payment History</span>
+                          </Link>
+                          <div className="h-px bg-gray-200 my-2"></div>
+                          <button
+                            onClick={() => {
+                              handleLogout();
+                              setIsProfileDropdownOpen(false);
+                              setIsMenuOpen(false);
+                            }}
+                            className="flex items-center gap-2 text-red-600 hover:text-red-700 py-2 w-full"
+                          >
+                            <LogOut className="w-5 h-5" />
+                            <span>Logout</span>
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}
