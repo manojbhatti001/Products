@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Your existing validation logic
+    
+    // On successful login
+    localStorage.setItem('userToken', 'dummy-token');
+    localStorage.setItem('isLoggedIn', 'true');
+    toast.success('Login successful!');
+    navigate('/'); // Redirect to home page
+  };
 
   return (
     <div className="container mx-auto p-4 min-h-screen flex items-center justify-center">
@@ -25,7 +41,7 @@ const Login = () => {
             <p className="text-sm text-gray-600">Please enter your credentials</p>
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="text-left">
               <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="email">
                 Email Address
@@ -84,7 +100,20 @@ const Login = () => {
                   )}
                 </button>
               </div>
-              <div className="flex justify-between items-center mt-2">
+              <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                    Remember me
+                  </label>
+                </div>
                 <a href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-800">
                   Forgot Password?
                 </a>
@@ -93,21 +122,11 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors mt-6"
             >
               Sign in
             </button>
 
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
-              </div>
-            </div>
-
-           
             <p className="text-center text-sm text-gray-600 mt-4">
               Don't have an account?{' '}
               <a href="/register" className="text-blue-600 hover:text-blue-800 font-semibold">

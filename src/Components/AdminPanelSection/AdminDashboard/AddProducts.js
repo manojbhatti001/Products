@@ -10,7 +10,8 @@ import {
   Link as LinkIcon,  // Note: We're already using LinkIcon instead of Link
   FileText,
   Upload,
-  Eye
+  Eye,
+  Gift
 } from 'lucide-react';
 
 const AddProduct = () => {
@@ -24,7 +25,8 @@ const AddProduct = () => {
     productFile: null,
     resourceType: 'file', // Add this for resource type
     productLink: '', // Add this for product link
-    category: '' // Add this line
+    category: '',
+    priceType: 'free' // Add this for price type
   });
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -429,27 +431,61 @@ const AddProduct = () => {
                 </h2>
               </div>
 
-              {/* Price Input */}
-              <div className="mb-8">
+              {/* Price Type Selection */}
+              <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Price (in ₹)
+                  Price Type
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <span className="text-gray-500 font-medium">₹</span>
-                  </div>
-                  <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                    placeholder="1999"
-                    required
-                    min="0"
-                  />
+                <div className="flex gap-2">
+                  {['paid', 'free'].map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => setFormData(prev => ({
+                        ...prev,
+                        priceType: type,
+                        ...(type === 'free' ? { price: 0 } : {})
+                      }))}
+                      className={`px-3 py-2 rounded-lg border transition-all duration-200 flex items-center gap-1.5
+                        ${formData.priceType === type
+                          ? 'border-green-500 bg-green-50'
+                          : 'border-gray-200 hover:border-green-200'
+                        }`}
+                    >
+                      {type === 'paid' ? (
+                        <DollarSign className={`w-4 h-4 ${formData.priceType === type ? 'text-green-500' : 'text-gray-400'}`} />
+                      ) : (
+                        <Gift className={`w-4 h-4 ${formData.priceType === type ? 'text-green-500' : 'text-gray-400'}`} />
+                      )}
+                      <span className="font-medium capitalize text-sm">{type}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
+
+              {/* Price Input - Only shown when paid is selected */}
+              {formData.priceType === 'paid' && (
+                <div className="mb-8">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Price (in ₹)
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <span className="text-gray-500 font-medium">₹</span>
+                    </div>
+                    <input
+                      type="number"
+                      name="price"
+                      value={formData.price}
+                      onChange={handleInputChange}
+                      className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="1999"
+                      required
+                      min="0"
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Tutorial Link Input */
               <div className="mb-8">

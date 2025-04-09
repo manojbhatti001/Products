@@ -1,63 +1,66 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { ChevronRight, Play, Users, Clock, Star, BookOpen, Award, TrendingUp } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
 import CountUp from 'react-countup';
+import Loader from '../Common/Loader';
 
 const Home = () => {
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Add popularProducts state
   const [popularProducts] = useState([
     {
       id: 1,
-      title: "WordPress Theme Development",
-      description: "Master WordPress theme development from scratch. Learn PHP, WordPress hooks, custom post types, and theme customization.",
-      thumbnail: "https://placehold.co/600x400/21759b/FFFFFF/png?text=WordPress",
-      price: 49.99,  // Will be converted to ₹4,149
-      originalPrice: 199.99,  // Will be converted to ₹16,599
-      rating: 4.8,
-      duration: "20h",
-      students: 15000,
+      title: "Complete Web Development Bootcamp",
+      description: "Master full-stack web development with this comprehensive bootcamp covering HTML, CSS, JavaScript, React, and Node.js.",
+      thumbnail: "https://placehold.co/600x400/3498db/FFFFFF/png?text=Web+Dev",
+      price: 79.99,
+      originalPrice: 199.99,
+      rating: 4.9,
+      duration: "40h",
+      students: 35000,
       badge: "Bestseller",
       techStack: [
-        { name: "WordPress", icon: "https://placehold.co/30x30/21759b/FFFFFF/png?text=WP" },
-        { name: "PHP", icon: "https://placehold.co/30x30/777BB3/FFFFFF/png?text=PHP" },
-        { name: "MySQL", icon: "https://placehold.co/30x30/4479A1/FFFFFF/png?text=SQL" }
+        { name: "React", icon: "https://placehold.co/30x30/61DAFB/000000/png?text=R" },
+        { name: "Node.js", icon: "https://placehold.co/30x30/339933/FFFFFF/png?text=NJ" },
+        { name: "JavaScript", icon: "https://placehold.co/30x30/F7DF1E/000000/png?text=JS" }
       ]
     },
     {
       id: 2,
-      title: "PHP & MySQL Development",
-      description: "Complete PHP programming course with MySQL database integration. Build dynamic web applications from ground up.",
-      thumbnail: "https://placehold.co/600x400/777BB3/FFFFFF/png?text=PHP+Course",
-      price: 59.99,
-      originalPrice: 149.99,
-      rating: 4.7,
-      duration: "25h",
-      students: 12000,
-      badge: "New",
+      title: "Python Programming Masterclass",
+      description: "Learn Python from scratch and advance to professional level with practical projects and real-world applications.",
+      thumbnail: "https://placehold.co/600x400/FFD43B/000000/png?text=Python",
+      price: 69.99,
+      originalPrice: 169.99,
+      rating: 4.8,
+      duration: "35h",
+      students: 28000,
+      badge: "Popular",
       techStack: [
-        { name: "PHP", icon: "https://placehold.co/30x30/777BB3/FFFFFF/png?text=PHP" },
-        { name: "MySQL", icon: "https://placehold.co/30x30/4479A1/FFFFFF/png?text=SQL" },
-        { name: "Laravel", icon: "https://placehold.co/30x30/FF2D20/FFFFFF/png?text=LV" }
+        { name: "Python", icon: "https://placehold.co/30x30/FFD43B/000000/png?text=PY" },
+        { name: "Django", icon: "https://placehold.co/30x30/092E20/FFFFFF/png?text=DJ" },
+        { name: "Flask", icon: "https://placehold.co/30x30/000000/FFFFFF/png?text=FL" }
       ]
     },
     {
       id: 3,
-      title: "Mobile App Development",
-      description: "Learn to build cross-platform mobile apps using React Native and Flutter. Deploy to iOS and Android.",
-      thumbnail: "https://placehold.co/600x400/61DAFB/000000/png?text=Mobile+Dev",
-      price: 79.99,
-      originalPrice: 299.99,
-      rating: 4.9,
-      duration: "40h",
-      students: 8000,
-      badge: "Popular",
+      title: "Data Science Fundamentals",
+      description: "Master data analysis, visualization, and machine learning with Python, Pandas, and scikit-learn.",
+      thumbnail: "https://placehold.co/600x400/9B59B6/FFFFFF/png?text=Data+Science",
+      price: 89.99,
+      originalPrice: 199.99,
+      rating: 4.7,
+      duration: "45h",
+      students: 22000,
+      badge: "Trending",
       techStack: [
-        { name: "React Native", icon: "https://placehold.co/30x30/61DAFB/000000/png?text=RN" },
-        { name: "Flutter", icon: "https://placehold.co/30x30/02569B/FFFFFF/png?text=FL" },
-        { name: "Firebase", icon: "https://placehold.co/30x30/FFCA28/000000/png?text=FB" }
+        { name: "Pandas", icon: "https://placehold.co/30x30/150458/FFFFFF/png?text=PD" },
+        { name: "NumPy", icon: "https://placehold.co/30x30/013243/FFFFFF/png?text=NP" },
+        { name: "Scikit", icon: "https://placehold.co/30x30/F7931E/FFFFFF/png?text=SK" }
       ]
     }
   ]);
@@ -142,6 +145,19 @@ const Home = () => {
     triggerOnce: false,
     rootMargin: '-50px'
   });
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
