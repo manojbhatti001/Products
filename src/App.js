@@ -27,7 +27,8 @@ import AddCategory from './Components/AdminPanelSection/AdminDashboard/AddCatego
 import RegisterDetails from './Components/ProfileSection/RegisterDetails';
 import PurchaseProduct from './Components/ProfileSection/PurchaseProduct';
 import PaymentHistory from './Components/ProfileSection/PaymentHistory';
-import RouteWrapper from './Components/Common/RouteWrapper';
+import RouteWrapper from './Components/LoaderSection/RouteWrapper';
+import ForgetPassword from './Components/LoginSection/ForgetPassword';
 
 function App() {
   const [cartItems, setCartItems] = useState(() => {
@@ -149,6 +150,7 @@ function App() {
                     <Route path="/categories" element={<Categories />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} />
                     <Route path="/wordpress" element={<WordPressPage />} />
                     <Route path="/php" element={<PHPPage />} />
                     <Route path="/mobile" element={<Mobile />} />

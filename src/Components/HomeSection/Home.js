@@ -4,7 +4,7 @@ import { ChevronRight, Play, Users, Clock, Star, BookOpen, Award, TrendingUp } f
 import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
 import CountUp from 'react-countup';
-import Loader from '../Common/Loader';
+import Loader from '../LoaderSection/Loader';
 
 const Home = () => {
   const navigate = useNavigate();

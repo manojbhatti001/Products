@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const Login = () => {
@@ -100,23 +100,25 @@ const Login = () => {
                   )}
                 </button>
               </div>
-              <div className="flex items-center justify-between mt-2">
+              <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
                   <input
-                    id="remember-me"
-                    name="remember-me"
                     type="checkbox"
+                    id="remember"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                  <label htmlFor="remember" className="ml-2 block text-sm text-gray-900">
                     Remember me
                   </label>
                 </div>
-                <a href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-800">
-                  Forgot Password?
-                </a>
+                <Link
+                  to="/forget-password"
+                  className="text-sm font-medium text-blue-600 hover:text-blue-500"
+                >
+                  Forgot password?
+                </Link>
               </div>
             </div>
 

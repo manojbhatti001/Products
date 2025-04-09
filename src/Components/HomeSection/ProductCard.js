@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, Clock, Users, ChevronRight } from 'lucide-react';
+import { Star, Clock, Users, ChevronRight, ArrowRight } from 'lucide-react';
 
 const ProductCard = ({ product }) => {
   const formatIndianPrice = (price) => {
@@ -89,7 +89,7 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* Price and Action */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-3">
           <div className="flex flex-col">
             <span className="text-2xl font-bold text-blue-600">
               {formatIndianPrice(product.price)}
@@ -103,11 +103,22 @@ const ProductCard = ({ product }) => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={handleViewCourse}  // Changed from navigate to handleViewCourse
+            onClick={handleViewCourse}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
           >
-            View Course
+            Buy Now
             <ChevronRight className="w-4 h-4" />
+          </motion.button>
+        </div>
+
+        {/* See More Link */}
+        <div className="border-t border-gray-100 pt-3 mt-3">
+          <motion.button
+            onClick={handleViewCourse}
+            className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center justify-center w-full group"
+          >
+            See More Details
+            <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
           </motion.button>
         </div>
       </div>

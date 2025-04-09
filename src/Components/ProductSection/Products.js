@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Loader from '../Common/Loader';
+import Loader from '../LoaderSection/Loader';
 
 const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
