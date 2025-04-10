@@ -2,15 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark mode styles */
+.dark {
+  @apply text-gray-100;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  @apply text-white;
+}
+
+.dark p {
+  @apply text-gray-300;
+}
+
+.dark input, .dark textarea, .dark select {
+  @apply bg-gray-800 border-gray-700 text-white placeholder-gray-400;
+}
+
+.dark button {
+  @apply text-gray-100;
+}
+
+.dark table {
+  @apply bg-gray-800 text-gray-100;
+}
+
+.dark th {
+  @apply bg-gray-700 text-gray-100;
+}
+
+.dark td {
+  @apply border-gray-700 text-gray-300;
+}
+
+.dark .card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+/* Light mode styles */
+input, textarea, select {
+  @apply bg-white border-gray-300 text-gray-900 placeholder-gray-500;
+}
+
+button {
+  @apply text-gray-800;
+}
+
+table {
+  @apply bg-white text-gray-900;
+}
+
+th {
+  @apply bg-gray-50 text-gray-800;
+}
+
+td {
+  @apply border-gray-200 text-gray-700;
+}
+
+.card {
+  @apply bg-white border-gray-200;
+}
+
 .your-class {
-  /* Using a placeholder image service */
   background-image: url('https://placehold.co/600x400');
 }
 
-/* Add this to your existing CSS */
 .overflow-x-auto {
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #CBD5E0 #EDF2F7; /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E0 #EDF2F7;
 }
 
 .overflow-x-auto::-webkit-scrollbar {

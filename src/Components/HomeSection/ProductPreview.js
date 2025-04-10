@@ -185,7 +185,7 @@ const ProductPreview = () => {
               </div>
 
               {/* Price */}
-              <div className="mb-6 -ml-96">
+              <div className="mb-6 ">
                 <span className="text-3xl font-bold text-blue-600">
                   ₹{product.price}
                 </span>

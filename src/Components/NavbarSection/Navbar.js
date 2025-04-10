@@ -15,9 +15,12 @@ import {
   Puzzle,
   UserCog,
   ShoppingBag,
-  History
+  History,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../../context/ThemeContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,8 +29,24 @@ const Navbar = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [mobileCategoryDropdown, setMobileCategoryDropdown] = useState(false);
+  const [dropdownTimer, setDropdownTimer] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
+
+  const handleMouseLeave = () => {
+    const timer = setTimeout(() => {
+      setCategoryDropdownOpen(false);
+    }, 500); // 500ms delay before closing
+    setDropdownTimer(timer);
+  };
+
+  const handleMouseEnter = () => {
+    if (dropdownTimer) {
+      clearTimeout(dropdownTimer);
+      setDropdownTimer(null);
+    }
+  };
 
   // Check login status when component mounts and when localStorage changes
   useEffect(() => {
@@ -102,32 +121,33 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg fixed top-0 left-0 right-0 z-50">
+    <nav className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg fixed top-0 left-0 right-0 z-50 transition-colors duration-200`}>
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo/Brand */}
+        {/* Adjusted height classes for the main navbar container */}
+        <div className="flex justify-between items-center h-20 md:h-24">
+          {/* Logo/Brand - Adjusted sizing */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center"
+            className="flex items-center py-2"
           >
             <Link to="/" className="flex items-center">
               <img 
-                src="/images/mainlogo.webp" 
+                src="/images/mainlogo.png" 
                 alt="Company Logo" 
-                className="h-12 w-auto sm:h-16 md:h-20"
+                className="h-14 w-auto sm:h-16 md:h-20 object-contain"
               />
             </Link>
           </motion.div>
 
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center space-x-2 xl:space-x-4">
+          {/* Desktop Menu - Adjusted vertical alignment */}
+          <div className="hidden lg:flex items-center space-x-2 xl:space-x-4 h-full">
             {navigationLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-gray-700 hover:text-gray-900 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md ${
-                  isActive(link.path) ? 'bg-gray-100' : ''
+                className={`text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md ${
+                  isActive(link.path) ? 'bg-gray-100 dark:bg-gray-700' : ''
                 }`}
               >
                 {link.label}
@@ -137,17 +157,26 @@ const Navbar = () => {
             {/* Desktop Categories Dropdown */}
             <div 
               className="relative"
-              onMouseEnter={() => setCategoryDropdownOpen(true)}
-              onMouseLeave={() => setCategoryDropdownOpen(false)}
+              onMouseLeave={handleMouseLeave}
+              onMouseEnter={handleMouseEnter}
             >
-              <button className="text-gray-700 hover:text-gray-900 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md inline-flex items-center">
+              <button 
+                onClick={() => setCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                className="text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md inline-flex items-center"
+              >
                 <span>Categories</span>
-                <ChevronDown className={`ml-1 h-4 w-4 xl:h-5 xl:w-5 transform transition-transform duration-600 ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown 
+                  className={`ml-1 h-4 w-4 xl:h-5 xl:w-5 transform transition-transform duration-300 ${
+                    isCategoryDropdownOpen ? 'rotate-180' : ''
+                  }`} 
+                />
               </button>
 
               {isCategoryDropdownOpen && (
-                <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 bg-white rounded-xl shadow-lg py-4 z-50 border border-gray-100" 
-                     style={{ width: 'max-content', minWidth: '600px' }}>
+                <div 
+                  className="absolute left-0 mt-2 bg-white rounded-xl shadow-lg py-4 z-50 border border-gray-100" 
+                  style={{ width: 'max-content', minWidth: '600px' }}
+                >
                   <div className="px-4">
                     <div className="flex items-center space-x-6">
                       {categories.map((category, index) => (
@@ -155,6 +184,7 @@ const Navbar = () => {
                           key={index}
                           to={category.route}
                           className="flex items-center hover:text-blue-600 transition-colors duration-200"
+                          onClick={() => setCategoryDropdownOpen(false)}
                         >
                           <span className="text-xl mr-2">{category.icon}</span>
                           <span className="font-medium whitespace-nowrap">
@@ -184,8 +214,8 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/login" 
-                    className={`flex items-center gap-1 text-gray-700 hover:text-gray-900 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md ${
-                      isActive('/login') ? 'bg-gray-100' : ''
+                    className={`flex items-center gap-1 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md ${
+                      isActive('/login') ? 'bg-gray-100 dark:bg-gray-700' : ''
                     }`}
                   >
                     <User className="w-4 h-4 xl:w-5 xl:h-5" />
@@ -205,7 +235,7 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                    className="flex items-center gap-1 text-gray-700 hover:text-gray-900 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md"
+                    className="flex items-center gap-1 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 px-2 py-2 text-sm xl:text-base xl:px-3 rounded-md"
                   >
                     <User className="w-4 h-4 xl:w-5 xl:h-5" />
                     <span className="hidden xl:inline">Profile</span>
@@ -218,37 +248,37 @@ const Navbar = () => {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 z-50 border border-gray-100"
+                        className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-xl shadow-lg py-2 z-50 border border-gray-100 dark:border-gray-600"
                       >
                         <Link
                           to="/profile/details"
-                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                         >
-                          <UserCog className="w-4 h-4 mr-3 text-gray-500" />
+                          <UserCog className="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" />
                           Register Details
                         </Link>
                         
                         <Link
                           to="/profile/purchases"
-                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                         >
-                          <ShoppingBag className="w-4 h-4 mr-3 text-gray-500" />
+                          <ShoppingBag className="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" />
                           Purchase Products
                         </Link>
                         
                         <Link
                           to="/profile/payment-history"
-                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                         >
-                          <History className="w-4 h-4 mr-3 text-gray-500" />
+                          <History className="w-4 h-4 mr-3 text-gray-500 dark:text-gray-400" />
                           Payment History
                         </Link>
                         
-                        <div className="h-px bg-gray-200 my-2"></div>
+                        <div className="h-px bg-gray-200 dark:bg-gray-600 my-2"></div>
                         
                         <button
                           onClick={handleLogout}
-                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/50 transition-colors"
                         >
                           <LogOut className="w-4 h-4 mr-3" />
                           Logout
@@ -259,13 +289,26 @@ const Navbar = () => {
                 </div>
               )}
             </div>
+
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-yellow-300 hover:bg-gray-600' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              } transition-colors duration-200`}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
           </div>
 
-          {/* Cart Icon and Mobile Menu Button */}
-          <div className="flex items-center space-x-2">
+          {/* Cart Icon and Mobile Menu Button - Adjusted alignment */}
+          <div className="flex items-center space-x-2 h-full">
             <Link
               to="/cart"
-              className="relative inline-flex items-center p-2 text-gray-700 hover:text-gray-900 rounded-full hover:bg-gray-100"
+              className="relative inline-flex items-center p-2 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <ShoppingCart className="w-5 h-5 xl:w-6 xl:h-6" />
               {cartItemsCount > 0 && (
@@ -282,27 +325,42 @@ const Navbar = () => {
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
+
+            {/* Theme Toggle Button for Mobile */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full lg:hidden ${
+                isDarkMode 
+                  ? 'bg-gray-700 text-yellow-300 hover:bg-gray-600' 
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              } transition-colors duration-200`}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Adjusted top spacing */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden overflow-hidden"
+              className={`lg:hidden overflow-hidden ${
+                isDarkMode ? 'bg-gray-800' : 'bg-white'
+              }`}
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {/* Search Bar for Mobile */}
                 <div className="px-3 py-2">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300 w-5 h-5" />
                     <input
                       type="text"
                       placeholder="Search..."
-                      className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                     />
                   </div>
                 </div>
@@ -311,7 +369,7 @@ const Navbar = () => {
                 <div className="px-3 py-2">
                   <button 
                     onClick={() => setMobileCategoryDropdown(!mobileCategoryDropdown)}
-                    className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900 py-2"
+                    className="flex items-center justify-between w-full text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 py-2"
                   >
                     <span className="flex items-center gap-2">
                       <LayoutGrid className="w-5 h-5" />
@@ -336,7 +394,7 @@ const Navbar = () => {
                           <Link
                             key={index}
                             to={category.route}
-                            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 py-2"
+                            className="flex items-center gap-2 text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white py-2"
                             onClick={() => {
                               setMobileCategoryDropdown(false);
                               setIsMenuOpen(false);
@@ -356,7 +414,7 @@ const Navbar = () => {
                   <div className="px-3 py-2 space-y-1">
                     <Link
                       to="/login"
-                      className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2 w-full"
+                      className="flex items-center gap-2 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 py-2 w-full"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <User className="w-5 h-5" />
@@ -376,7 +434,7 @@ const Navbar = () => {
                     {/* Profile Button for Mobile */}
                     <button
                       onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                      className="flex items-center justify-between w-full text-gray-700 hover:text-gray-900 py-2"
+                      className="flex items-center justify-between w-full text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 py-2"
                     >
                       <span className="flex items-center gap-2">
                         <User className="w-5 h-5" />
@@ -399,7 +457,7 @@ const Navbar = () => {
                         >
                           <Link
                             to="/profile/details"
-                            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2"
+                            className="flex items-center gap-2 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 py-2"
                             onClick={() => {
                               setIsProfileDropdownOpen(false);
                               setIsMenuOpen(false);
@@ -410,7 +468,7 @@ const Navbar = () => {
                           </Link>
                           <Link
                             to="/profile/purchases"
-                            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2"
+                            className="flex items-center gap-2 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 py-2"
                             onClick={() => {
                               setIsProfileDropdownOpen(false);
                               setIsMenuOpen(false);
@@ -421,7 +479,7 @@ const Navbar = () => {
                           </Link>
                           <Link
                             to="/profile/payment-history"
-                            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 py-2"
+                            className="flex items-center gap-2 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 py-2"
                             onClick={() => {
                               setIsProfileDropdownOpen(false);
                               setIsMenuOpen(false);
@@ -430,14 +488,14 @@ const Navbar = () => {
                             <History className="w-5 h-5" />
                             <span>Payment History</span>
                           </Link>
-                          <div className="h-px bg-gray-200 my-2"></div>
+                          <div className="h-px bg-gray-200 dark:bg-gray-600 my-2"></div>
                           <button
                             onClick={() => {
                               handleLogout();
                               setIsProfileDropdownOpen(false);
                               setIsMenuOpen(false);
                             }}
-                            className="flex items-center gap-2 text-red-600 hover:text-red-700 py-2 w-full"
+                            className="flex items-center gap-2 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 py-2 w-full"
                           >
                             <LogOut className="w-5 h-5" />
                             <span>Logout</span>
