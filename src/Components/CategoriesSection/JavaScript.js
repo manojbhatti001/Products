@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useTheme } from '../../context/ThemeContext';
 import {
   Search,
   BookOpen,
@@ -24,6 +25,7 @@ import {
 
 const JavaScriptPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { isDarkMode } = useTheme();
 
   const jsCourses = [
     {
@@ -120,12 +122,16 @@ const JavaScriptPage = () => {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 text-white py-16 sm:py-20 lg:py-32 overflow-hidden">
+      <div className={`relative ${
+        isDarkMode 
+          ? 'bg-gradient-to-r from-gray-800 via-gray-900 to-black' 
+          : 'bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500'
+        } text-white py-16 sm:py-20 lg:py-32 overflow-hidden`}>
         <div className="absolute inset-0">
           <div 
-            className="absolute inset-0 opacity-20"
+            className={`absolute inset-0 ${isDarkMode ? 'opacity-30' : 'opacity-20'}`}
             style={{
               backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
               backgroundSize: '40px 40px'
@@ -164,7 +170,9 @@ const JavaScriptPage = () => {
               animate={{ opacity: 1, y: 0 }}
               className="inline-block mb-4 sm:mb-6 px-4 sm:px-6 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
             >
-              <span className="text-xs sm:text-sm font-semibold">🚀 The Complete JavaScript Learning Platform</span>
+              <span className="text-xs sm:text-sm font-semibold text-white">
+                🚀 The Complete JavaScript Learning Platform
+              </span>
             </motion.div>
 
             <motion.h1
@@ -254,31 +262,45 @@ const JavaScriptPage = () => {
       </div>
 
       {/* Features Grid */}
-      <div className="py-20 bg-white">
+      <div className={`py-16 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} transition-colors duration-200`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">What You'll Learn</h2>
+          <h2 className={`text-3xl font-bold text-center mb-12 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+            What You'll Learn
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.05 }}
-                className={`p-6 rounded-xl bg-gradient-to-r ${feature.color} text-white`}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className={`p-6 rounded-xl ${
+                  isDarkMode 
+                    ? 'bg-gray-700 border-gray-600' 
+                    : 'bg-gray-50 border-gray-100'
+                } hover:shadow-xl transition-all duration-300 border`}
               >
-                <div className="mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="opacity-90">{feature.description}</p>
+                <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${feature.color} p-3 text-white mb-4`}>
+                  {feature.icon}
+                </div>
+                <h3 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+                  {feature.title}
+                </h3>
+                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  {feature.description}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Course Levels */}
-      <div className="py-16 bg-gray-50">
+      {/* Course Levels / Learning Path Section */}
+      <div className={`py-16 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Learning Path</h2>
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-800'
+          }`}>Learning Path</h2>
           <div className="max-w-4xl mx-auto">
             {[
               {
@@ -287,7 +309,7 @@ const JavaScriptPage = () => {
                 topics: ["JS Fundamentals", "DOM Manipulation", "Basic ES6", "Functions & Objects"],
                 duration: "4 weeks",
                 icon: "🚀",
-                color: "from-green-400 to-green-600",
+                color: isDarkMode ? "from-green-600 to-green-800" : "from-green-400 to-green-600",
                 badge: "Foundation"
               },
               {
@@ -296,7 +318,7 @@ const JavaScriptPage = () => {
                 topics: ["Advanced ES6+", "Async Programming", "Error Handling", "API Integration"],
                 duration: "6 weeks",
                 icon: "⚡",
-                color: "from-blue-400 to-blue-600",
+                color: isDarkMode ? "from-blue-600 to-blue-800" : "from-blue-400 to-blue-600",
                 badge: "Professional"
               },
               {
@@ -305,7 +327,7 @@ const JavaScriptPage = () => {
                 topics: ["Design Patterns", "Testing", "Performance", "Full-stack JS"],
                 duration: "8 weeks",
                 icon: "👑",
-                color: "from-purple-400 to-purple-600",
+                color: isDarkMode ? "from-purple-600 to-purple-800" : "from-purple-400 to-purple-600",
                 badge: "Expert"
               }
             ].map((level, index) => (
@@ -342,9 +364,11 @@ const JavaScriptPage = () => {
       </div>
 
       {/* FAQ Section */}
-      <div className="py-16 bg-gray-50">
+      <div className={`py-16 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-800'
+          }`}>Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto space-y-6">
             {[
               {
@@ -372,13 +396,21 @@ const JavaScriptPage = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl p-6 shadow-sm"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-800 text-gray-100' 
+                    : 'bg-white text-gray-800'
+                } rounded-xl p-6 shadow-sm`}
               >
                 <div className="flex items-start">
                   <span className="text-2xl mr-4">{faq.icon}</span>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">{faq.question}</h3>
-                    <p className="text-gray-600">{faq.answer}</p>
+                    <h3 className={`text-xl font-semibold mb-2 ${
+                      isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                    }`}>{faq.question}</h3>
+                    <p className={`${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`}>{faq.answer}</p>
                   </div>
                 </div>
               </motion.div>
@@ -388,11 +420,27 @@ const JavaScriptPage = () => {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-yellow-500 text-white py-16">
+      <div className={`${
+        isDarkMode 
+          ? 'bg-gradient-to-r from-gray-800 via-gray-900 to-black' 
+          : 'bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500'
+        } py-16`}>
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Start Your JavaScript Journey?</h2>
-          <p className="mb-8">Join thousands of students already learning JavaScript with us</p>
-          <button className="bg-white text-yellow-600 px-8 py-3 rounded-full font-bold hover:bg-yellow-50 transition-colors">
+          <h2 className={`text-3xl font-bold mb-4 ${
+            isDarkMode ? 'text-gray-100' : 'text-white'
+          }`}>
+            Ready to Start Your JavaScript Journey?
+          </h2>
+          <p className={`mb-8 ${
+            isDarkMode ? 'text-gray-300' : 'text-white/90'
+          }`}>
+            Join thousands of students already learning JavaScript with us
+          </p>
+          <button className={`px-8 py-3 ${
+            isDarkMode 
+              ? 'bg-yellow-600 text-white hover:bg-yellow-700' 
+              : 'bg-white text-yellow-600 hover:bg-gray-50'
+            } rounded-full font-bold transition-colors duration-200 shadow-md hover:shadow-lg`}>
             Get Started Now
           </button>
         </div>
