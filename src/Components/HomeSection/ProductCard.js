@@ -16,19 +16,18 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   const handleViewCourse = () => {
-    // Store the current product in localStorage
     const products = JSON.parse(localStorage.getItem('products') || '[]');
     const existingProduct = products.find(p => p.id === product.id);
     
     if (!existingProduct) {
       products.push({
         id: product.id,
-        name: product.title,  // Changed from name to title to match your data structure
+        name: product.title,
         price: product.price,
         originalPrice: product.originalPrice,
-        category: product.badge || 'Course',  // Using badge as category if available
+        category: product.badge || 'Course',
         description: product.description,
-        imageUrl: product.thumbnail,  // Changed from imageUrl to thumbnail
+        imageUrl: product.thumbnail,
         rating: product.rating
       });
       localStorage.setItem('products', JSON.stringify(products));
@@ -43,7 +42,7 @@ const ProductCard = ({ product }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       whileHover={{ y: -8 }}
-      className="bg-white rounded-xl shadow-lg overflow-hidden"
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
     >
       {/* Badge */}
       {product.badge && (
@@ -69,33 +68,33 @@ const ProductCard = ({ product }) => {
 
       {/* Content */}
       <div className="p-5">
-        <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
-        <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{product.title}</h3>
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{product.description}</p>
 
         {/* Stats */}
         <div className="flex items-center gap-4 mb-4">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 text-yellow-500" />
-            <span className="text-sm">{product.rating}</span>
+            <span className="text-sm dark:text-gray-300">{product.rating}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4 text-gray-500" />
-            <span className="text-sm">{product.duration}</span>
+            <Clock className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            <span className="text-sm dark:text-gray-300">{product.duration}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Users className="w-4 h-4 text-gray-500" />
-            <span className="text-sm">{product.students.toLocaleString()}</span>
+            <Users className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            <span className="text-sm dark:text-gray-300">{product.students.toLocaleString()}</span>
           </div>
         </div>
 
         {/* Price and Action */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex flex-col">
-            <span className="text-2xl font-bold text-blue-600">
+            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
               {formatIndianPrice(product.price)}
             </span>
             {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-sm text-gray-400 dark:text-gray-500 line-through">
                 {formatIndianPrice(product.originalPrice)}
               </span>
             )}
@@ -104,7 +103,7 @@ const ProductCard = ({ product }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleViewCourse}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
           >
             Buy Now
             <ChevronRight className="w-4 h-4" />
@@ -112,10 +111,10 @@ const ProductCard = ({ product }) => {
         </div>
 
         {/* See More Link */}
-        <div className="border-t border-gray-100 pt-3 mt-3">
+        <div className="border-t border-gray-100 dark:border-gray-700 pt-3 mt-3">
           <motion.button
             onClick={handleViewCourse}
-            className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center justify-center w-full group"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 text-sm font-medium flex items-center justify-center w-full group"
           >
             See More Details
             <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />

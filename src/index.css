@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Add this at the top of your dark mode styles */
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  @apply bg-gray-50 dark:bg-gray-900;
+}
+
 /* Dark mode styles */
 .dark {
   @apply text-gray-100;

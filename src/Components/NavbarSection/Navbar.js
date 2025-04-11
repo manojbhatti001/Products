@@ -174,7 +174,7 @@ const Navbar = () => {
 
               {isCategoryDropdownOpen && (
                 <div 
-                  className="absolute left-0 mt-2 bg-white rounded-xl shadow-lg py-4 z-50 border border-gray-100" 
+                  className="absolute left-0 mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg py-4 z-50 border border-gray-100 dark:border-gray-700" 
                   style={{ width: 'max-content', minWidth: '600px' }}
                 >
                   <div className="px-4">
@@ -183,7 +183,7 @@ const Navbar = () => {
                         <Link
                           key={index}
                           to={category.route}
-                          className="flex items-center hover:text-blue-600 transition-colors duration-200"
+                          className="flex items-center text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
                           onClick={() => setCategoryDropdownOpen(false)}
                         >
                           <span className="text-xl mr-2">{category.icon}</span>
