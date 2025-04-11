@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useTheme } from '../../context/ThemeContext';
 import { 
   BarChart, Activity, TrendingUp, BarChart2, 
   Target, Award, Search, Code, Database, Server, 
@@ -9,6 +10,7 @@ import {
 } from 'lucide-react';
 const PHPPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { isDarkMode } = useTheme();
   
   // Enhanced course data with more details
   const phpCourses = [
@@ -236,11 +238,15 @@ const PHPPage = () => {
     </div>
   );
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
 
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800 text-white py-32 overflow-hidden">
+      <div className={`relative ${
+        isDarkMode 
+          ? 'bg-gradient-to-r from-gray-800 via-gray-900 to-black' 
+          : 'bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800'
+        } text-white py-32 overflow-hidden`}>
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           {/* CSS grid pattern */}
@@ -353,7 +359,9 @@ const PHPPage = () => {
               ].map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="text-2xl font-bold">{stat.value}</div>
-                  <div className="text-sm text-blue-200">{stat.label}</div>
+                  <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-blue-200'}`}>
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </motion.div>
@@ -363,12 +371,14 @@ const PHPPage = () => {
 
 
       {/* Stats Section */}
-      <div className="py-10 bg-white">
+      <div className={`py-10 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} transition-colors duration-200`}>
         <div className="container mx-auto px-4">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-3xl font-bold text-center mb-12 text-blue-400"
+            className={`text-3xl font-bold text-center mb-12 ${
+              isDarkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}
           >
             PHP BY THE NUMBERS
           </motion.h2>
@@ -442,12 +452,13 @@ const PHPPage = () => {
 
 
       {/* Courses Section */}
-      <div className="py-16">
-        {" "}
+      <div className={`py-16 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             Featured PHP Courses
-          </h2>{" "}
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredCourses.map((course) => (
               <motion.div
@@ -455,70 +466,88 @@ const PHPPage = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 whileHover={{ y: -5 }}
-                className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-800 border-gray-700' 
+                    : 'bg-white border-gray-100'
+                } rounded-xl overflow-hidden shadow-lg border transition-colors duration-200`}
               >
                 <div className="relative">
-                  {" "}
                   <img
                     src={course.image}
                     alt={course.title}
                     className="w-full h-48 object-cover"
                   />
                   <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
-                    {" "}
                     {course.category}
-                  </div>{" "}
+                  </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{course.title}</h3>{" "}
+                  <h3 className={`text-xl font-semibold mb-2 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    {course.title}
+                  </h3>
                   <div className="flex items-center mb-4">
                     <img
                       src={course.instructorImage}
                       alt={course.instructor}
                       className="w-10 h-10 rounded-full mr-3"
-                    />{" "}
+                    />
                     <div>
-                      <p className="text-sm font-medium">{course.instructor}</p>{" "}
-                      <p className="text-xs text-gray-500">Course Instructor</p>
-                    </div>{" "}
+                      <p className={`text-sm font-medium ${
+                        isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                      }`}>
+                        {course.instructor}
+                      </p>
+                      <p className={`text-xs ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                      }`}>
+                        Course Instructor
+                      </p>
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {course.highlights.map((highlight, index) => (
                       <span
                         key={index}
-                        className="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded-full"
+                        className={`${
+                          isDarkMode 
+                            ? 'bg-blue-900/50 text-blue-300' 
+                            : 'bg-blue-50 text-blue-600'
+                        } text-xs px-2 py-1 rounded-full`}
                       >
-                        {" "}
                         {highlight}
                       </span>
                     ))}
                   </div>
-                  <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
-                    {" "}
+                  <div className={`flex items-center justify-between text-sm ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  } mb-4`}>
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 mr-1" /> {course.duration}
-                    </div>{" "}
+                    </div>
                     <div className="flex items-center">
-                      <Users className="w-4 h-4 mr-1" />{" "}
-                      {course.students.toLocaleString()}
-                    </div>{" "}
+                      <Users className="w-4 h-4 mr-1" /> {course.students.toLocaleString()}
+                    </div>
                     <div className="flex items-center">
-                      <Star className="w-4 h-4 mr-1 text-yellow-400" />{" "}
-                      {course.rating}
-                    </div>{" "}
+                      <Star className="w-4 h-4 mr-1 text-yellow-400" /> {course.rating}
+                    </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-blue-600">
+                    <span className={`text-2xl font-bold ${
+                      isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                    }`}>
                       ${course.price}
-                    </span>{" "}
+                    </span>
                     <button className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors">
-                      Enroll Now{" "}
+                      Enroll Now
                     </button>
-                  </div>{" "}
+                  </div>
                 </div>
               </motion.div>
             ))}
-          </div>{" "}
+          </div>
         </div>
       </div>
 
@@ -623,18 +652,30 @@ const PHPPage = () => {
 
 
       {/* FAQ Section */}
-      <div className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className={`py-20 ${
+        isDarkMode 
+          ? 'bg-gradient-to-b from-gray-900 to-gray-800' 
+          : 'bg-gradient-to-b from-gray-50 to-white'
+      }`}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <span className=" font-semibold text-sm uppercase tracking-wider">Got Questions?</span>
-            <h2 className="text-4xl font-bold mt-2 ">
+            <span className={`font-semibold text-sm uppercase tracking-wider ${
+              isDarkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}>
+              Got Questions?
+            </span>
+            <h2 className={`text-4xl font-bold mt-2 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               Frequently Asked Questions
             </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+            <div className={`w-24 h-1 ${
+              isDarkMode ? 'bg-blue-500' : 'bg-blue-600'
+            } mx-auto mt-4 rounded-full`}></div>
           </motion.div>
 
           <div className="max-w-3xl mx-auto space-y-6">
@@ -665,22 +706,36 @@ const PHPPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-50"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-800 border-gray-700 shadow-gray-900/30' 
+                    : 'bg-white border-blue-50 shadow-lg'
+                } rounded-xl hover:shadow-xl transition-all duration-300 border`}
               >
                 <button
                   className="w-full px-8 py-6 text-left font-semibold flex items-center justify-between group"
                 >
                   <div className="flex items-center space-x-4">
                     <span className="text-2xl">{faq.icon}</span>
-                    <span className="text-lg text-gray-800 group-hover:text-blue-600 transition-colors">
+                    <span className={`text-lg ${
+                      isDarkMode 
+                        ? 'text-gray-200 group-hover:text-blue-400' 
+                        : 'text-gray-800 group-hover:text-blue-600'
+                    } transition-colors`}>
                       {faq.question}
                     </span>
                   </div>
-                  <ChevronRight className="w-5 h-5 transform rotate-90 text-blue-600 group-hover:rotate-[270deg] transition-transform duration-300" />
+                  <ChevronRight className={`w-5 h-5 transform rotate-90 ${
+                    isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                  } group-hover:rotate-[270deg] transition-transform duration-300`} />
                 </button>
-                <div className="px-8 pb-6 text-gray-600">
-                  <div className="h-px bg-gray-100 mb-4"></div>
-                  <p className="leading-relaxed">
+                <div className="px-8 pb-6">
+                  <div className={`h-px ${
+                    isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                  } mb-4`}></div>
+                  <p className={`leading-relaxed ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
                     {faq.answer}
                   </p>
                 </div>
@@ -694,9 +749,13 @@ const PHPPage = () => {
             transition={{ delay: 0.5 }}
             className="text-center mt-12"
           >
-            <p className="text-gray-600">
+            <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
               Still have questions?{" "}
-              <a href="#contact" className="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+              <a href="#contact" className={`font-semibold ${
+                isDarkMode 
+                  ? 'text-blue-400 hover:text-blue-300' 
+                  : 'text-blue-600 hover:text-blue-700'
+              } transition-colors`}>
                 Contact our support team
               </a>
             </p>
@@ -705,21 +764,41 @@ const PHPPage = () => {
       </div>
 
 
-      {/* CTA Section */}{" "}
-
-      <div className="bg-blue-700 text-white py-16">
+      {/* CTA Section */}
+      <div className={`${
+        isDarkMode 
+          ? 'bg-gradient-to-r from-gray-800 via-gray-900 to-black' 
+          : 'bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800'
+      } py-16`}>
         <div className="container mx-auto px-4 text-center">
-          {" "}
-          <h2 className="text-3xl font-bold mb-4 ">
-            Ready to Start Your PHP Journey?
-          </h2>
-          <p className="mb-8">
-            Join thousands of students already learning PHP with us
-          </p>{" "}
-          <button className="bg-yellow-400 text-blue-800 px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition-colors">
-            Get Started Now{" "}
-          </button>
-        </div>{" "}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${
+              isDarkMode ? 'text-gray-100' : 'text-white'
+            }`}>
+              Ready to Start Your PHP Journey?
+            </h2>
+            <p className={`text-lg mb-8 ${
+              isDarkMode ? 'text-gray-300' : 'text-white/90'
+            }`}>
+              Join thousands of students already learning PHP with us
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`${
+                isDarkMode 
+                  ? 'bg-blue-500 hover:bg-blue-400 text-white' 
+                  : 'bg-white hover:bg-gray-100 text-blue-700'
+              } px-8 py-3 rounded-full font-bold shadow-lg transition-colors duration-300`}
+            >
+              Get Started Now
+            </motion.button>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
