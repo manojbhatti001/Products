@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -27,6 +28,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      
 
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 py-12">
@@ -88,7 +91,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a 
-                  href={`${process.env.PUBLIC_URL}/documents/Terms of Service.pdf`}
+                  href={`${process.env.PUBLIC_URL}/pdf/Terms of Service.pdf`}
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-300 hover:text-white transition duration-300"
@@ -98,7 +101,7 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href={`${process.env.PUBLIC_URL}/documents/privacy-policy.pdf`}
+                  href={`${process.env.PUBLIC_URL}/pdf/Privacy Policy .pdf`}
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-300 hover:text-white transition duration-300"
@@ -125,8 +128,57 @@ const Footer = () => {
         <div className="border-t border-gray-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-300 text-sm mb-4 md:mb-0">
-              © {currentYear} Your Store Name. All rights reserved.
+              © {currentYear} MehareTech. All rights reserved.
             </p>
+            
+            {/* Social Media Links - Increased size and padding */}
+            <div className="flex items-center space-x-6">
+              <a 
+                href="https://facebook.com/meharetech" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-blue-500 transition-colors duration-300 p-2"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-7 h-7 md:w-8 md:h-8" />
+              </a>
+              <a 
+                href="https://instagram.com/meharetech" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-pink-500 transition-colors duration-300 p-2"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-7 h-7 md:w-8 md:h-8" />
+              </a>
+              <a 
+                href="https://twitter.com/meharetech" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-blue-400 transition-colors duration-300 p-2"
+                aria-label="Twitter"
+              >
+                <Twitter className="w-7 h-7 md:w-8 md:h-8" />
+              </a>
+              <a 
+                href="https://linkedin.com/company/meharetech" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-blue-600 transition-colors duration-300 p-2"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-7 h-7 md:w-8 md:h-8" />
+              </a>
+              <a 
+                href="https://youtube.com/@meharetech" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-red-600 transition-colors duration-300 p-2"
+                aria-label="YouTube"
+              >
+                <Youtube className="w-7 h-7 md:w-8 md:h-8" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

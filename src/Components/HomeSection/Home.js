@@ -5,10 +5,12 @@ import ProductCard from './ProductCard';
 import { useNavigate } from 'react-router-dom';
 import CountUp from 'react-countup';
 import Loader from '../LoaderSection/Loader';
+import { useTheme } from '../../context/ThemeContext';
 
 const Home = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const { isDarkMode } = useTheme();
   
   // Add popularProducts state
   const [popularProducts] = useState([
@@ -161,11 +163,22 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-transparent transition-colors duration-200">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Hero Section */}
-        <div className="relative overflow-hidden mb-12 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-800 dark:via-purple-800 dark:to-indigo-800 text-white py-24 rounded-3xl">
+        <div className={`relative overflow-hidden mb-8 sm:mb-12 ${
+          isDarkMode 
+            ? 'bg-gradient-to-r from-gray-800 via-gray-900 to-black' 
+            : 'bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600'
+        } text-white py-12 sm:py-16 lg:py-24 rounded-2xl sm:rounded-3xl transition-colors duration-300`}>
           {/* Background Patterns */}
-          <div className="absolute inset-0 opacity-10 dark:opacity-20">
+          <div className="absolute inset-0">
+            <div 
+              className={`absolute inset-0 ${isDarkMode ? 'opacity-30' : 'opacity-10'}`}
+              style={{
+                backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+                backgroundSize: '40px 40px'
+              }}
+            ></div>
             <motion.div
               animate={{
                 rotate: [0, 360],
@@ -176,19 +189,9 @@ const Home = () => {
                 repeat: Infinity,
                 ease: "linear"
               }}
-              className="absolute transform -right-20 -top-20 w-96 h-96 bg-white dark:bg-gray-200 rounded-full"
-            />
-            <motion.div
-              animate={{
-                rotate: [360, 0],
-                scale: [1, 1.3, 1],
-              }}
-              transition={{
-                duration: 25,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              className="absolute -left-20 -bottom-20 w-96 h-96 bg-white dark:bg-gray-200 rounded-full"
+              className={`absolute transform -right-20 -top-20 w-96 h-96 ${
+                isDarkMode ? 'bg-gray-700' : 'bg-white'
+              } rounded-full opacity-10`}
             />
           </div>
 
@@ -212,10 +215,14 @@ const Home = () => {
                 <motion.h1 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-5xl lg:text-6xl font-bold mb-6 leading-tight dark:text-white"
+                  className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight"
                 >
                   Master Modern
-                  <span className="block mt-2 bg-gradient-to-r from-yellow-300 via-pink-300 to-yellow-300 dark:from-yellow-200 dark:via-pink-200 dark:to-yellow-200 text-transparent bg-clip-text">
+                  <span className={`block mt-2 bg-gradient-to-r ${
+                    isDarkMode
+                      ? 'from-blue-400 via-purple-400 to-pink-400'
+                      : 'from-yellow-300 via-pink-300 to-yellow-300'
+                  } text-transparent bg-clip-text`}>
                     Web Development
                   </span>
                 </motion.h1>
@@ -224,49 +231,53 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-xl mb-8 text-gray-100 dark:text-gray-200 leading-relaxed"
+                  className={`text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-100'
+                  } leading-relaxed max-w-2xl mx-auto lg:mx-0`}
                 >
                   Join our comprehensive learning platform and transform your career. 
                   Get hands-on experience with real-world projects and learn from industry experts.
                 </motion.p>
 
-                {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 mb-12">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate('/register')}
-                    className="bg-white dark:bg-gray-800 text-purple-600 dark:text-purple-400 px-8 py-4 rounded-full font-semibold flex items-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300"
-                  >
-                    Start Learning Now
-                    <ChevronRight className="w-5 h-5" />
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="border-2 border-white dark:border-gray-300 px-8 py-4 rounded-full font-semibold flex items-center gap-2 hover:bg-white/10 dark:hover:bg-gray-700 transition-all duration-300"
-                  >
-                    Watch Demo
-                    <Play className="w-5 h-5" />
-                  </motion.button>
-                </div>
+                {/* Call to Action Buttons */}
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                >
+                  <button className={`px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base ${
+                    isDarkMode
+                      ? 'bg-blue-500 hover:bg-blue-600'
+                      : 'bg-white text-blue-600 hover:bg-gray-100'
+                  } font-semibold transition-colors duration-200 w-full sm:w-auto`}>
+                    Get Started
+                  </button>
+                  <button className={`px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base ${
+                    isDarkMode
+                      ? 'bg-gray-800 hover:bg-gray-700'
+                      : 'bg-blue-100 hover:bg-blue-200 text-blue-600'
+                  } font-semibold transition-colors duration-200 w-full sm:w-auto`}>
+                    Learn More
+                  </button>
+                </motion.div>
 
-                {/* Stats with Animations */}
-                <div ref={statsRef} className="grid grid-cols-3 gap-8">
+                {/* Stats Section */}
+                <div ref={statsRef} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 sm:mt-12">
                   {[
-                    { number: 50000, suffix: "+", label: "Students", icon: <Users className="w-6 h-6" /> },
-                    { number: 100, suffix: "+", label: "Courses", icon: <BookOpen className="w-6 h-6" /> },
-                    { number: 4.8, decimals: 1, label: "Rating", icon: <Star className="w-6 h-6" /> }
+                    { number: 50000, suffix: "+", label: "Students", icon: <Users className="w-4 h-4 sm:w-5 sm:h-5" /> },
+                    { number: 100, suffix: "+", label: "Courses", icon: <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" /> },
+                    { number: 4.8, decimals: 1, label: "Rating", icon: <Star className="w-4 h-4 sm:w-5 sm:h-5" /> }
                   ].map((stat, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 + (index * 0.1) }}
-                      className="bg-white/10 backdrop-blur-lg rounded-xl p-4 text-center"
+                      className="bg-white/10 backdrop-blur-lg rounded-xl p-3 sm:p-4 text-center flex flex-col items-center justify-center"
                     >
-                      {stat.icon}
-                      <h3 className="text-3xl font-bold mt-2">
+                      <div className="mb-2">{stat.icon}</div>
+                      <h3 className="text-xl sm:text-2xl font-bold">
                         <CountUp
                           start={0}
                           end={stat.number}
@@ -284,7 +295,7 @@ const Home = () => {
                           )}
                         </CountUp>
                       </h3>
-                      <p className="text-gray-200">{stat.label}</p>
+                      <p className="text-xs sm:text-sm text-gray-200">{stat.label}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -295,10 +306,14 @@ const Home = () => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="lg:w-1/2 relative"
+                className="w-full lg:w-1/2"
               >
-                <div className="bg-white/10 dark:bg-gray-800/30 backdrop-blur-lg rounded-2xl p-8 shadow-xl">
-                  <div className="grid grid-cols-3 gap-6">
+                <div className={`${
+                  isDarkMode
+                    ? 'bg-gray-800/30'
+                    : 'bg-white/10'
+                } backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl`}>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
                     {[
                       { name: 'React', icon: '/images/react.png', delay: 0, color: '#61DAFB' },
                       { name: 'Node.js', icon: '/images/nodejs.webp', delay: 0.2, color: '#339933' },
@@ -313,16 +328,16 @@ const Home = () => {
                         animate={{ opacity: 1, y: 0 }}
                         whileHover={{ scale: 1.05, y: -5 }}
                         transition={{ delay: tech.delay }}
-                        className="flex flex-col items-center p-4 bg-white/5 dark:bg-gray-700/50 rounded-xl hover:bg-white/20 dark:hover:bg-gray-600/50 transition-all duration-300"
+                        className="flex flex-col items-center p-2 sm:p-4 bg-white/5 dark:bg-gray-700/50 rounded-lg sm:rounded-xl hover:bg-white/20 dark:hover:bg-gray-600/50 transition-all duration-300"
                       >
-                        <div className="w-16 h-16 mb-4 relative">
+                        <div className="w-8 h-8 sm:w-12 sm:h-12 lg:w-16 lg:h-16 mb-2 sm:mb-4 relative">
                           <img 
                             src={tech.icon} 
                             alt={tech.name} 
                             className="w-full h-full object-contain"
                           />
                         </div>
-                        <span className="text-sm font-medium dark:text-gray-200">{tech.name}</span>
+                        <span className="text-xs sm:text-sm font-medium dark:text-gray-200">{tech.name}</span>
                       </motion.div>
                     ))}
                   </div>
