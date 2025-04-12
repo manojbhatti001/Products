@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, Clock, Users, BookOpen } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useTheme } from '../../context/ThemeContext';
 
 const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     // Load cart items from localStorage and keep only the first item
@@ -60,18 +62,22 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
 
   // Add null check for cartItems
   if (!cartItems) {
-    return <div>Loading...</div>;
+    return <div className={`${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Loading...</div>;
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-      <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+    <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 ${
+      isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
+      <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
         Shopping Cart
       </h2>
 
       {cartItems.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">Your cart is empty</p>
+          <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+            Your cart is empty
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -79,7 +85,9 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
           <div className="lg:col-span-2 space-y-6">
             {/* Show only the first item */}
             {cartItems.slice(0, 1).map((item) => (
-              <div key={item.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+              <div key={item.id} className={`${
+                isDarkMode ? 'bg-gray-800' : 'bg-white'
+              } rounded-xl shadow-lg overflow-hidden`}>
                 <div className="flex flex-col md:flex-row">
                   {/* Image */}
                   <div className="w-full md:w-48 h-48 md:h-auto">
@@ -94,19 +102,27 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
                   <div className="flex-1 p-6">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-xl font-semibold text-gray-900">{item.name}</h3>
-                        <p className="text-gray-600 text-sm mt-1">{item.description}</p>
+                        <h3 className={`text-xl font-semibold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>{item.name}</h3>
+                        <p className={`text-sm mt-1 ${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                        }`}>{item.description}</p>
                       </div>
                       <button
                         onClick={() => removeItem(item.id)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                        className={`p-2 text-red-500 ${
+                          isDarkMode ? 'hover:bg-red-900/50' : 'hover:bg-red-50'
+                        } rounded-full transition-colors`}
                       >
                         <Trash2 className="w-5 h-5" />
                       </button>
                     </div>
 
                     {/* Stats */}
-                    <div className="flex flex-wrap gap-4 mt-4 text-sm text-gray-600">
+                    <div className={`flex flex-wrap gap-4 mt-4 text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
                         <span>{item.duration || "8 hours"}</span>
@@ -124,29 +140,47 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
                     {/* Price and Quantity */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-6 gap-4">
                       <div className="flex items-center space-x-4">
-                        <span className="text-gray-600">Quantity:</span>
+                        <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                          Quantity:
+                        </span>
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             disabled={item.quantity === 1}
-                            className={`p-1 rounded-full ${item.quantity === 1 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'}`}
+                            className={`p-1 rounded-full ${
+                              item.quantity === 1 
+                                ? 'cursor-not-allowed opacity-50' 
+                                : isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                            }`}
                           >
-                            <Minus className="w-4 h-4 text-gray-600" />
+                            <Minus className={`w-4 h-4 ${
+                              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                            }`} />
                           </button>
-                          <span className="w-12 text-center">{item.quantity}</span>
+                          <span className={`w-12 text-center ${
+                            isDarkMode ? 'text-gray-200' : 'text-gray-800'
+                          }`}>{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="p-1 rounded-full hover:bg-gray-100"
+                            className={`p-1 rounded-full ${
+                              isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                            }`}
                           >
-                            <Plus className="w-4 h-4 text-gray-600" />
+                            <Plus className={`w-4 h-4 ${
+                              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                            }`} />
                           </button>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-semibold text-gray-900">
+                        <div className={`text-lg font-semibold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>
                           {formatPrice(item.price)}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className={`text-sm ${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
                           Subtotal: {formatPrice(calculateSubtotal(item.price, item.quantity))}
                         </div>
                       </div>
@@ -159,32 +193,50 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-4 lg:top-6">
-              <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+            <div className={`${
+              isDarkMode ? 'bg-gray-800' : 'bg-white'
+            } rounded-xl shadow-lg p-6 sticky top-4 lg:top-6`}>
+              <h3 className={`text-lg font-semibold mb-4 ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-900'
+              }`}>Order Summary</h3>
               <div className="space-y-4">
-                <div className="flex justify-between text-gray-600">
+                <div className={`flex justify-between ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <span>Total Items</span>
                   <span>1</span>
                 </div>
-                <div className="flex justify-between text-gray-600">
+                <div className={`flex justify-between ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <span>Total Courses</span>
                   <span>{cartItems[0]?.quantity || 0}</span>
                 </div>
-                <div className="border-t pt-4">
+                <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} pt-4`}>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Total Amount</span>
-                    <span className="text-2xl font-bold text-blue-600">
+                    <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                      Total Amount
+                    </span>
+                    <span className={`text-2xl font-bold ${
+                      isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                    }`}>
                       {formatPrice(calculateTotal())}
                     </span>
                   </div>
                 </div>
                 <button 
                   onClick={handleCheckout}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium mt-6"
+                  className={`w-full py-3 rounded-lg transition-colors font-medium mt-6 ${
+                    isDarkMode 
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white' 
+                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  }`}
                 >
                   Proceed to Checkout
                 </button>
-                <p className="text-xs text-gray-500 text-center mt-4">
+                <p className={`text-xs text-center mt-4 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
                   Secure checkout powered by Stripe
                 </p>
               </div>

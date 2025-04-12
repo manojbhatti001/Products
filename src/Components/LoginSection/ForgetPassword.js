@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { useTheme } from '../../context/ThemeContext';
 
 const ForgotPassword = () => {
+  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
@@ -71,8 +73,8 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 min-h-screen flex items-center justify-center">
-      <div className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex">
+    <div className="container mx-auto p-4 min-h-screen flex items-center justify-center dark:bg-gray-900">
+      <div className="max-w-5xl w-full bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden flex">
         {/* Left side - Image */}
         <div className="hidden md:block w-1/2 bg-cover bg-center" style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1616763355548-1b606f439f86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')`
@@ -88,8 +90,8 @@ const ForgotPassword = () => {
         {/* Right side - Form */}
         <div className="w-full md:w-1/2 p-8">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Forgot Password</h1>
-            <p className="text-sm text-gray-600">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Forgot Password</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {!isOtpSent 
                 ? "Enter your email to receive OTP" 
                 : !isOtpVerified 
@@ -101,7 +103,7 @@ const ForgotPassword = () => {
           <form className="space-y-4" onSubmit={!isOtpSent ? handleSendOtp : !isOtpVerified ? handleVerifyOtp : handleResetPassword}>
             {!isOtpSent && (
               <div className="text-left">
-                <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="email">
+                <label className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2" htmlFor="email">
                   Email Address
                 </label>
                 <div className="relative">
@@ -110,12 +112,12 @@ const ForgotPassword = () => {
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 pl-10 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Enter your email"
                     required
                   />
                   <svg
-                    className="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2"
+                    className="w-5 h-5 text-gray-500 dark:text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -128,7 +130,7 @@ const ForgotPassword = () => {
 
             {isOtpSent && !isOtpVerified && (
               <div className="text-left">
-                <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="otp">
+                <label className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2" htmlFor="otp">
                   Enter OTP
                 </label>
                 <div className="relative">
@@ -137,12 +139,12 @@ const ForgotPassword = () => {
                     id="otp"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="w-full px-3 py-2 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 pl-10 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Enter OTP"
                     required
                   />
                   <svg
-                    className="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2"
+                    className="w-5 h-5 text-gray-500 dark:text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -156,7 +158,7 @@ const ForgotPassword = () => {
             {isOtpVerified && (
               <>
                 <div className="text-left">
-                  <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="newPassword">
+                  <label className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2" htmlFor="newPassword">
                     New Password
                   </label>
                   <div className="relative">
@@ -165,7 +167,7 @@ const ForgotPassword = () => {
                       id="newPassword"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full px-3 py-2 pl-10 pr-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pl-10 pr-10 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter new password"
                       required
                     />
@@ -175,11 +177,11 @@ const ForgotPassword = () => {
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                         </svg>
                       ) : (
-                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
@@ -189,7 +191,7 @@ const ForgotPassword = () => {
                 </div>
 
                 <div className="text-left">
-                  <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="confirmPassword">
+                  <label className="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2" htmlFor="confirmPassword">
                     Confirm Password
                   </label>
                   <div className="relative">
@@ -198,7 +200,7 @@ const ForgotPassword = () => {
                       id="confirmPassword"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full px-3 py-2 pl-10 pr-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 pl-10 pr-10 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Confirm new password"
                       required
                     />
@@ -218,7 +220,7 @@ const ForgotPassword = () => {
           <div className="mt-4 text-center">
             <Link 
               to="/login" 
-              className="text-sm text-blue-600 hover:text-blue-800"
+              className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
             >
               Back to Login
             </Link>
