@@ -13,8 +13,10 @@ import {
   Eye,
   Gift
 } from 'lucide-react';
+import { useTheme } from '../../../context/ThemeContext';
 
 const AddProduct = () => {
+  const { isDarkMode } = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     thumbnailImage: null,
@@ -214,12 +216,19 @@ const AddProduct = () => {
     <div className="max-w-7xl mx-auto p-6">
       {/* Enhanced Header Section */}
       <div className="mb-8">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white shadow-lg">
+        <div className={`${
+          isDarkMode 
+            ? 'bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-700' 
+            : 'bg-gradient-to-r from-blue-500 to-purple-600'
+        } rounded-2xl p-8 text-white shadow-lg transition-colors duration-300`}>
           <div className="flex items-center gap-6">
-           
             <div>
-              <h1 className="text-4xl font-bold">Create New Product</h1>
-              <p className="text-white/80 mt-2 text-lg">
+              <h1 className={`text-4xl font-bold ${
+                isDarkMode ? 'text-gray-100' : 'text-white'
+              }`}>Create New Product</h1>
+              <p className={`mt-2 text-lg ${
+                isDarkMode ? 'text-gray-400' : 'text-white/80'
+              }`}>
                 Craft an amazing product experience for your customers
               </p>
             </div>
@@ -232,19 +241,19 @@ const AddProduct = () => {
         <div className="flex-grow lg:w-2/3">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information Card */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-8">
-                <div className="p-3 bg-blue-100 rounded-xl">
-                  <Sparkles className="w-6 h-6 text-blue-600" />
+                <div className="p-3 bg-blue-100 dark:bg-blue-900/50 rounded-xl">
+                  <Sparkles className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h2 className="text-2xl font-semibold text-gray-800">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
                   Basic Information
                 </h2>
               </div>
 
               {/* Product Name Input */}
               <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Product Name
                 </label>
                 <input
@@ -252,7 +261,7 @@ const AddProduct = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 dark:text-white dark:placeholder-gray-400"
                   placeholder="Enter product name"
                   required
                 />
@@ -260,17 +269,17 @@ const AddProduct = () => {
 
               {/* Category Dropdown Selection */}
               <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                  <FolderIcon className="w-5 h-5 text-gray-600" />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                  <FolderIcon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                   Choose Category
                 </label>
                 <div className="relative">
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl 
+                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl 
                       focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-                      appearance-none transition-all duration-200"
+                      appearance-none transition-all duration-200 dark:text-white"
                     required
                   >
                     <option value="">Select a category</option>
@@ -288,7 +297,7 @@ const AddProduct = () => {
 
               {/* Enhanced Description Input */}
               <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Product Description
                 </label>
                 <textarea
@@ -296,7 +305,7 @@ const AddProduct = () => {
                   value={formData.productInfo}
                   onChange={handleInputChange}
                   rows="4"
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 dark:text-white dark:placeholder-gray-400"
                   placeholder="Describe your product in detail..."
                   required
                 />
@@ -304,13 +313,13 @@ const AddProduct = () => {
 
               {/* Enhanced Image Upload Section */}
               <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
                   Product Images
                 </label>
                 <div className="space-y-4">
                   {/* Main Thumbnail */}
                   <div className={`border-2 border-dashed rounded-xl transition-all duration-300 
-                    ${imagePreview ? 'border-blue-200 bg-blue-50/50' : 'border-gray-200'}`}
+                    ${imagePreview ? 'border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700'}`}
                   >
                     <input
                       type="file"
@@ -336,11 +345,11 @@ const AddProduct = () => {
                         </div>
                       ) : (
                         <div className="flex flex-col items-center py-8">
-                          <div className="mb-3 p-4 bg-blue-100 rounded-full">
-                            <ImageIcon className="w-8 h-8 text-blue-500" />
+                          <div className="mb-3 p-4 bg-blue-100 dark:bg-blue-900/50 rounded-full">
+                            <ImageIcon className="w-8 h-8 text-blue-500 dark:text-blue-400" />
                           </div>
-                          <p className="text-gray-700 font-medium">Drop your main image here</p>
-                          <p className="text-sm text-gray-500 mt-1">or click to browse</p>
+                          <p className="text-gray-700 dark:text-gray-300 font-medium">Drop your main image here</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">or click to browse</p>
                         </div>
                       )}
                     </label>
@@ -349,19 +358,19 @@ const AddProduct = () => {
                   {/* Additional Images Section */}
                   <div className="mt-6">
                     <div className="flex items-center justify-between mb-3">
-                      <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                         <ImageIcon className="w-4 h-4" />
                         Additional Images
                       </label>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {additionalImagePreviews.length}/5 images
                       </span>
                     </div>
                     
                     <div className={`group border-2 border-dashed rounded-xl transition-all duration-300 
                       ${additionalImagePreviews.length > 0 
-                        ? 'border-blue-200 bg-blue-50/50' 
-                        : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50/30'}`}
+                        ? 'border-blue-200 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/20' 
+                        : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50/30 dark:hover:bg-blue-900/30'}`}
                     >
                       <input
                         type="file"
@@ -377,11 +386,11 @@ const AddProduct = () => {
                         className={`cursor-pointer block p-4 ${additionalImagePreviews.length >= 5 ? 'opacity-50 cursor-not-allowed' : ''}`}
                       >
                         <div className="flex flex-col items-center py-4">
-                          <div className="mb-3 p-3 bg-blue-100 rounded-full">
-                            <ImageIcon className="w-6 h-6 text-blue-500" />
+                          <div className="mb-3 p-3 bg-blue-100 dark:bg-blue-900/50 rounded-full">
+                            <ImageIcon className="w-6 h-6 text-blue-500 dark:text-blue-400" />
                           </div>
-                          <span className="text-gray-700 font-medium">Add more product images</span>
-                          <span className="text-sm text-gray-500 mt-1">Up to 5 images</span>
+                          <span className="text-gray-700 dark:text-gray-300 font-medium">Add more product images</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 mt-1">Up to 5 images</span>
                         </div>
                       </label>
                     </div>
@@ -419,7 +428,7 @@ const AddProduct = () => {
             {/* Additional Images Section */}
 
             {/* Pricing & Resources Card */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700">
               <div className="flex items-center gap-3 mb-8">
                 <div className="p-3 bg-green-100 rounded-xl">
                   <DollarSign className="w-6 h-6 text-green-600" />
@@ -665,7 +674,7 @@ const AddProduct = () => {
         {/* Live Preview Section */}
         <div className="lg:w-1/3">
           <div className="sticky top-6">
-            <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700">
               <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <Eye className="w-5 h-5 text-purple-500" />
                 Live Preview
@@ -717,7 +726,7 @@ const AddProduct = () => {
               {/* Product Details Preview */}
               <div className="space-y-4">
                 {/* Title */}
-                <h3 className="text-xl font-semibold text-gray-800">
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
                   {formData.name || 'Product Name'}
                 </h3>
 
@@ -787,8 +796,8 @@ const AddProduct = () => {
                 )}
 
                 {/* Preview Notice */}
-                <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-                  <p className="text-xs text-gray-500 text-center">
+                <div className="mt-6 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
                     This is a preview of how your product will appear to customers.
                   </p>
                 </div>
