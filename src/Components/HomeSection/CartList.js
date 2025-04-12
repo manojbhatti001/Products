@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, Clock, Users, BookOpen, Star } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -7,8 +7,9 @@ import { useTheme } from '../../context/ThemeContext';
 const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Dummy data for mobile view
+  // Dummy data
   const dummyCartItems = [
     {
       id: 1,
@@ -29,7 +30,16 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
     // For demo purposes, always set the dummy data
     setCartItems(dummyCartItems);
     localStorage.setItem('cart', JSON.stringify(dummyCartItems));
+    setIsLoading(false);
   }, [setCartItems]);
+
+  // Show loading state
+  if (isLoading) {
+    return <div className={`${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Loading...</div>;
+  }
+
+  // Ensure cartItems is an array
+  const items = Array.isArray(cartItems) ? cartItems : [];
 
   const handleCheckout = () => {
     if (cartItems.length === 0) {
@@ -73,11 +83,6 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
     localStorage.setItem('cart', JSON.stringify([]));
   };
 
-  // Add null check for cartItems
-  if (!cartItems) {
-    return <div className={`${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>Loading...</div>;
-  }
-
   return (
     <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24 ${
       isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
@@ -86,7 +91,7 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
         Shopping Cart
       </h2>
 
-      {cartItems.length === 0 ? (
+      {items.length === 0 ? (
         <div className="text-center py-8 sm:py-12">
           <p className={`text-base sm:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
             Your cart is empty
@@ -96,7 +101,7 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-            {cartItems.map((item) => (
+            {items.map((item) => (
               <div key={item.id} className={`${
                 isDarkMode ? 'bg-gray-800' : 'bg-white'
               } rounded-xl shadow-lg overflow-hidden`}>
@@ -185,10 +190,98 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
                   </div>
                 </div>
 
-                {/* Desktop View - Your existing layout */}
+                {/* Desktop View */}
                 <div className="hidden sm:flex flex-col md:flex-row">
-                  {/* Your existing desktop layout code */}
-                  {/* ... */}
+                  <div className="w-48 h-48 md:h-auto flex-shrink-0">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-grow p-6 flex flex-col">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className={`text-xl font-semibold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>{item.name}</h3>
+                        <p className={`mt-1 text-sm ${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                        }`}>{item.description}</p>
+                      </div>
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-full"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center mt-2 space-x-2">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                        {item.rating}
+                      </span>
+                    </div>
+
+                    <div className={`flex flex-wrap gap-2 mt-3 text-xs ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      {item.features.map((feature, index) => (
+                        <span key={index} className={`px-2 py-1 rounded-full ${
+                          isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                        }`}>
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className={`flex flex-wrap gap-4 mt-4 text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        <span>{item.duration}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Users className="w-4 h-4" />
+                        <span>{item.students.toLocaleString()} students</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <BookOpen className="w-4 h-4" />
+                        <span>By {item.instructor}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-auto pt-4">
+                      <div className="flex items-center space-x-3">
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          className={`p-1.5 rounded-full ${
+                            isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'
+                          }`}
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="w-8 text-center">{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          className={`p-1.5 rounded-full ${
+                            isDarkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'
+                          }`}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="text-right">
+                        <div className={`text-xl font-semibold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>
+                          {formatPrice(calculateSubtotal(item.price, item.quantity))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}

@@ -51,275 +51,135 @@ const TransactionHistory = () => {
     }).format(amount);
   };
 
-  const getStatusColor = (status) => {
-    return status === 'completed' 
-      ? 'bg-green-100 text-green-800' 
-      : 'bg-yellow-100 text-yellow-800';
-  };
-
   const filteredTransactions = transactions.filter(transaction =>
     transaction.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
     transaction.buyerName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="p-6">
-      {/* Enhanced Header Section */}
-      <div className="mb-12 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 rounded-lg blur-xl"></div>
-        <div className="relative bg-white rounded-xl shadow-lg p-8 border border-gray-100">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Transaction History
-            </h2>
-            <p className="text-gray-600 mt-3 text-lg">
-              View and manage all transactions
-            </p>
-          </motion.div>
-
-          {/* Stats Section */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8"
-          >
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
-              <p className="text-blue-600 text-2xl font-bold">
-                {transactions.length}
-              </p>
-              <p className="text-gray-600">Total Transactions</p>
-            </div>
-            <div className="bg-green-50 rounded-lg p-4 text-center">
-              <p className="text-green-600 text-2xl font-bold">
-                {transactions.filter(t => t.status === 'completed').length}
-              </p>
-              <p className="text-gray-600">Completed</p>
-            </div>
-            <div className="bg-yellow-50 rounded-lg p-4 text-center">
-              <p className="text-yellow-600 text-2xl font-bold">
-                {transactions.filter(t => t.status === 'pending').length}
-              </p>
-              <p className="text-gray-600">Pending</p>
-            </div>
-          </motion.div>
+    <div className="p-2 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+      {/* Responsive Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          Transaction History
+        </h2>
+        
+        {/* Responsive Search Input */}
+        <div className="w-full sm:w-64 relative">
+          <input
+            type="text"
+            placeholder="Search transactions..."
+            className="w-full p-2 pl-10 border rounded-lg bg-white dark:bg-gray-800 
+                       text-gray-900 dark:text-white border-gray-200 dark:border-gray-700
+                       focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Search className="absolute left-3 top-2.5 text-gray-400 h-5 w-5" />
         </div>
       </div>
 
-      {/* Enhanced Search Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="mb-8"
-      >
-        <div className="relative max-w-2xl mx-auto">
-          {/* Decorative gradient blur effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-full blur-xl"></div>
-          
-          {/* Search container */}
-          <div className="relative bg-white rounded-full shadow-lg p-2">
-            <div className="flex items-center">
-              {/* Search icon with gradient */}
-              <div className="pl-4">
-                <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full">
-                  <Search className="w-5 h-5 text-white" />
-                </div>
-              </div>
-
-              {/* Search input */}
-              <input
-                type="text"
-                placeholder="Search by Order ID or Buyer Name"
-                className="w-full px-4 py-3 text-gray-700 bg-transparent focus:outline-none placeholder-gray-500"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-
-              {/* Search button */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 mr-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition-shadow duration-300"
+      {/* Responsive Table Container */}
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[640px]">
+          <thead>
+            <tr className="text-left text-gray-700 dark:text-white border-b dark:border-gray-700">
+              <th className="p-2 sm:p-4">Order ID</th>
+              <th className="p-2 sm:p-4">Buyer</th>
+              <th className="p-2 sm:p-4">Amount</th>
+              <th className="p-2 sm:p-4">Status</th>
+              <th className="p-2 sm:p-4">Date</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-800 dark:text-gray-200">
+            {filteredTransactions.map((transaction, index) => (
+              <motion.tr 
+                key={transaction.orderId}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="group hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
               >
-                Search
-              </motion.button>
-            </div>
-          </div>
+                <td className="p-2 sm:p-4">
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                    {transaction.orderId}
+                  </span>
+                </td>
+                <td className="p-2 sm:p-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="hidden sm:flex h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 items-center justify-center text-white text-sm font-medium">
+                      {transaction.buyerName.charAt(0)}
+                    </div>
+                    <span className="text-sm text-gray-900 dark:text-white">
+                      {transaction.buyerName}
+                    </span>
+                  </div>
+                </td>
+                <td className="p-2 sm:p-4">
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">
+                    {formatAmount(transaction.amount)}
+                  </span>
+                </td>
+                <td className="p-2 sm:p-4">
+                  <span className={`inline-flex items-center px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${
+                    transaction.status === 'completed'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                      : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                  }`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${
+                      transaction.status === 'completed' ? 'bg-green-600' : 'bg-yellow-600'
+                    } mr-1.5`}></span>
+                    {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
+                  </span>
+                </td>
+                <td className="p-2 sm:p-4">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {new Date(transaction.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </span>
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-          {/* Search stats */}
-          {searchTerm && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="absolute left-0 right-0 mt-2 text-center text-sm text-gray-600"
-            >
-              Found {filteredTransactions.length} results
-            </motion.div>
-          )}
-        </div>
-
-        {/* Quick filters */}
+      {/* Empty State - Responsive */}
+      {filteredTransactions.length === 0 && (
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="flex justify-center gap-2 mt-4"
+          className="text-center py-8 sm:py-12"
         >
-          {['All', 'Completed', 'Pending'].map((filter) => (
-            <motion.button
-              key={filter}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 py-1 text-sm rounded-full bg-white shadow-sm hover:shadow-md transition-shadow duration-300 text-gray-600 border border-gray-200"
-            >
-              {filter}
-            </motion.button>
-          ))}
+          <div className="inline-flex items-center justify-center w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-gray-100 dark:bg-gray-700 mb-4">
+            <Search className="w-6 sm:w-8 h-6 sm:h-8 text-gray-400 dark:text-gray-300" />
+          </div>
+          <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400">No transactions found</p>
+          <p className="text-sm mt-1 text-gray-400 dark:text-gray-500">Try adjusting your search criteria</p>
         </motion.div>
-      </motion.div>
+      )}
 
-      {/* Enhanced Table Section */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100"
-      >
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gradient-to-r from-gray-50 to-gray-100">
-                <th className="px-6 py-4 text-left">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm font-semibold text-gray-600">Order ID</span>
-                    <div className="flex flex-col">
-                      <ArrowUpIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                      <ArrowDownIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                    </div>
-                  </div>
-                </th>
-                <th className="px-6 py-4 text-left">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm font-semibold text-gray-600">Buyer Name</span>
-                    <div className="flex flex-col">
-                      <ArrowUpIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                      <ArrowDownIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                    </div>
-                  </div>
-                </th>
-                <th className="px-6 py-4 text-left">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm font-semibold text-gray-600">Amount</span>
-                    <div className="flex flex-col">
-                      <ArrowUpIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                      <ArrowDownIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                    </div>
-                  </div>
-                </th>
-                <th className="px-6 py-4 text-left">
-                  <span className="text-sm font-semibold text-gray-600">Status</span>
-                </th>
-                <th className="px-6 py-4 text-left">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm font-semibold text-gray-600">Date</span>
-                    <div className="flex flex-col">
-                      <ArrowUpIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                      <ArrowDownIcon className="w-3 h-3 text-gray-400 cursor-pointer hover:text-blue-600" />
-                    </div>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {filteredTransactions.map((transaction, index) => (
-                <motion.tr 
-                  key={transaction.orderId}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group hover:bg-gray-50 transition-colors duration-200"
-                >
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <span className="text-sm font-medium text-gray-900">{transaction.orderId}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-medium">
-                        {transaction.buyerName.charAt(0)}
-                      </div>
-                      <span className="ml-3 text-sm text-gray-900">{transaction.buyerName}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm font-medium text-gray-900">{formatAmount(transaction.amount)}</span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                      transaction.status === 'completed'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${
-                        transaction.status === 'completed' ? 'bg-green-600' : 'bg-yellow-600'
-                      } mr-1.5`}></span>
-                      {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-500">
-                      {new Date(transaction.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                      })}
-                    </span>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Empty State */}
-          {filteredTransactions.length === 0 && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-12"
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-                <Search className="w-8 h-8 text-gray-400" />
-              </div>
-              <p className="text-gray-500 text-lg">No transactions found</p>
-              <p className="text-gray-400 text-sm mt-1">Try adjusting your search criteria</p>
-            </motion.div>
-          )}
-        </div>
-
-        {/* Table Footer */}
-        {filteredTransactions.length > 0 && (
-          <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">
-                Showing {filteredTransactions.length} transactions
-              </p>
-              <div className="flex items-center space-x-2">
-                <button className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900">Previous</button>
-                <button className="px-4 py-2 text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md hover:opacity-90">
-                  Next
-                </button>
-              </div>
+      {/* Table Footer - Responsive */}
+      {filteredTransactions.length > 0 && (
+        <div className="mt-4 border-t border-gray-100 dark:border-gray-700">
+          <div className="flex flex-col sm:flex-row items-center justify-between py-4 px-2 sm:px-6 gap-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Showing {filteredTransactions.length} transactions
+            </p>
+            <div className="flex items-center space-x-2">
+              <button className="px-3 sm:px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                Previous
+              </button>
+              <button className="px-3 sm:px-4 py-2 text-sm bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md hover:opacity-90">
+                Next
+              </button>
             </div>
           </div>
-        )}
-      </motion.div>
+        </div>
+      )}
     </div>
   );
 };

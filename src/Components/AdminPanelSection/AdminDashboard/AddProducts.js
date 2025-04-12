@@ -216,9 +216,7 @@ const AddProduct = () => {
       <div className="mb-8">
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white shadow-lg">
           <div className="flex items-center gap-6">
-            <div className="p-4 bg-white/20 backdrop-blur-lg rounded-xl">
-              <Package className="w-10 h-10 text-white" />
-            </div>
+           
             <div>
               <h1 className="text-4xl font-bold">Create New Product</h1>
               <p className="text-white/80 mt-2 text-lg">
