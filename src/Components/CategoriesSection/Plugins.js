@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Search,
-  BookOpen,
-  Users,
-  Star,
-  Clock,
-  ChevronRight,
-  Code,
+import { 
+  Search, 
+  Star, 
+  Clock, 
+  Code, 
+  Shield, 
+  ShoppingCart, 
+  Settings, 
+  Globe, 
+  Check,
   Package,
-  Settings,
-  Shield,
-  ShoppingCart,
-  Globe,
   CheckCircle,
-  FolderGit,
-  GitBranch,
-} from "lucide-react";
+  ChevronRight 
+} from "react-feather";
+import { useTheme } from '../../context/ThemeContext';
+
 const PluginsPage = () => {
+  const { isDarkMode } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const pluginCourses = [
     {
@@ -124,14 +124,20 @@ const PluginsPage = () => {
     course.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen ${
+      isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+    } transition-colors duration-200`}>
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800 text-white py-16 sm:py-20 lg:py-32 overflow-hidden">
+      <div className={`relative ${
+        isDarkMode 
+          ? 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900' 
+          : 'bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800'
+      } text-white py-16 sm:py-20 lg:py-32 overflow-hidden`}>
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           {/* CSS grid pattern */}
           <div 
-            className="absolute inset-0 opacity-20"
+            className={`absolute inset-0 ${isDarkMode ? 'opacity-10' : 'opacity-20'}`}
             style={{
               backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
               backgroundSize: '40px 40px'
@@ -147,7 +153,9 @@ const PluginsPage = () => {
               repeat: Infinity,
               ease: "linear"
             }}
-            className="absolute -right-1/4 -top-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-blue-500/30 rounded-full blur-3xl"
+            className={`absolute -right-1/4 -top-1/4 w-64 sm:w-96 h-64 sm:h-96 ${
+              isDarkMode ? 'bg-blue-900/20' : 'bg-blue-500/30'
+            } rounded-full blur-3xl`}
           />
           <motion.div
             animate={{
@@ -159,7 +167,9 @@ const PluginsPage = () => {
               repeat: Infinity,
               ease: "linear"
             }}
-            className="absolute -left-1/4 -bottom-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/30 rounded-full blur-3xl"
+            className={`absolute -left-1/4 -bottom-1/4 w-64 sm:w-96 h-64 sm:h-96 ${
+              isDarkMode ? 'bg-purple-900/20' : 'bg-purple-500/30'
+            } rounded-full blur-3xl`}
           />
         </div>
 
@@ -168,7 +178,9 @@ const PluginsPage = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-block mb-4 sm:mb-6 px-4 sm:px-6 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+              className={`inline-block mb-4 sm:mb-6 px-4 sm:px-6 py-2 rounded-full ${
+                isDarkMode ? 'bg-gray-800/50' : 'bg-white/10'
+              } backdrop-blur-sm border ${isDarkMode ? 'border-gray-700' : 'border-white/20'}`}
             >
               <span className="text-xs sm:text-sm font-semibold">🚀 The Most Comprehensive Plugin Development Platform</span>
             </motion.div>
@@ -180,11 +192,17 @@ const PluginsPage = () => {
             >
               Master
               <span className="relative">
-                <span className="relative z-10 px-2 mx-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg">
+                <span className={`relative z-10 px-2 mx-2 ${
+                  isDarkMode 
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+                    : 'bg-gradient-to-r from-blue-400 to-purple-400'
+                } rounded-lg`}>
                   Plugin
                 </span>
                 <motion.span
-                  className="absolute inset-0 bg-white/20 rounded-lg -rotate-2"
+                  className={`absolute inset-0 ${
+                    isDarkMode ? 'bg-gray-700/50' : 'bg-white/20'
+                  } rounded-lg -rotate-2`}
                   animate={{ rotate: [2, -2, 2] }}
                   transition={{ duration: 4, repeat: Infinity }}
                 />
@@ -196,7 +214,9 @@ const PluginsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 text-blue-100 px-4"
+              className={`text-base sm:text-lg lg:text-xl mb-8 sm:mb-12 ${
+                isDarkMode ? 'text-gray-300' : 'text-blue-100'
+              } px-4`}
             >
               From fundamentals to advanced concepts, learn to create powerful plugins 
               that extend functionality and create new possibilities
@@ -209,17 +229,29 @@ const PluginsPage = () => {
               transition={{ delay: 0.3 }}
               className="relative max-w-2xl mx-auto px-4 sm:px-0"
             >
-              <div className="absolute inset-0 bg-white/5 rounded-full blur"></div>
+              <div className={`absolute inset-0 ${
+                isDarkMode ? 'bg-gray-800/50' : 'bg-white/5'
+              } rounded-full blur`}></div>
               <div className="relative flex items-center">
                 <input
                   type="text"
                   placeholder="Search plugin development courses, topics, or concepts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 sm:px-8 py-3 sm:py-5 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl pl-12 sm:pl-14 text-sm sm:text-base"
+                  className={`w-full px-4 sm:px-8 py-3 sm:py-5 rounded-full ${
+                    isDarkMode 
+                      ? 'bg-gray-800/90 text-gray-100 placeholder-gray-400 border border-gray-700' 
+                      : 'bg-white/90 text-gray-800 placeholder-gray-500'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl pl-12 sm:pl-14 text-sm sm:text-base`}
                 />
-                <Search className="absolute left-5 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
-                <button className="absolute right-2 sm:right-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm sm:text-base">
+                <Search className={`absolute left-5 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                } w-4 h-4 sm:w-5 sm:h-5`} />
+                <button className={`absolute right-2 sm:right-3 ${
+                  isDarkMode 
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600' 
+                    : 'bg-gradient-to-r from-blue-500 to-purple-500'
+                } text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm sm:text-base`}>
                   Search
                 </button>
               </div>
@@ -239,7 +271,9 @@ const PluginsPage = () => {
               ].map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="text-xl sm:text-2xl font-bold">{stat.value}</div>
-                  <div className="text-xs sm:text-sm text-blue-200">{stat.label}</div>
+                  <div className={`text-xs sm:text-sm ${
+                    isDarkMode ? 'text-gray-400' : 'text-blue-200'
+                  }`}>{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -247,10 +281,14 @@ const PluginsPage = () => {
         </div>
       </div>
       {/* Features Grid */}{" "}
-      <div className="py-20 bg-white">
+      <div className={`py-20 ${
+        isDarkMode ? 'bg-gray-800' : 'bg-white'
+      } transition-colors duration-200`}>
         <div className="container mx-auto px-4">
           {" "}
-          <h2 className="text-3xl font-bold text-center mb-12">
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-900'
+          }`}>
             What You'll Learn{" "}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -275,10 +313,14 @@ const PluginsPage = () => {
         </div>
       </div>
       {/* Courses Section */}{" "}
-      <div className="py-20">
+      <div className={`py-20 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      } transition-colors duration-200`}>
         <div className="container mx-auto px-4">
           {" "}
-          <h2 className="text-3xl font-bold text-center mb-12">
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-900'
+          }`}>
             Featured Plugin Courses{" "}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -289,7 +331,11 @@ const PluginsPage = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 whileHover={{ y: -5 }}
-                className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-800 border-gray-700' 
+                    : 'bg-white border-gray-100'
+                } rounded-xl overflow-hidden shadow-lg border transition-colors duration-200`}
               >
                 {" "}
                 <div className="relative">
@@ -303,7 +349,9 @@ const PluginsPage = () => {
                   </div>
                 </div>{" "}
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{course.title}</h3>{" "}
+                  <h3 className={`text-xl font-semibold mb-2 ${
+                    isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                  }`}>{course.title}</h3>{" "}
                   <div className="flex items-center mb-4">
                     <img
                       src={course.instructorImage}
@@ -311,8 +359,12 @@ const PluginsPage = () => {
                       className="w-10 h-10 rounded-full mr-3"
                     />{" "}
                     <div>
-                      <p className="text-sm font-medium">{course.instructor}</p>{" "}
-                      <p className="text-xs text-gray-500">Course Instructor</p>
+                      <p className={`text-sm font-medium ${
+                        isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                      }`}>{course.instructor}</p>{" "}
+                      <p className={`text-xs ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                      }`}>Course Instructor</p>
                     </div>{" "}
                   </div>
                   <div className="flex flex-wrap gap-2 mb-4">
@@ -320,7 +372,11 @@ const PluginsPage = () => {
                     {course.highlights.map((highlight, index) => (
                       <span
                         key={index}
-                        className="bg-purple-50 text-purple-600 text-xs px-2 py-1 rounded-full"
+                        className={`${
+                          isDarkMode 
+                            ? 'bg-purple-900/50 text-purple-300' 
+                            : 'bg-purple-50 text-purple-600'
+                        } text-xs px-2 py-1 rounded-full`}
                       >
                         {highlight}{" "}
                       </span>
@@ -330,11 +386,15 @@ const PluginsPage = () => {
                     {" "}
                     <div className="flex items-center">
                       <Star className="w-5 h-5 text-yellow-400 fill-current" />{" "}
-                      <span className="ml-1 text-sm font-medium">
+                      <span className={`ml-1 text-sm font-medium ${
+                        isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                      }`}>
                         {course.rating}{" "}
                       </span>
                     </div>{" "}
-                    <div className="flex items-center text-sm text-gray-500">
+                    <div className={`flex items-center text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
                       <Clock className="w-4 h-4 mr-1" /> {course.duration}
                     </div>{" "}
                     <div className="text-lg font-bold text-purple-600">
@@ -350,18 +410,28 @@ const PluginsPage = () => {
 
 
       {/* Benefits Section */}
-      <div className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className={`py-20 ${
+        isDarkMode 
+          ? 'bg-gradient-to-b from-gray-800 to-gray-900' 
+          : 'bg-gradient-to-b from-gray-50 to-white'
+      } transition-colors duration-200`}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <span className="text-purple-600 font-semibold text-sm uppercase tracking-wider">Benefits</span>
-            <h2 className="text-4xl font-bold mt-2">
+            <span className={`font-semibold text-sm uppercase tracking-wider ${
+              isDarkMode ? 'text-purple-400' : 'text-purple-600'
+            }`}>Benefits</span>
+            <h2 className={`text-4xl font-bold mt-2 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>
               Why Learn Plugin Development?
             </h2>
-            <div className="w-24 h-1 bg-purple-600 mx-auto mt-4 rounded-full"></div>
+            <div className={`w-24 h-1 ${
+              isDarkMode ? 'bg-purple-500' : 'bg-purple-600'
+            } mx-auto mt-4 rounded-full`}></div>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -372,16 +442,20 @@ const PluginsPage = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 whileHover={{ scale: 1.02 }}
                 transition={{ delay: index * 0.1 }}
-                className="group flex items-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-100"
+                className={`group flex items-center p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border ${
+                  isDarkMode 
+                    ? 'bg-gray-800 border-gray-700 shadow-black/20' 
+                    : 'bg-white border-purple-100'
+                }`}
               >
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center group-hover:bg-purple-600 transition-colors duration-300">
-                    <CheckCircle className="w-6 h-6 text-purple-600 group-hover:text-white transition-colors duration-300" />
-                  </div>
+                  <Check className={`w-6 h-6 ${
+                    isDarkMode ? 'text-purple-400' : 'text-purple-600'
+                  }`} />
                 </div>
-                <span className="text-gray-800 ml-4 text-lg font-medium group-hover:text-purple-600 transition-colors duration-300">
-                  {benefit}
-                </span>
+                <span className={`ml-4 font-medium ${
+                  isDarkMode ? 'text-gray-200' : 'text-gray-800'
+                }`}>{benefit}</span>
               </motion.div>
             ))}
           </div>
@@ -389,16 +463,26 @@ const PluginsPage = () => {
       </div>
 
       {/* Learning Path Section */}
-      <div className="py-16 bg-gradient-to-b from-gray-50 to-white">
+      <div className={`py-16 ${
+        isDarkMode 
+          ? 'bg-gradient-to-b from-gray-900 to-gray-800' 
+          : 'bg-gradient-to-b from-gray-50 to-white'
+      }`}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <span className="text-purple-600 font-semibold text-sm uppercase tracking-wider">Learning Path</span>
-            <h2 className="text-3xl font-bold mt-2">Master Plugin Development</h2>
-            <p className="mt-3 text-gray-600 max-w-2xl mx-auto text-sm">
+            <span className={`${
+              isDarkMode ? 'text-purple-400' : 'text-purple-600'
+            } font-semibold text-sm uppercase tracking-wider`}>Learning Path</span>
+            <h2 className={`text-3xl font-bold mt-2 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>Master Plugin Development</h2>
+            <p className={`mt-3 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            } max-w-2xl mx-auto text-sm`}>
               Follow our structured path from basics to advanced concepts
             </p>
           </motion.div>
@@ -411,7 +495,7 @@ const PluginsPage = () => {
                 topics: ["Plugin Basics", "WordPress Hooks", "Plugin Structure", "Basic Security"],
                 duration: "4 weeks",
                 icon: "🚀",
-                color: "from-green-400 to-green-600",
+                color: isDarkMode ? "from-green-600 to-green-800" : "from-green-400 to-green-600",
                 badge: "Foundation"
               },
               {
@@ -420,7 +504,7 @@ const PluginsPage = () => {
                 topics: ["Custom Post Types", "Database Operations", "REST API", "Advanced Hooks"],
                 duration: "6 weeks",
                 icon: "⚡",
-                color: "from-blue-400 to-blue-600",
+                color: isDarkMode ? "from-blue-600 to-blue-800" : "from-blue-400 to-blue-600",
                 badge: "Professional"
               },
               {
@@ -429,7 +513,7 @@ const PluginsPage = () => {
                 topics: ["Architecture Patterns", "Performance", "Security", "Integration"],
                 duration: "8 weeks",
                 icon: "👑",
-                color: "from-purple-400 to-purple-600",
+                color: isDarkMode ? "from-purple-600 to-purple-800" : "from-purple-400 to-purple-600",
                 badge: "Expert"
               }
             ].map((path, index) => (
@@ -441,7 +525,9 @@ const PluginsPage = () => {
                 className="mb-6 relative"
               >
                 {index !== 2 && (
-                  <div className="absolute h-full w-0.5 bg-gradient-to-b from-current to-transparent left-[1.8rem] top-16 -z-10 opacity-20" />
+                  <div className={`absolute h-full w-0.5 ${
+                    isDarkMode ? 'bg-gray-700' : 'bg-gradient-to-b from-current to-transparent'
+                  } left-[1.8rem] top-16 -z-10 opacity-20`} />
                 )}
                 <div 
                   className={`bg-gradient-to-r ${path.color} rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300`}
@@ -491,9 +577,13 @@ const PluginsPage = () => {
       </div>
      
       {/* FAQ Section */}
-      <div className="py-16 bg-gray-50">
+      <div className={`py-16 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <h2 className={`text-3xl font-bold text-center mb-12 ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-900'
+          }`}>Frequently Asked Questions</h2>
           <div className="max-w-3xl mx-auto space-y-6">
             {[
               {
@@ -531,13 +621,21 @@ const PluginsPage = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl p-6 shadow-sm"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-800 shadow-lg' 
+                    : 'bg-white shadow-sm'
+                } rounded-xl p-6`}
               >
                 <div className="flex items-start">
                   <span className="text-2xl mr-4">{faq.icon}</span>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">{faq.question}</h3>
-                    <p className="text-gray-600">{faq.answer}</p>
+                    <h3 className={`text-xl font-semibold mb-2 ${
+                      isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                    }`}>{faq.question}</h3>
+                    <p className={`${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`}>{faq.answer}</p>
                   </div>
                 </div>
               </motion.div>
