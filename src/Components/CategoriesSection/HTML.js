@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useTheme } from '../../context/ThemeContext';
 import {
   Search,
   BookOpen,
@@ -16,8 +17,10 @@ import {
   Mail,
   Check,
 } from "lucide-react";
+
 const HTMLPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { isDarkMode } = useTheme();
   const htmlCourses = [
     {
       id: 1,
@@ -131,16 +134,20 @@ const HTMLPage = () => {
     course.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-b from-gray-900 to-gray-800' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800 text-white py-16 md:py-24 lg:py-32 overflow-hidden">
+      <div className={`relative ${
+        isDarkMode 
+          ? 'bg-gray-900 bg-opacity-95' 
+          : 'bg-gradient-to-r from-blue-600 to-purple-600'
+      } text-white py-16 md:py-24 lg:py-32 overflow-hidden transition-colors duration-300`}>
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           {/* CSS grid pattern */}
           <div 
-            className="absolute inset-0 opacity-20"
+            className={`absolute inset-0 ${isDarkMode ? 'opacity-10' : 'opacity-20'}`}
             style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+              backgroundImage: `radial-gradient(circle at 1px 1px, ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.2)'} 1px, transparent 0)`,
               backgroundSize: '40px 40px'
             }}
           ></div>
@@ -154,7 +161,9 @@ const HTMLPage = () => {
               repeat: Infinity,
               ease: "linear"
             }}
-            className="absolute -right-1/4 -top-1/4 w-64 md:w-96 h-64 md:h-96 bg-blue-500/30 rounded-full blur-3xl"
+            className={`absolute -right-1/4 -top-1/4 w-64 md:w-96 h-64 md:h-96 ${
+              isDarkMode ? 'bg-blue-800/10' : 'bg-blue-400/30'
+            } rounded-full blur-3xl`}
           />
           <motion.div
             animate={{
@@ -166,7 +175,9 @@ const HTMLPage = () => {
               repeat: Infinity,
               ease: "linear"
             }}
-            className="absolute -left-1/4 -bottom-1/4 w-64 md:w-96 h-64 md:h-96 bg-purple-500/30 rounded-full blur-3xl"
+            className={`absolute -left-1/4 -bottom-1/4 w-64 md:w-96 h-64 md:h-96 ${
+              isDarkMode ? 'bg-purple-800/10' : 'bg-purple-400/30'
+            } rounded-full blur-3xl`}
           />
         </div>
 
@@ -175,23 +186,37 @@ const HTMLPage = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-block mb-4 md:mb-6 px-4 md:px-6 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+              className={`inline-block mb-4 md:mb-6 px-4 md:px-6 py-2 rounded-full ${
+                isDarkMode 
+                  ? 'bg-gray-800/50 border-gray-700' 
+                  : 'bg-white/20 border-white/30'
+              } backdrop-blur-sm border`}
             >
-              <span className="text-xs md:text-sm font-semibold">🚀 The Most Comprehensive HTML5 Learning Platform</span>
+              <span className={`text-xs md:text-sm font-semibold ${
+                isDarkMode ? 'text-gray-300' : 'text-white'
+              }`}>🚀 The Most Comprehensive HTML5 Learning Platform</span>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight"
+              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 leading-tight ${
+                isDarkMode ? 'text-white' : 'text-white'
+              }`}
             >
               Master
               <span className="relative inline-block mx-2">
-                <span className="relative z-10 px-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg">
+                <span className={`relative z-10 px-2 ${
+                  isDarkMode 
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-500' 
+                    : 'bg-gradient-to-r from-blue-400 to-purple-400'
+                } rounded-lg`}>
                   HTML5
                 </span>
                 <motion.span
-                  className="absolute inset-0 bg-white/20 rounded-lg -rotate-2"
+                  className={`absolute inset-0 ${
+                    isDarkMode ? 'bg-gray-700' : 'bg-white/20'
+                  } rounded-lg -rotate-2`}
                   animate={{ rotate: [2, -2, 2] }}
                   transition={{ duration: 4, repeat: Infinity }}
                 />
@@ -203,7 +228,9 @@ const HTMLPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-base sm:text-lg md:text-xl mb-8 md:mb-12 text-blue-100 px-4"
+              className={`text-base sm:text-lg md:text-xl mb-8 md:mb-12 ${
+                isDarkMode ? 'text-gray-300' : 'text-white'
+              } px-4`}
             >
               From fundamentals to advanced concepts, join over 50,000+ developers who've 
               mastered HTML5 with our industry-leading curriculum
@@ -216,45 +243,61 @@ const HTMLPage = () => {
               transition={{ delay: 0.3 }}
               className="relative max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl mx-auto px-4 sm:px-0"
             >
-              <div className="absolute inset-0 bg-white/5 rounded-full blur"></div>
+              <div className={`absolute inset-0 ${
+                isDarkMode ? 'bg-gray-800/50' : 'bg-white/10'
+              } rounded-full blur`}></div>
               <div className="relative flex items-center">
                 <input
                   type="text"
                   placeholder="Search HTML5 courses, topics, or concepts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 sm:px-6 md:px-8 py-3 md:py-5 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl pl-12 md:pl-14 text-sm md:text-base"
+                  className={`w-full px-4 sm:px-6 md:px-8 py-3 md:py-5 rounded-full ${
+                    isDarkMode 
+                      ? 'bg-gray-800/80 text-gray-100 placeholder-gray-400 border-gray-700' 
+                      : 'bg-white/90 text-gray-800 placeholder-gray-500'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl pl-12 md:pl-14 text-sm md:text-base border transition-colors duration-300`}
                 />
-                <Search className="absolute left-4 md:left-5 text-gray-400 w-4 h-4 md:w-5 md:h-5" />
-                <button className="absolute right-2 md:right-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 md:px-6 py-1.5 md:py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm md:text-base whitespace-nowrap">
+                <Search className={`absolute left-4 md:left-5 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                } w-4 h-4 md:w-5 md:h-5`} />
+                <button className={`absolute right-2 md:right-3 ${
+                  isDarkMode 
+                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    : 'bg-blue-500 hover:bg-blue-600'
+                } text-white px-4 md:px-6 py-1.5 md:py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm md:text-base whitespace-nowrap`}>
                   Search
                 </button>
               </div>
             </motion.div>
 
-              {/* Quick Stats */}
-                        <motion.div 
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 0.5 }}
-                          className="flex justify-center gap-8 mt-12"
-                        >
-                          {[
-                            { label: "Active Students", value: "50K+" },
-                            { label: "Video Hours", value: "1,200+" },
-                            { label: "5-Star Reviews", value: "15K+" },
-                          ].map((stat, index) => (
-                            <div key={index} className="text-center">
-                              <div className="text-2xl font-bold">{stat.value}</div>
-                              <div className="text-sm text-blue-200">{stat.label}</div>
-                            </div>
-                          ))}
-                        </motion.div>
+            {/* Quick Stats */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="flex justify-center gap-8 mt-12"
+            >
+              {[
+                { label: "Active Students", value: "50K+" },
+                { label: "Video Hours", value: "1,200+" },
+                { label: "5-Star Reviews", value: "15K+" },
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className={`text-2xl font-bold ${
+                    isDarkMode ? 'text-blue-200' : 'text-white'
+                  }`}>{stat.value}</div>
+                  <div className={`text-sm ${
+                    isDarkMode ? 'text-blue-300' : 'text-blue-200'
+                  }`}>{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </div>
       {/* Enhanced Stats Section */}
-      <div className="py-20 bg-white relative">
+      <div className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} relative`}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
@@ -278,24 +321,34 @@ const HTMLPage = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100"
+                className={`text-center p-8 rounded-2xl transition-shadow duration-300 ${
+                  isDarkMode 
+                    ? 'bg-gray-700 shadow-gray-900/50 border-gray-600' 
+                    : 'bg-white shadow-lg hover:shadow-xl border border-gray-100'
+                }`}
               >
-                <div className="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="text-blue-600">{stat.icon}</div>
+                <div className={`${
+                  isDarkMode ? 'bg-blue-900/30' : 'bg-blue-50'
+                } w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6`}>
+                  <div className={`${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                    {stat.icon}
+                  </div>
                 </div>
-                <h3 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                <h3 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                   {stat.number}
                 </h3>
-                <p className="text-gray-600 text-lg">{stat.label}</p>
+                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} text-lg`}>
+                  {stat.label}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
       {/* Enhanced Features Grid */}
-      <div className="py-20 bg-gray-50">
+      <div className={`py-20 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 relative">
+          <h2 className={`text-4xl font-bold text-center mb-16 relative ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
             What You'll Learn
             <div className="absolute w-20 h-1 bg-blue-600 bottom--4 left-1/2 transform -translate-x-1/2"></div>
           </h2>
@@ -319,9 +372,9 @@ const HTMLPage = () => {
         </div>
       </div>
       {/* Enhanced Courses Section */}
-      <div className="py-20 bg-white">
+      <div className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} transition-colors duration-200`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 relative">
+          <h2 className={`text-4xl font-bold text-center mb-16 relative ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
             Featured HTML Courses
             <div className="absolute w-20 h-1 bg-blue-600 bottom--4 left-1/2 transform -translate-x-1/2"></div>
           </h2>
@@ -332,7 +385,11 @@ const HTMLPage = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 whileHover={{ y: -10 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-700 border-gray-600' 
+                    : 'bg-white border-gray-100'
+                } rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border`}
               >
                 <div className="relative">
                   <img
@@ -345,7 +402,9 @@ const HTMLPage = () => {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h3 className="text-2xl font-semibold mb-4">{course.title}</h3>
+                  <h3 className={`text-2xl font-semibold mb-4 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+                    {course.title}
+                  </h3>
                   <div className="flex items-center mb-6">
                     <img
                       src={course.instructorImage}
@@ -353,29 +412,43 @@ const HTMLPage = () => {
                       className="w-12 h-12 rounded-full mr-4 border-2 border-blue-100"
                     />
                     <div>
-                      <p className="text-base font-medium">{course.instructor}</p>
-                      <p className="text-sm text-gray-500">Course Instructor</p>
+                      <p className={`text-base font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                        {course.instructor}
+                      </p>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        Course Instructor
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-6">
                     {course.highlights.map((highlight, index) => (
                       <span
                         key={index}
-                        className="bg-blue-50 text-blue-600 text-sm px-4 py-1.5 rounded-full font-medium"
+                        className={`${
+                          isDarkMode 
+                            ? 'bg-blue-900/30 text-blue-300' 
+                            : 'bg-blue-50 text-blue-600'
+                        } text-sm px-4 py-1.5 rounded-full font-medium`}
                       >
                         {highlight}
                       </span>
                     ))}
                   </div>
-                  <div className="flex items-center justify-between pt-6 border-t border-gray-100">
+                  <div className={`flex items-center justify-between pt-6 border-t ${
+                    isDarkMode ? 'border-gray-600' : 'border-gray-100'
+                  }`}>
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center">
-                        <Clock className="w-5 h-5 text-gray-400 mr-2" />
-                        <span className="text-sm text-gray-600">{course.duration}</span>
+                        <Clock className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-400'} mr-2`} />
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          {course.duration}
+                        </span>
                       </div>
                       <div className="flex items-center">
-                        <Users className="w-5 h-5 text-gray-400 mr-2" />
-                        <span className="text-sm text-gray-600">{course.students}</span>
+                        <Users className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-400'} mr-2`} />
+                        <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          {course.students}
+                        </span>
                       </div>
                     </div>
                     <span className="text-2xl font-bold text-blue-600">${course.price}</span>
@@ -387,9 +460,11 @@ const HTMLPage = () => {
         </div>
       </div>
       {/* Enhanced Why Learn HTML Section */}
-      <div className="py-20 bg-gray-50">
+      <div className={`py-20 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16 relative">
+          <h2 className={`text-4xl font-bold text-center mb-16 relative ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-900'
+          }`}>
             Why Learn HTML?
             <div className="absolute w-20 h-1 bg-blue-600 bottom--4 left-1/2 transform -translate-x-1/2"></div>
           </h2>
@@ -421,13 +496,23 @@ const HTMLPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.05 }}
-                className="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                className={`text-center p-8 ${
+                  isDarkMode 
+                    ? 'bg-gray-800 shadow-gray-900/50' 
+                    : 'bg-white shadow-lg'
+                } rounded-2xl hover:shadow-xl transition-all duration-300`}
               >
-                <div className="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className={`${
+                  isDarkMode ? 'bg-blue-900/20' : 'bg-blue-50'
+                } w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6`}>
                   <div className="text-blue-600">{item.icon}</div>
                 </div>
-                <h3 className="text-xl font-semibold mb-4">{item.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                <h3 className={`text-xl font-semibold mb-4 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}>{item.title}</h3>
+                <p className={`${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                } leading-relaxed`}>{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -436,9 +521,11 @@ const HTMLPage = () => {
      
 
       {/* Career Opportunities Section */}
-      <div className="py-20 bg-gray-50">
+      <div className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16">Career Opportunities</h2>
+          <h2 className={`text-4xl font-bold text-center mb-16 ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-900'
+          }`}>Career Opportunities</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -464,13 +551,23 @@ const HTMLPage = () => {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="bg-white p-8 rounded-xl shadow-lg"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-900 shadow-gray-900/50' 
+                    : 'bg-white shadow-lg'
+                } p-8 rounded-xl`}
               >
-                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                <div className={`${
+                  isDarkMode ? 'bg-blue-900/20' : 'bg-blue-100'
+                } w-16 h-16 rounded-full flex items-center justify-center mb-6`}>
                   <div className="text-blue-600">{career.icon}</div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{career.title}</h3>
-                <p className="text-gray-600 mb-4">{career.description}</p>
+                <h3 className={`text-xl font-bold mb-2 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}>{career.title}</h3>
+                <p className={`${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                } mb-4`}>{career.description}</p>
                 <p className="text-blue-600 font-semibold">{career.salary}</p>
               </motion.div>
             ))}
@@ -479,16 +576,26 @@ const HTMLPage = () => {
       </div>
 
       {/* Learning Path Section */}
-      <div className="py-20 bg-gradient-to-b from-white to-gray-50">
+      <div className={`py-20 ${
+        isDarkMode 
+          ? 'bg-gradient-to-b from-gray-900 to-gray-800' 
+          : 'bg-gradient-to-b from-white to-gray-50'
+      }`}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <span className="text-blue-600 font-semibold text-sm uppercase tracking-wider">Step by Step Guide</span>
-            <h2 className="text-4xl font-bold mt-2">Your Learning Path</h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+            <span className={`font-semibold text-sm uppercase tracking-wider ${
+              isDarkMode ? 'text-blue-400' : 'text-blue-600'
+            }`}>Step by Step Guide</span>
+            <h2 className={`text-4xl font-bold mt-2 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>Your Learning Path</h2>
+            <div className={`w-24 h-1 ${
+              isDarkMode ? 'bg-blue-500' : 'bg-blue-600'
+            } mx-auto mt-4 rounded-full`}></div>
           </motion.div>
 
           <div className="max-w-4xl mx-auto">
@@ -499,7 +606,7 @@ const HTMLPage = () => {
                 topics: ["HTML Basics", "Document Structure", "Text Formatting", "Links & Images"],
                 duration: "4 weeks",
                 icon: "🚀",
-                color: "from-green-400 to-green-600"
+                color: isDarkMode ? "from-green-600 to-green-800" : "from-green-400 to-green-600"
               },
               {
                 level: "Intermediate",
@@ -507,7 +614,7 @@ const HTMLPage = () => {
                 topics: ["Forms & Validation", "Semantic HTML", "Tables & Lists", "Media Elements"],
                 duration: "6 weeks",
                 icon: "⚡",
-                color: "from-blue-400 to-blue-600"
+                color: isDarkMode ? "from-blue-600 to-blue-800" : "from-blue-400 to-blue-600"
               },
               {
                 level: "Advanced",
@@ -515,7 +622,7 @@ const HTMLPage = () => {
                 topics: ["Canvas & SVG", "Web Components", "Progressive Enhancement", "Performance"],
                 duration: "8 weeks",
                 icon: "👑",
-                color: "from-purple-400 to-purple-600"
+                color: isDarkMode ? "from-purple-600 to-purple-800" : "from-purple-400 to-purple-600"
               }
             ].map((path, index) => (
               <motion.div
@@ -527,13 +634,17 @@ const HTMLPage = () => {
               >
                 {/* Connection Line */}
                 {index !== 2 && (
-                  <div className="absolute left-6 top-[95px] w-1 h-[100px] bg-gradient-to-b from-blue-600 to-transparent"></div>
+                  <div className={`absolute left-6 top-[95px] w-1 h-[100px] bg-gradient-to-b ${
+                    isDarkMode ? 'from-blue-500 to-transparent' : 'from-blue-600 to-transparent'
+                  }`}></div>
                 )}
 
                 <div className="flex items-start gap-6">
                   {/* Level Number */}
                   <div className="flex flex-col items-center">
-                    <div className={`bg-gradient-to-r ${path.color} text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl shadow-lg`}>
+                    <div className={`bg-gradient-to-r ${path.color} text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl ${
+                      isDarkMode ? 'shadow-lg shadow-black/30' : 'shadow-lg'
+                    }`}>
                       {index + 1}
                     </div>
                     <span className="text-4xl mt-2">{path.icon}</span>
@@ -543,14 +654,26 @@ const HTMLPage = () => {
                   <div className="flex-1">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
-                      className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
+                      className={`${
+                        isDarkMode 
+                          ? 'bg-gray-800 border-gray-700 shadow-xl shadow-black/20' 
+                          : 'bg-white border-gray-100 shadow-lg'
+                      } p-8 rounded-2xl border transition-colors duration-200`}
                     >
                       <div className="flex justify-between items-start mb-4">
                         <div>
-                          <h3 className="text-2xl font-bold text-gray-800">{path.level}</h3>
-                          <p className="text-gray-600">{path.description}</p>
+                          <h3 className={`text-2xl font-bold ${
+                            isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                          }`}>{path.level}</h3>
+                          <p className={`${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                          }`}>{path.description}</p>
                         </div>
-                        <span className="bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold">
+                        <span className={`${
+                          isDarkMode 
+                            ? 'bg-blue-900/30 text-blue-400' 
+                            : 'bg-blue-50 text-blue-600'
+                        } px-4 py-2 rounded-full text-sm font-semibold`}>
                           {path.duration}
                         </span>
                       </div>
@@ -562,10 +685,16 @@ const HTMLPage = () => {
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
                             transition={{ delay: i * 0.1 }}
-                            className="flex items-center bg-gray-50 p-3 rounded-lg"
+                            className={`flex items-center ${
+                              isDarkMode 
+                                ? 'bg-gray-700/50 text-gray-300' 
+                                : 'bg-gray-50 text-gray-700'
+                            } p-3 rounded-lg`}
                           >
-                            <Check className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-                            <span className="text-gray-700 font-medium">{topic}</span>
+                            <Check className={`w-5 h-5 ${
+                              isDarkMode ? 'text-green-400' : 'text-green-500'
+                            } mr-2 flex-shrink-0`} />
+                            <span className="font-medium">{topic}</span>
                           </motion.div>
                         ))}
                       </div>
@@ -579,15 +708,19 @@ const HTMLPage = () => {
       </div>
 
       {/* FAQ Section */}
-      <div className="py-20 bg-gray-50">
+      <div className={`py-20 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <span className="font-semibold text-sm uppercase tracking-wider text-blue-600">Got Questions?</span>
-            <h2 className="text-4xl font-bold mt-2">
+            <span className="font-semibold text-sm uppercase tracking-wider text-blue-600">
+              Got Questions?
+            </span>
+            <h2 className={`text-4xl font-bold mt-2 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>
               Frequently Asked Questions
             </h2>
             <div className="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded-full"></div>
@@ -631,23 +764,39 @@ const HTMLPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-50"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-800 border-gray-700 shadow-gray-900/50' 
+                    : 'bg-white border-blue-50'
+                } rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border`}
               >
                 <button
-                  className="w-full px-8 py-6 text-left font-semibold flex items-center justify-between group"
+                  className={`w-full px-8 py-6 text-left font-semibold flex items-center justify-between group ${
+                    isDarkMode ? 'hover:bg-gray-700/50' : 'hover:bg-gray-50'
+                  }`}
                   onClick={() => {/* Add toggle functionality if needed */}}
                 >
                   <div className="flex items-center space-x-4">
                     <span className="text-2xl">{faq.icon}</span>
-                    <span className="text-lg text-gray-800 group-hover:text-blue-600 transition-colors">
+                    <span className={`text-lg ${
+                      isDarkMode 
+                        ? 'text-gray-100 group-hover:text-blue-400' 
+                        : 'text-gray-800 group-hover:text-blue-600'
+                    } transition-colors`}>
                       {faq.question}
                     </span>
                   </div>
-                  <ChevronRight className="w-5 h-5 transform group-hover:rotate-90 transition-transform duration-300 text-blue-600" />
+                  <ChevronRight className={`w-5 h-5 transform group-hover:rotate-90 transition-transform duration-300 ${
+                    isDarkMode ? 'text-blue-400' : 'text-blue-600'
+                  }`} />
                 </button>
-                <div className="px-8 pb-6 text-gray-600">
-                  <div className="h-px bg-gray-100 mb-4"></div>
-                  <p className="leading-relaxed">
+                <div className="px-8 pb-6">
+                  <div className={`h-px ${
+                    isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                  } mb-4`}></div>
+                  <p className={`leading-relaxed ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
                     {faq.answer}
                   </p>
                 </div>
@@ -661,11 +810,15 @@ const HTMLPage = () => {
             transition={{ delay: 0.5 }}
             className="text-center mt-12"
           >
-            <p className="text-gray-600">
+            <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
               Still have questions?{" "}
               <a 
                 href="#contact" 
-                className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                className={`${
+                  isDarkMode 
+                    ? 'text-blue-400 hover:text-blue-300' 
+                    : 'text-blue-600 hover:text-blue-700'
+                } font-semibold transition-colors`}
               >
                 Contact our support team
               </a>

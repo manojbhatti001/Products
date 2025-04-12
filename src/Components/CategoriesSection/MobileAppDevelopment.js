@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Users, 
-  Clock, 
-  Code, 
-  TrendingUp, 
+  Search, 
   CheckCircle, 
-  Star, 
-  Database, 
-  Layout, 
-  Smartphone, 
+  Code, 
+  Layout,
+  Users,
+  Clock,
+  TrendingUp,
+  Star,
+  Database,
+  Smartphone,
   DollarSign,
-  Search,
   Download,
   Monitor
-} from 'lucide-react';
+} from 'react-feather';
 import CountUp from 'react-countup';
 import { useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useTheme } from '../../context/ThemeContext';
 
 const MobileAppDevelopment = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  // Add state for showing all technologies
-  const [showAllTech, setShowAllTech] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const { isDarkMode } = useTheme();
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [showAllTech, setShowAllTech] = React.useState(false);
+  const [hasAnimated, setHasAnimated] = React.useState(false);
   const { ref: statsRef, inView } = useInView({
     threshold: 0.2,
-    triggerOnce: false  // Changed from true to false
+    triggerOnce: false
   });
 
   const mobileCourses = [
@@ -187,9 +188,13 @@ const MobileAppDevelopment = () => {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800 text-white py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden">
+      <div className={`relative ${
+        isDarkMode 
+          ? 'bg-gradient-to-r from-gray-800 via-gray-900 to-black' 
+          : 'bg-gradient-to-r from-indigo-600 via-blue-700 to-purple-800'
+      } text-white py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden`}>
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           {/* CSS grid pattern */}
@@ -271,10 +276,14 @@ const MobileAppDevelopment = () => {
                   placeholder="Search courses, topics, or concepts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 sm:px-8 py-3 sm:py-5 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl pl-10 sm:pl-14 text-sm sm:text-base"
+                  className={`w-full px-4 sm:px-8 py-3 sm:py-5 rounded-full ${
+                    isDarkMode 
+                      ? 'bg-gray-800 text-gray-100 placeholder-gray-400 border-gray-700' 
+                      : 'bg-white text-gray-800 placeholder-gray-500'
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xl pl-10 sm:pl-14 text-sm sm:text-base`}
                 />
-                <Search className="absolute left-3 sm:left-5 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
-                <button className="absolute right-2 sm:right-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 sm:px-6 py-1.5 sm:py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm sm:text-base whitespace-nowrap">
+                <Search className={`absolute left-3 sm:left-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} w-4 h-4 sm:w-5 sm:h-5`} />
+                <button className="absolute right-2 sm:right-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 sm:px-6 py-1.5 sm:py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm sm:text-base">
                   Search
                 </button>
               </div>
@@ -303,7 +312,11 @@ const MobileAppDevelopment = () => {
       </div>
 
       {/* Technologies Section */}
-      <div className="relative bg-gradient-to-b from-white to-gray-50 py-24 overflow-hidden">
+      <div className={`relative ${
+        isDarkMode 
+          ? 'bg-gradient-to-b from-gray-900 to-gray-800' 
+          : 'bg-gradient-to-b from-white to-gray-50'
+      } py-24 overflow-hidden`}>
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-1/4 -top-1/4 w-1/2 h-1/2 bg-gradient-to-br from-purple-100/30 to-blue-100/30 rounded-full blur-3xl"></div>
@@ -316,10 +329,14 @@ const MobileAppDevelopment = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className={`text-4xl font-bold mb-4 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
+            }`}>
               Choose Your Technology Path
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className={`${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            } max-w-2xl mx-auto`}>
               Explore the most in-demand mobile development technologies and start your journey to becoming a professional mobile developer.
             </p>
           </motion.div>
@@ -332,7 +349,11 @@ const MobileAppDevelopment = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
-                className="group relative bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300"
+                className={`group relative ${
+                  isDarkMode 
+                    ? 'bg-gray-800 shadow-gray-900/50' 
+                    : 'bg-white'
+                } rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300`}
               >
                 {/* Gradient overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`}></div>
@@ -361,17 +382,23 @@ const MobileAppDevelopment = () => {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center group-hover:text-purple-600 transition-colors">
+                <h3 className={`text-2xl font-bold mb-3 text-center group-hover:text-purple-600 transition-colors ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}>
                   {tech.name}
                 </h3>
-                <p className="text-gray-600 text-center mb-6">
+                <p className={`text-center mb-6 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   {tech.description}
                 </p>
 
                 {/* Features */}
                 <div className="space-y-3">
                   {getTechFeatures(tech.name).map((feature, idx) => (
-                    <div key={idx} className="flex items-center text-gray-700">
+                    <div key={idx} className={`flex items-center ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
                       <CheckCircle className="w-5 h-5 text-green-500 mr-2" />
                       <span>{feature}</span>
                     </div>
@@ -395,69 +422,72 @@ const MobileAppDevelopment = () => {
           <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="flex justify-center mt-12"
+            className="flex justify-center mb-4  mt-12"
           >
             <motion.button
               onClick={() => setShowAllTech(!showAllTech)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group relative px-8 py-4 rounded-xl bg-white border-2 border-purple-500 text-purple-600 font-semibold 
-                hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className={`group relative px-8 py-4 rounded-xl ${
+                isDarkMode 
+                  ? 'bg-gray-800 border-purple-500 text-purple-400 hover:bg-gray-700' 
+                  : 'bg-white border-purple-500 text-purple-600 hover:bg-purple-50'
+              } border-2 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl`}
             >
               <span className="flex items-center">
-                {showAllTech ? (
-                  <>
-                    Show Less
-                    <motion.svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      className="h-5 w-5 ml-2 group-hover:-translate-y-1 transition-transform duration-300" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                    </motion.svg>
-                  </>
-                ) : (
-                  <>
-                    See More Technologies
-                    <motion.svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      className="h-5 w-5 ml-2 group-hover:translate-y-1 transition-transform duration-300" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </motion.svg>
-                  </>
-                )}
+                {showAllTech ? 'Show Less' : 'See More Technologies'}
               </span>
             </motion.button>
           </motion.div>
 
           {/* Bottom stats section */}
-          <div className="py-24 bg-gradient-to-b from-gray-50/50 to-white relative overflow-hidden">
+          <div className={`py-24 ${
+            isDarkMode 
+              ? 'bg-gradient-to-b from-gray-900 via-gray-850 to-gray-800' 
+              : 'bg-gradient-to-b from-gray-50/50 to-white'
+          } relative overflow-hidden`}>
             
+            {/* Background decoration - adjusted for dark mode */}
             <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-100 rounded-full blur-3xl opacity-30"></div>
-              <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-30"></div>
+              <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl ${
+                isDarkMode 
+                  ? 'bg-purple-900/20' 
+                  : 'bg-purple-100/30'
+              }`}></div>
+              <div className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl ${
+                isDarkMode 
+                  ? 'bg-blue-900/20' 
+                  : 'bg-blue-100/30'
+              }`}></div>
             </div>
 
-            <div className="container mx-auto -mb-16 px-4 relative">
-              {/*  Header */}
+            <div className={`container mx-auto -mb-16 px-4 relative ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
+              {/* Header Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 className="text-center mb-20"
               >
-                <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full text-purple-700 font-medium text-sm mb-4">
+                {/* Badge with dark/light mode gradients */}
+                <span className={`inline-block px-4 py-1.5 ${
+                  isDarkMode 
+                    ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-purple-400' 
+                    : 'bg-gradient-to-r from-purple-500/10 to-blue-500/10 text-purple-700'
+                } rounded-full font-medium text-sm mb-4`}>
                   Our Growth & Impact
                 </span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-purple-800 to-gray-900 bg-clip-text text-transparent">
+
+                {/* Title with adaptive gradient text */}
+                <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${
+                  isDarkMode
+                    ? 'bg-gradient-to-r from-gray-100 via-purple-200 to-gray-100'
+                    : 'bg-gradient-to-r from-gray-900 via-purple-800 to-gray-900'
+                } bg-clip-text text-transparent`}>
                   Milestones & Achievements
                 </h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
+
+                {/* Description with dark/light text */}
+                <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
                   Track our progress and impact in the mobile development education space
                 </p>
               </motion.div>
@@ -521,22 +551,41 @@ const MobileAppDevelopment = () => {
                     transition={{ delay: index * 0.1 }}
                     className="relative group"
                   >
-                    {/* Card */}
-                    <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                      {/* Icon Header */}
+                    {/* Stat Card with dark/light backgrounds */}
+                    <div className={`${
+                      isDarkMode 
+                        ? 'bg-gray-800 shadow-gray-900/50' 
+                        : 'bg-white'
+                    } rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300`}>
+                      
+                      {/* Icon Header with adaptive colors */}
                       <div className="flex items-center justify-between mb-6">
-                        <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${stat.lightColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                          <stat.icon className={`w-6 h-6 ${stat.darkColor}`} />
+                        <div className={`w-12 h-12 rounded-lg ${
+                          isDarkMode 
+                            ? `bg-gradient-to-r from-${stat.darkColor}-900 to-${stat.darkColor}-800` 
+                            : `bg-gradient-to-r ${stat.lightColor}`
+                        } flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                          <stat.icon className={`w-6 h-6 ${isDarkMode ? 'text-white' : stat.darkColor}`} />
                         </div>
-                        <div className={`text-sm font-medium ${stat.darkColor} bg-gradient-to-r ${stat.lightColor} px-3 py-1 rounded-full`}>
+
+                        {/* Trend indicator with adaptive styling */}
+                        <div className={`text-sm font-medium ${
+                          isDarkMode 
+                            ? `text-${stat.darkColor}-400 bg-${stat.darkColor}-900/30` 
+                            : `${stat.darkColor} bg-gradient-to-r ${stat.lightColor}`
+                        } px-3 py-1 rounded-full`}>
                           {stat.trend}
                         </div>
                       </div>
 
-                      {/* Counter */}
+                      {/* Counter section with adaptive text colors */}
                       <div className="space-y-2">
                         <div className="relative">
-                          <div className={`text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                          <div className={`text-4xl font-bold ${
+                            isDarkMode 
+                              ? 'text-white' 
+                              : `bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`
+                          }`}>
                             <CountUp
                               start={0}
                               end={parseFloat(stat.value)}
@@ -558,21 +607,29 @@ const MobileAppDevelopment = () => {
                             </CountUp>
                           </div>
                         </div>
-                        <h3 className="text-xl font-semibold text-gray-800">
+
+                        {/* Label and description with dark/light text */}
+                        <h3 className={`text-xl font-semibold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                        }`}>
                           {stat.label}
                         </h3>
-                        <p className="text-gray-500 text-sm">
+                        <p className={`${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        } text-sm`}>
                           {stat.description}
                         </p>
                       </div>
 
-                      {/* Bottom Progress Bar */}
+                      {/* Progress bar with adaptive opacity */}
                       <div className="mt-6 pt-4">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: "100%" }}
                           transition={{ delay: 0.5, duration: 1 }}
-                          className={`h-1 bg-gradient-to-r ${stat.color} rounded-full`}
+                          className={`h-1 bg-gradient-to-r ${stat.color} rounded-full ${
+                            isDarkMode ? 'opacity-70' : ''
+                          }`}
                         />
                       </div>
                     </div>
@@ -585,8 +642,12 @@ const MobileAppDevelopment = () => {
       </div>
 
       {/* Courses Section */}
-      <div className="container mx-auto  px-4 py-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+      <div className={`container mx-auto px-4 py-16 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
+        <h2 className={`text-3xl font-bold mb-12 text-center ${
+          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+        }`}>
           Featured Courses
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -596,7 +657,11 @@ const MobileAppDevelopment = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               whileHover={{ y: -5 }}
-              className="bg-white rounded-xl overflow-hidden shadow-lg"
+              className={`${
+                isDarkMode 
+                  ? 'bg-gray-800 shadow-gray-900/50' 
+                  : 'bg-white'
+              } rounded-xl overflow-hidden shadow-lg`}
             >
               <div className="relative">
                 <img
@@ -609,7 +674,11 @@ const MobileAppDevelopment = () => {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{course.title}</h3>
+                <h3 className={`text-xl font-bold mb-2 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}>
+                  {course.title}
+                </h3>
                 <div className="flex items-center mb-4">
                   <img
                     src={course.instructorImage}
@@ -617,14 +686,24 @@ const MobileAppDevelopment = () => {
                     className="w-10 h-10 rounded-full mr-3"
                   />
                   <div>
-                    <p className="text-sm font-medium">{course.instructor}</p>
+                    <p className={`text-sm font-medium ${
+                      isDarkMode ? 'text-gray-200' : 'text-gray-900'
+                    }`}>
+                      {course.instructor}
+                    </p>
                     <div className="flex items-center">
                       <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span className="text-sm ml-1">{course.rating}</span>
+                      <span className={`text-sm ml-1 ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
+                        {course.rating}
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+                <div className={`flex items-center justify-between text-sm mb-4 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   <div className="flex items-center">
                     <Clock className="w-4 h-4 mr-1" />
                     {course.duration}
@@ -635,10 +714,18 @@ const MobileAppDevelopment = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-purple-600">
+                  <span className={`text-2xl font-bold ${
+                    isDarkMode 
+                      ? 'text-purple-400' 
+                      : 'text-purple-600'
+                  }`}>
                     ${course.price}
                   </span>
-                  <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                  <button className={`${
+                    isDarkMode 
+                      ? 'bg-purple-600 hover:bg-purple-700' 
+                      : 'bg-purple-600 hover:bg-purple-700'
+                  } text-white px-4 py-2 rounded-lg transition-colors`}>
                     Enroll Now
                   </button>
                 </div>
@@ -649,8 +736,12 @@ const MobileAppDevelopment = () => {
       </div>
 
       {/* Learning Path Section */}
-      <div className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+      <div className={`container mx-auto px-4 py-16 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
+        <h2 className={`text-3xl font-bold mb-12 text-center ${
+          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+        }`}>
           Your Learning Path
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -685,7 +776,9 @@ const MobileAppDevelopment = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className={`bg-gradient-to-r ${item.color} p-6 rounded-xl shadow-xl`}
+              className={`bg-gradient-to-r ${item.color} p-6 rounded-xl shadow-xl ${
+                isDarkMode ? 'shadow-gray-900/50' : ''
+              }`}
             >
               <div className="text-white mb-4">{item.icon}</div>
               <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
@@ -696,7 +789,11 @@ const MobileAppDevelopment = () => {
       </div>
 
       {/* Industry Stats Section */}
-      <div className="bg-gradient-to-b from-gray-50 to-gray-100 py-20">
+      <div className={`${
+        isDarkMode 
+          ? 'bg-gradient-to-b from-gray-900 to-gray-800' 
+          : 'bg-gradient-to-b from-gray-50 to-gray-100'
+      } py-20`}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <motion.div
@@ -704,10 +801,18 @@ const MobileAppDevelopment = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
+              <h2 className={`text-4xl font-bold ${
+                isDarkMode
+                  ? 'bg-gradient-to-r from-purple-400 to-blue-400'
+                  : 'bg-gradient-to-r from-purple-600 to-blue-600'
+              } bg-clip-text text-transparent mb-4`}>
                 Mobile Development Landscape 2024
               </h2>
-              <p className="text-gray-600 text-lg">Emerging trends and market insights in mobile development</p>
+              <p className={`${
+                isDarkMode ? 'text-gray-300' : 'text-gray-600'
+              } text-lg`}>
+                Emerging trends and market insights in mobile development
+              </p>
             </motion.div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -718,8 +823,8 @@ const MobileAppDevelopment = () => {
                 description: "Active smartphone users",
                 trend: "+5.8% YoY",
                 icon: Users,
-                color: "from-blue-500 to-blue-600",
-                iconBg: "bg-blue-100"
+                color: isDarkMode ? "from-blue-400 to-blue-500" : "from-blue-500 to-blue-600",
+                iconBg: isDarkMode ? "bg-blue-900/30" : "bg-blue-100"
               },
               {
                 value: "$542B",
@@ -727,8 +832,8 @@ const MobileAppDevelopment = () => {
                 description: "Combined iOS & Android",
                 trend: "+22.5% YoY",
                 icon: DollarSign,
-                color: "from-green-500 to-green-600",
-                iconBg: "bg-green-100"
+                color: isDarkMode ? "from-green-400 to-green-500" : "from-green-500 to-green-600",
+                iconBg: isDarkMode ? "bg-green-900/30" : "bg-green-100"
               },
               {
                 value: "285B",
@@ -736,8 +841,8 @@ const MobileAppDevelopment = () => {
                 description: "Global downloads in 2024",
                 trend: "+15.3% YoY",
                 icon: Download,
-                color: "from-purple-500 to-purple-600",
-                iconBg: "bg-purple-100"
+                color: isDarkMode ? "from-purple-400 to-purple-500" : "from-purple-500 to-purple-600",
+                iconBg: isDarkMode ? "bg-purple-900/30" : "bg-purple-100"
               },
               {
                 value: "48.5M",
@@ -745,8 +850,8 @@ const MobileAppDevelopment = () => {
                 description: "Mobile developers worldwide",
                 trend: "+12.8% YoY",
                 icon: Code,
-                color: "from-rose-500 to-rose-600",
-                iconBg: "bg-rose-100"
+                color: isDarkMode ? "from-rose-400 to-rose-500" : "from-rose-500 to-rose-600",
+                iconBg: isDarkMode ? "bg-rose-900/30" : "bg-rose-100"
               }
             ].map((stat, index) => (
               <motion.div
@@ -758,10 +863,16 @@ const MobileAppDevelopment = () => {
                   transition: { type: "spring", stiffness: 400 }
                 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300"
+                className={`${
+                  isDarkMode 
+                    ? 'bg-gray-800 shadow-gray-900/50' 
+                    : 'bg-white'
+                } rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300`}
               >
                 <div className={`${stat.iconBg} w-12 h-12 rounded-full flex items-center justify-center mb-4`}>
-                  <stat.icon className={`w-6 h-6 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`} />
+                  <stat.icon className={`w-6 h-6 bg-gradient-to-r ${stat.color} ${
+                    isDarkMode ? 'text-white' : 'bg-clip-text text-transparent'
+                  }`} />
                 </div>
                 
                 <motion.div
@@ -773,24 +884,35 @@ const MobileAppDevelopment = () => {
                   <div className={`text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
                     {stat.value}
                   </div>
-                  <div className="text-xl font-semibold text-gray-800">
+                  <div className={`text-xl font-semibold ${
+                    isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                  }`}>
                     {stat.label}
                   </div>
-                  <div className="text-gray-600 text-sm">
+                  <div className={`${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  } text-sm`}>
                     {stat.description}
                   </div>
                   <div className="flex items-center space-x-2">
-                    <TrendingUp className="w-4 h-4 text-green-500" />
-                    <span className="text-green-500 font-medium">{stat.trend}</span>
+                    <TrendingUp className={`w-4 h-4 ${
+                      isDarkMode ? 'text-green-400' : 'text-green-500'
+                    }`} />
+                    <span className={`${
+                      isDarkMode ? 'text-green-400' : 'text-green-500'
+                    } font-medium`}>
+                      {stat.trend}
+                    </span>
                   </div>
                 </motion.div>
 
-                {/* Decorative gradient line */}
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
                   transition={{ delay: index * 0.3, duration: 0.8 }}
-                  className={`h-1 bg-gradient-to-r ${stat.color} mt-4 rounded-full`}
+                  className={`h-1 bg-gradient-to-r ${stat.color} mt-4 rounded-full ${
+                    isDarkMode ? 'opacity-70' : ''
+                  }`}
                 />
               </motion.div>
             ))}
@@ -800,10 +922,16 @@ const MobileAppDevelopment = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="mt-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-8 text-white text-center"
+            className={`mt-12 ${
+              isDarkMode
+                ? 'bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/20'
+                : 'bg-gradient-to-r from-purple-600 to-blue-600'
+            } rounded-xl p-8 text-white text-center`}
           >
             <h3 className="text-2xl font-bold mb-2">Looking Ahead: 2025 Projections</h3>
-            <p className="text-white/90">
+            <p className={`${
+              isDarkMode ? 'text-gray-300' : 'text-white/90'
+            }`}>
               The mobile development industry is expected to grow by 25% with emerging technologies like AR/VR and AI integration leading the way.
             </p>
           </motion.div>
@@ -811,106 +939,88 @@ const MobileAppDevelopment = () => {
       </div>
 
       {/* FAQ Section */}
-      <div className="bg-gradient-to-b from-gray-900 to-gray-800 py-24 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-          <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+      <div className={`${
+        isDarkMode 
+          ? 'bg-gray-800' 
+          : 'bg-white'
+      } py-16`}>
+        <div className="max-w-4xl mx-auto space-y-6 px-4">
+          {[
+            {
+              question: "Which platform should I learn first?",
+              answer: "We recommend starting with React Native or Flutter for cross-platform development, as they allow you to build for both iOS and Android with a single codebase.",
+              icon: <Smartphone className="w-6 h-6" />,
+              color: "from-blue-500 to-blue-600"
+            },
+            {
+              question: "Do I need a Mac for iOS development?",
+              answer: "For native iOS development with Swift, yes. However, you can use React Native or Flutter on Windows/Linux for cross-platform development that includes iOS.",
+              icon: <Monitor className="w-6 h-6" />,
+              color: "from-purple-500 to-purple-600"
+            },
+            {
+              question: "How long does it take to learn mobile development?",
+              answer: "With dedicated study, you can build basic apps in 3-4 months. Becoming proficient typically takes 6-12 months of consistent practice and learning.",
+              icon: <Clock className="w-6 h-6" />,
+              color: "from-pink-500 to-pink-600"
+            },
+            {
+              question: "What are the job prospects in mobile development?",
+              answer: "The mobile development field offers excellent career opportunities with high demand and competitive salaries. The average mobile developer salary ranges from $85,000 to $150,000+ depending on experience and location.",
+              icon: <TrendingUp className="w-6 h-6" />,
+              color: "from-green-500 to-green-600"
+            }
+          ].map((faq, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className={`${
+                isDarkMode 
+                  ? 'bg-gray-900 border-gray-700' 
+                  : 'bg-gray-50 border-gray-200'
+              } p-6 rounded-xl border`}
+            >
+              <div className={`flex items-center mb-4 ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-900'
+              }`}>
+                {faq.icon}
+                <h3 className="text-xl font-semibold ml-4">{faq.question}</h3>
+              </div>
+              <p className={`${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
+                {faq.answer}
+              </p>
+            </motion.div>
+          ))}
         </div>
+      </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-16"
-          >
-            <span className="text-blue-400 font-semibold text-sm uppercase tracking-wider">Got Questions?</span>
-            <h2 className="text-4xl font-bold text-white mt-2">Frequently Asked Questions</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
-          </motion.div>
-
-          <div className="max-w-4xl mx-auto space-y-6">
-            {[
-              {
-                question: "Which platform should I learn first?",
-                answer: "We recommend starting with React Native or Flutter for cross-platform development, as they allow you to build for both iOS and Android with a single codebase.",
-                icon: <Smartphone className="w-6 h-6" />,
-                color: "from-blue-500 to-blue-600"
-              },
-              {
-                question: "Do I need a Mac for iOS development?",
-                answer: "For native iOS development with Swift, yes. However, you can use React Native or Flutter on Windows/Linux for cross-platform development that includes iOS.",
-                icon: <Monitor className="w-6 h-6" />,
-                color: "from-purple-500 to-purple-600"
-              },
-              {
-                question: "How long does it take to learn mobile development?",
-                answer: "With dedicated study, you can build basic apps in 3-4 months. Becoming proficient typically takes 6-12 months of consistent practice and learning.",
-                icon: <Clock className="w-6 h-6" />,
-                color: "from-pink-500 to-pink-600"
-              },
-              {
-                question: "What are the job prospects in mobile development?",
-                answer: "The mobile development field offers excellent career opportunities with high demand and competitive salaries. The average mobile developer salary ranges from $85,000 to $150,000+ depending on experience and location.",
-                icon: <TrendingUp className="w-6 h-6" />,
-                color: "from-green-500 to-green-600"
-              }
-            ].map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                whileHover={{ scale: 1.02 }}
-                className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 hover:bg-white/15 transition-all duration-300"
-              >
-                <div className="flex items-start space-x-4">
-                  <div className={`p-3 bg-gradient-to-r ${faq.color} rounded-lg`}>
-                    {faq.icon}
-                  </div>
-                  <div className="flex-1">
-                    <motion.h3 
-                      className="text-xl font-semibold text-white mb-3"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      {faq.question}
-                    </motion.h3>
-                    <motion.p 
-                      className="text-gray-300 leading-relaxed"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      {faq.answer}
-                    </motion.p>
-                  </div>
-                </div>
-
-                {/* Animated underline */}
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
-                  className={`h-0.5 bg-gradient-to-r ${faq.color} mt-4 opacity-30`}
-                />
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Call to action */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="mt-16 text-center"
-          >
-            <p className="text-gray-300 mb-6">Still have questions? We're here to help!</p>
-            <button className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300">
-              Contact Support
-            </button>
-          </motion.div>
-        </div>
+      {/* Call to action */}
+      <div className={`${
+        isDarkMode 
+          ? 'bg-gray-900' 
+          : 'bg-gray-50'
+      } py-16`}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <p className={`mb-6 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
+            Still have questions? We're here to help!
+          </p>
+          <button className={`${
+            isDarkMode 
+              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700' 
+              : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600'
+          } px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300`}>
+            Contact Support
+          </button>
+        </motion.div>
       </div>
     </div>
   );
