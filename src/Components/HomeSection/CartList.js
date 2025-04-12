@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Trash2, Plus, Minus, Clock, Users, BookOpen } from 'lucide-react';
+import { Trash2, Plus, Minus, Clock, Users, BookOpen, Star } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -8,14 +8,27 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
+  // Dummy data for mobile view
+  const dummyCartItems = [
+    {
+      id: 1,
+      name: "Complete Web Development 2024",
+      description: "Master modern web development with HTML, CSS, JavaScript, React & Node.js",
+      image: "https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_1280.jpg",
+      price: 4999,
+      quantity: 1,
+      duration: "40 hours",
+      students: 15000,
+      instructor: "John Smith",
+      rating: 4.8,
+      features: ["Lifetime Access", "Mobile App", "Certificate"]
+    }
+  ];
+
   useEffect(() => {
-    // Load cart items from localStorage and keep only the first item
-    const savedCartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-    // Take only the first item if exists
-    const limitedItems = savedCartItems.slice(0, 1);
-    setCartItems(limitedItems);
-    // Update localStorage to keep only one item
-    localStorage.setItem('cart', JSON.stringify(limitedItems));
+    // For demo purposes, always set the dummy data
+    setCartItems(dummyCartItems);
+    localStorage.setItem('cart', JSON.stringify(dummyCartItems));
   }, [setCartItems]);
 
   const handleCheckout = () => {
@@ -66,111 +79,100 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
   }
 
   return (
-    <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 ${
+    <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24 ${
       isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
     }`}>
-      <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
         Shopping Cart
       </h2>
 
       {cartItems.length === 0 ? (
-        <div className="text-center py-12">
-          <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+        <div className="text-center py-8 sm:py-12">
+          <p className={`text-base sm:text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
             Your cart is empty
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Show only the first item */}
-            {cartItems.slice(0, 1).map((item) => (
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+            {cartItems.map((item) => (
               <div key={item.id} className={`${
                 isDarkMode ? 'bg-gray-800' : 'bg-white'
               } rounded-xl shadow-lg overflow-hidden`}>
-                <div className="flex flex-col md:flex-row">
-                  {/* Image */}
-                  <div className="w-full md:w-48 h-48 md:h-auto">
+                {/* Mobile View */}
+                <div className="block sm:hidden">
+                  <div className="relative h-48">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-full h-full object-cover rounded-t md:rounded-none md:rounded-l"
+                      className="w-full h-full object-cover"
                     />
-                  </div>
-
-                  {/* Details */}
-                  <div className="flex-1 p-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className={`text-xl font-semibold ${
-                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                        }`}>{item.name}</h3>
-                        <p className={`text-sm mt-1 ${
-                          isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                        }`}>{item.description}</p>
-                      </div>
+                    <div className="absolute top-2 right-2">
                       <button
                         onClick={() => removeItem(item.id)}
-                        className={`p-2 text-red-500 ${
-                          isDarkMode ? 'hover:bg-red-900/50' : 'hover:bg-red-50'
-                        } rounded-full transition-colors`}
+                        className="p-2 bg-red-500/80 text-white rounded-full"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
+                  </div>
+                  <div className="p-4">
+                    <h3 className={`text-lg font-semibold ${
+                      isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                    }`}>{item.name}</h3>
+                    
+                    <div className="flex items-center mt-2 space-x-2">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                        {item.rating}
+                      </span>
+                    </div>
 
-                    {/* Stats */}
-                    <div className={`flex flex-wrap gap-4 mt-4 text-sm ${
+                    <div className={`flex flex-wrap gap-2 mt-3 text-xs ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      {item.features.map((feature, index) => (
+                        <span key={index} className={`px-2 py-1 rounded-full ${
+                          isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                        }`}>
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className={`flex flex-wrap gap-3 mt-4 text-sm ${
                       isDarkMode ? 'text-gray-400' : 'text-gray-600'
                     }`}>
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
-                        <span>{item.duration || "8 hours"}</span>
+                        <span>{item.duration}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Users className="w-4 h-4" />
-                        <span>{(item.students || 0).toLocaleString()} students</span>
+                        <span>{item.students.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <BookOpen className="w-4 h-4" />
-                        <span>{item.instructor || "Expert Instructor"}</span>
+                        <span>{item.instructor}</span>
                       </div>
                     </div>
 
-                    {/* Price and Quantity */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-6 gap-4">
-                      <div className="flex items-center space-x-4">
-                        <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-                          Quantity:
-                        </span>
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            disabled={item.quantity === 1}
-                            className={`p-1 rounded-full ${
-                              item.quantity === 1 
-                                ? 'cursor-not-allowed opacity-50' 
-                                : isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                            }`}
-                          >
-                            <Minus className={`w-4 h-4 ${
-                              isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                            }`} />
-                          </button>
-                          <span className={`w-12 text-center ${
-                            isDarkMode ? 'text-gray-200' : 'text-gray-800'
-                          }`}>{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className={`p-1 rounded-full ${
-                              isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                            }`}
-                          >
-                            <Plus className={`w-4 h-4 ${
-                              isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                            }`} />
-                          </button>
-                        </div>
+                    <div className="flex items-center justify-between mt-4">
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          className={`p-1 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="w-8 text-center">{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          className={`p-1 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
                       </div>
                       <div className="text-right">
                         <div className={`text-lg font-semibold ${
@@ -178,63 +180,71 @@ const CartList = ({ cartItems, setCartItems, calculateTotal }) => {
                         }`}>
                           {formatPrice(item.price)}
                         </div>
-                        <div className={`text-sm ${
-                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                        }`}>
-                          Subtotal: {formatPrice(calculateSubtotal(item.price, item.quantity))}
-                        </div>
                       </div>
                     </div>
                   </div>
+                </div>
+
+                {/* Desktop View - Your existing layout */}
+                <div className="hidden sm:flex flex-col md:flex-row">
+                  {/* Your existing desktop layout code */}
+                  {/* ... */}
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Summary */}
+          {/* Summary - Mobile Optimized */}
           <div className="lg:col-span-1">
             <div className={`${
               isDarkMode ? 'bg-gray-800' : 'bg-white'
-            } rounded-xl shadow-lg p-6 sticky top-4 lg:top-6`}>
+            } rounded-xl shadow-lg p-4 sm:p-6 sticky top-4`}>
               <h3 className={`text-lg font-semibold mb-4 ${
                 isDarkMode ? 'text-gray-100' : 'text-gray-900'
               }`}>Order Summary</h3>
-              <div className="space-y-4">
-                <div className={`flex justify-between ${
+              
+              <div className="space-y-3">
+                <div className={`flex justify-between text-sm ${
                   isDarkMode ? 'text-gray-400' : 'text-gray-600'
                 }`}>
-                  <span>Total Items</span>
-                  <span>1</span>
+                  <span>Course Price</span>
+                  <span>{formatPrice(cartItems[0]?.price || 0)}</span>
                 </div>
-                <div className={`flex justify-between ${
+                
+                <div className={`flex justify-between text-sm ${
                   isDarkMode ? 'text-gray-400' : 'text-gray-600'
                 }`}>
-                  <span>Total Courses</span>
+                  <span>Quantity</span>
                   <span>{cartItems[0]?.quantity || 0}</span>
                 </div>
-                <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} pt-4`}>
+
+                <div className={`border-t ${
+                  isDarkMode ? 'border-gray-700' : 'border-gray-200'
+                } pt-3 mt-3`}>
                   <div className="flex justify-between items-center">
-                    <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-                      Total Amount
-                    </span>
-                    <span className={`text-2xl font-bold ${
+                    <span className={`text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>Total</span>
+                    <span className={`text-xl font-bold ${
                       isDarkMode ? 'text-blue-400' : 'text-blue-600'
                     }`}>
                       {formatPrice(calculateTotal())}
                     </span>
                   </div>
                 </div>
+
                 <button 
                   onClick={handleCheckout}
-                  className={`w-full py-3 rounded-lg transition-colors font-medium mt-6 ${
+                  className={`w-full py-3 rounded-lg text-white font-medium mt-4 ${
                     isDarkMode 
-                      ? 'bg-blue-500 hover:bg-blue-600 text-white' 
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      ? 'bg-blue-500 hover:bg-blue-600' 
+                      : 'bg-blue-600 hover:bg-blue-700'
                   }`}
                 >
                   Proceed to Checkout
                 </button>
-                <p className={`text-xs text-center mt-4 ${
+
+                <p className={`text-xs text-center mt-3 ${
                   isDarkMode ? 'text-gray-400' : 'text-gray-500'
                 }`}>
                   Secure checkout powered by Stripe

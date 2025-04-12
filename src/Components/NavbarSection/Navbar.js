@@ -132,11 +132,11 @@ const Navbar = () => {
             className="flex items-center py-2"
           >
             <Link to="/" className="flex items-center">
-              <img 
-                src="/images/mainlogo.png" 
-                alt="Company Logo" 
-                className="h-14 w-auto sm:h-16 md:h-20 object-contain"
-              />
+              <h1 className={`text-2xl md:text-3xl font-bold tracking-wider ${
+                isDarkMode ? 'text-white' : 'text-gray-800'
+              }`}>
+                MEHAR<span className="text-blue-500">e</span>TECH
+              </h1>
             </Link>
           </motion.div>
 
