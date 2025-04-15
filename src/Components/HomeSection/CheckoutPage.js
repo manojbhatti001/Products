@@ -90,29 +90,101 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
   };
 
   return (
-    <div className={`min-h-screen ${
-      isDarkMode 
-        ? 'bg-gradient-to-b from-gray-900 to-gray-800' 
-        : 'bg-gradient-to-b from-gray-50 to-white'
-    } py-12 transition-colors duration-200`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section - Made Responsive */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 className={`text-3xl sm:text-4xl font-extrabold p-8 sm:p-16 ${
-            isDarkMode
-              ? 'bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400'
-              : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600'
-          } bg-clip-text text-transparent`}>
-            Secure Checkout
-          </h1>
-          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto px-4`}>
-            You're just a few steps away from accessing your courses
-          </p>
-        </div>
+    <div className={isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}>
+      <div className="container mx-auto py-8">
+        <h1 className={`text-2xl sm:text-3xl font-bold mb-8 ${
+          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+        }`}>
+          Checkout
+        </h1>
 
         {cartItems && cartItems.length > 0 ? (
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Billing Information - Made Responsive */}
+            {/* Order Summary Section - Now First */}
+            <div className="w-full lg:w-1/2">
+              <div className={`${
+                isDarkMode 
+                  ? 'bg-gray-800 shadow-xl' 
+                  : 'bg-white shadow-xl'
+              } rounded-2xl p-6 sm:p-8 sticky top-4`}>
+                <h2 className={`text-xl sm:text-2xl font-bold mb-6 sm:mb-8 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}>Order Summary</h2>
+                <div className="space-y-4 sm:space-y-6">
+                  {cartItems.map((item) => (
+                    <div key={item.id} className={`flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 ${
+                      isDarkMode ? 'bg-gray-700' : 'bg-gray-50'
+                    } rounded-lg`}>
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full sm:w-20 h-40 sm:h-20 object-cover rounded-lg"
+                      />
+                      <div className="flex-1">
+                        <h3 className={`font-semibold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>{item.name}</h3>
+                        <p className={`text-sm ${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>Quantity: {item.quantity}</p>
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
+                          <span className={`text-xs ${
+                            isDarkMode
+                              ? 'bg-blue-900/50 text-blue-300'
+                              : 'bg-blue-100 text-blue-800'
+                          } px-2 py-1 rounded-full`}>
+                            {item.duration}
+                          </span>
+                          <span className={`text-xs ${
+                            isDarkMode
+                              ? 'bg-purple-900/50 text-purple-300'
+                              : 'bg-purple-100 text-purple-800'
+                          } px-2 py-1 rounded-full`}>
+                            {item.instructor}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="w-full sm:w-auto text-right mt-2 sm:mt-0">
+                        <span className={`font-medium ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>
+                          {formatPrice(item.price * item.quantity)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+
+                  <div className={`border-t ${
+                    isDarkMode ? 'border-gray-700' : 'border-gray-200'
+                  } pt-4 sm:pt-6 mt-4 sm:mt-6`}>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Subtotal</span>
+                        <span className={`font-medium ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>{formatPrice(calculateTotal())}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Platform Fee</span>
+                        <span className="font-medium text-green-600">Free</span>
+                      </div>
+                      <div className="flex justify-between items-center text-lg pt-3 border-t border-dashed">
+                        <span className={`font-medium ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>Total Amount</span>
+                        <span className={`text-xl sm:text-2xl font-bold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>
+                          {formatPrice(calculateTotal())}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Billing Information Section - Now Second */}
             <div className="w-full lg:w-1/2">
               <div className={`${
                 isDarkMode 
@@ -229,90 +301,6 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
                     {isProcessing ? 'Processing...' : 'Place Secure Order'}
                   </button>
                 </form>
-              </div>
-            </div>
-
-            {/* Order Summary - Made Responsive */}
-            <div className="w-full lg:w-1/2">
-              <div className={`${
-                isDarkMode 
-                  ? 'bg-gray-800 shadow-xl' 
-                  : 'bg-white shadow-xl'
-              } rounded-2xl p-6 sm:p-8 sticky top-4`}>
-                <h2 className={`text-xl sm:text-2xl font-bold mb-6 sm:mb-8 ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                }`}>Order Summary</h2>
-                <div className="space-y-4 sm:space-y-6">
-                  {cartItems.map((item) => (
-                    <div key={item.id} className={`flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 ${
-                      isDarkMode ? 'bg-gray-700' : 'bg-gray-50'
-                    } rounded-lg`}>
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full sm:w-20 h-40 sm:h-20 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <h3 className={`font-semibold ${
-                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                        }`}>{item.name}</h3>
-                        <p className={`text-sm ${
-                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                        }`}>Quantity: {item.quantity}</p>
-                        <div className="flex flex-wrap items-center gap-2 mt-2">
-                          <span className={`text-xs ${
-                            isDarkMode
-                              ? 'bg-blue-900/50 text-blue-300'
-                              : 'bg-blue-100 text-blue-800'
-                          } px-2 py-1 rounded-full`}>
-                            {item.duration}
-                          </span>
-                          <span className={`text-xs ${
-                            isDarkMode
-                              ? 'bg-purple-900/50 text-purple-300'
-                              : 'bg-purple-100 text-purple-800'
-                          } px-2 py-1 rounded-full`}>
-                            {item.instructor}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-full sm:w-auto text-right mt-2 sm:mt-0">
-                        <span className={`font-medium ${
-                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                        }`}>
-                          {formatPrice(item.price * item.quantity)}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-
-                  <div className={`border-t ${
-                    isDarkMode ? 'border-gray-700' : 'border-gray-200'
-                  } pt-4 sm:pt-6 mt-4 sm:mt-6`}>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Subtotal</span>
-                        <span className={`font-medium ${
-                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                        }`}>{formatPrice(calculateTotal())}</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Platform Fee</span>
-                        <span className="font-medium text-green-600">Free</span>
-                      </div>
-                      <div className="flex justify-between items-center text-lg pt-3 border-t border-dashed">
-                        <span className={`font-medium ${
-                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                        }`}>Total Amount</span>
-                        <span className={`text-xl sm:text-2xl font-bold ${
-                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                        }`}>
-                          {formatPrice(calculateTotal())}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
