@@ -32,6 +32,7 @@ import PaymentHistory from './Components/ProfileSection/PaymentHistory';
 import RouteWrapper from './Components/LoaderSection/RouteWrapper';
 import ForgetPassword from './Components/LoginSection/ForgetPassword';
 import { ThemeProvider } from './context/ThemeContext';
+import Services from './Components/ServicesSection/Services';
 
 function App() {
   const [cartItems, setCartItems] = useState(() => {
@@ -164,6 +165,7 @@ function App() {
                         <Route path="/profile/details" element={<RegisterDetails />} />
                         <Route path="/profile/purchases" element={<PurchaseProduct />} />
                         <Route path="/profile/payment-history" element={<PaymentHistory />} />
+                        <Route path="/services" element={<Services />} />
                       </Routes>   
                     </main>
                     <Footer />

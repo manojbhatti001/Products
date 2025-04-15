@@ -113,7 +113,7 @@ const Navbar = () => {
 
   const navigationLinks = [
     { path: '/', label: 'Home' },
-    
+    { path: '/services', label: 'Services' },
   ];
 
   const isActive = (path) => {
