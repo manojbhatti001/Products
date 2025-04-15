@@ -347,29 +347,29 @@ const ProductPreview = () => {
               </div>
 
               {/* Add to Cart Button */}
-              <div className="flex gap-4">
+              <div className="flex gap-2 sm:gap-4">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleAddToCart}
-                  className={`flex-1 py-3 px-6 rounded-lg flex items-center justify-center gap-2 text-white font-semibold ${
+                  className={`flex-1 py-2 sm:py-3 px-3 sm:px-6 rounded-lg flex items-center justify-center gap-1.5 sm:gap-2 text-white font-semibold ${
                     isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'
                   }`}
                 >
-                  <ShoppingCart className="w-5 h-5" />
-                  Add to Cart
+                  <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">Add to Cart</span>
                 </motion.button>
 
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleBuyNow}
-                  className={`flex-1 py-3 px-6 rounded-lg flex items-center justify-center gap-2 text-white font-semibold ${
+                  className={`flex-1 py-2 sm:py-3 px-3 sm:px-6 rounded-lg flex items-center justify-center gap-1.5 sm:gap-2 text-white font-semibold ${
                     isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-600 hover:bg-green-700'
                   }`}
                 >
-                  <CreditCard className="w-5 h-5" />
-                  Buy Now
+                  <CreditCard className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">Buy Now</span>
                 </motion.button>
               </div>
             </div>
