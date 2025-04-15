@@ -96,98 +96,43 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
         : 'bg-gradient-to-b from-gray-50 to-white'
     } py-12 transition-colors duration-200`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className={`text-4xl font-extrabold p-16 ${
+        {/* Header Section - Made Responsive */}
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className={`text-3xl sm:text-4xl font-extrabold p-8 sm:p-16 ${
             isDarkMode
               ? 'bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400'
               : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600'
           } bg-clip-text text-transparent`}>
             Secure Checkout
           </h1>
-          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
+          <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto px-4`}>
             You're just a few steps away from accessing your courses
           </p>
         </div>
 
         {cartItems && cartItems.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Billing Information */}
-            <div className={`${
-              isDarkMode 
-                ? 'bg-gray-800 shadow-xl' 
-                : 'bg-white shadow-xl'
-            } rounded-2xl p-8`}>
-              <h2 className={`text-2xl font-bold mb-8 flex items-center gap-2 ${
-                isDarkMode ? 'text-gray-100' : 'text-gray-900'
-              }`}>
-                <Lock className={`w-6 h-6 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
-                Billing Information
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="relative">
-                  <input
-                    id="fullName"
-                    type="text"
-                    name="fullName"
-                    required
-                    value={billingInfo.fullName}
-                    onChange={handleInputChange}
-                    className={`block w-full px-4 py-2.5 text-sm ${
-                      isDarkMode
-                        ? 'text-gray-100 bg-gray-700 border-gray-600 focus:border-blue-400 hover:border-gray-500'
-                        : 'text-gray-900 bg-transparent border-gray-200 focus:border-blue-600 hover:border-gray-300'
-                    } rounded-lg border-2 appearance-none focus:outline-none focus:ring-0 peer shadow-sm transition-colors`}
-                    placeholder=" "
-                  />
-                  <label 
-                    htmlFor="fullName"
-                    className={`absolute text-sm ${
-                      isDarkMode
-                        ? 'text-gray-400 bg-gray-800 peer-focus:text-blue-400'
-                        : 'text-gray-500 bg-white peer-focus:text-blue-600'
-                    } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
-                  >
-                    Full Name *
-                  </label>
-                </div>
-
-                <div className="relative">
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    required
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                    value={billingInfo.email}
-                    onChange={handleInputChange}
-                    className={`block w-full px-4 py-2.5 text-sm ${
-                      isDarkMode
-                        ? 'text-gray-100 bg-gray-700 border-gray-600 focus:border-blue-400 hover:border-gray-500'
-                        : 'text-gray-900 bg-transparent border-gray-200 focus:border-blue-600 hover:border-gray-300'
-                    } rounded-lg border-2 appearance-none focus:outline-none focus:ring-0 peer shadow-sm transition-colors`}
-                    placeholder=" "
-                  />
-                  <label 
-                    htmlFor="email"
-                    className={`absolute text-sm ${
-                      isDarkMode
-                        ? 'text-gray-400 bg-gray-800 peer-focus:text-blue-400'
-                        : 'text-gray-500 bg-white peer-focus:text-blue-600'
-                    } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
-                  >
-                    Email Address *
-                  </label>
-                </div>
-
-                <div className="relative mb-6">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Billing Information - Made Responsive */}
+            <div className="w-full lg:w-1/2">
+              <div className={`${
+                isDarkMode 
+                  ? 'bg-gray-800 shadow-xl' 
+                  : 'bg-white shadow-xl'
+              } rounded-2xl p-6 sm:p-8`}>
+                <h2 className={`text-xl sm:text-2xl font-bold mb-6 sm:mb-8 flex items-center gap-2 ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                }`}>
+                  <Lock className="w-5 h-5 sm:w-6 sm:h-6" />
+                  Billing Information
+                </h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="relative">
                     <input
-                      id="phone"
-                      type="tel"
-                      name="phone"
+                      id="fullName"
+                      type="text"
+                      name="fullName"
                       required
-                      pattern="[0-9]{10}"
-                      value={billingInfo.phone}
+                      value={billingInfo.fullName}
                       onChange={handleInputChange}
                       className={`block w-full px-4 py-2.5 text-sm ${
                         isDarkMode
@@ -197,57 +142,115 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
                       placeholder=" "
                     />
                     <label 
-                      htmlFor="phone"
+                      htmlFor="fullName"
                       className={`absolute text-sm ${
                         isDarkMode
                           ? 'text-gray-400 bg-gray-800 peer-focus:text-blue-400'
                           : 'text-gray-500 bg-white peer-focus:text-blue-600'
                       } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
                     >
-                      Phone Number *
+                      Full Name *
                     </label>
                   </div>
-                  <div className="absolute -bottom-6 left-0">
-                  
-                  </div>
-                </div>
 
-                <button
-                  type="submit"
-                  disabled={isProcessing}
-                  className={`w-full ${
-                    isDarkMode
-                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
-                      : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
-                  } text-white py-3 rounded-lg transition-all duration-200 font-medium 
-                  flex items-center justify-center gap-2 shadow-lg mt-8
-                  ${isProcessing ? 'opacity-75 cursor-not-allowed' : ''}`}
-                >
-                  <ShieldCheck className="w-5 h-5" />
-                  {isProcessing ? 'Processing...' : 'Place Secure Order'}
-                </button>
-              </form>
+                  <div className="relative">
+                    <input
+                      id="email"
+                      type="email"
+                      name="email"
+                      required
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                      value={billingInfo.email}
+                      onChange={handleInputChange}
+                      className={`block w-full px-4 py-2.5 text-sm ${
+                        isDarkMode
+                          ? 'text-gray-100 bg-gray-700 border-gray-600 focus:border-blue-400 hover:border-gray-500'
+                          : 'text-gray-900 bg-transparent border-gray-200 focus:border-blue-600 hover:border-gray-300'
+                      } rounded-lg border-2 appearance-none focus:outline-none focus:ring-0 peer shadow-sm transition-colors`}
+                      placeholder=" "
+                    />
+                    <label 
+                      htmlFor="email"
+                      className={`absolute text-sm ${
+                        isDarkMode
+                          ? 'text-gray-400 bg-gray-800 peer-focus:text-blue-400'
+                          : 'text-gray-500 bg-white peer-focus:text-blue-600'
+                      } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                    >
+                      Email Address *
+                    </label>
+                  </div>
+
+                  <div className="relative mb-6">
+                    <div className="relative">
+                      <input
+                        id="phone"
+                        type="tel"
+                        name="phone"
+                        required
+                        pattern="[0-9]{10}"
+                        value={billingInfo.phone}
+                        onChange={handleInputChange}
+                        className={`block w-full px-4 py-2.5 text-sm ${
+                          isDarkMode
+                            ? 'text-gray-100 bg-gray-700 border-gray-600 focus:border-blue-400 hover:border-gray-500'
+                            : 'text-gray-900 bg-transparent border-gray-200 focus:border-blue-600 hover:border-gray-300'
+                        } rounded-lg border-2 appearance-none focus:outline-none focus:ring-0 peer shadow-sm transition-colors`}
+                        placeholder=" "
+                      />
+                      <label 
+                        htmlFor="phone"
+                        className={`absolute text-sm ${
+                          isDarkMode
+                            ? 'text-gray-400 bg-gray-800 peer-focus:text-blue-400'
+                            : 'text-gray-500 bg-white peer-focus:text-blue-600'
+                        } duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1`}
+                      >
+                        Phone Number *
+                      </label>
+                    </div>
+                    <div className="absolute -bottom-6 left-0">
+                    
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isProcessing}
+                    className={`w-full ${
+                      isDarkMode
+                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+                        : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
+                    } text-white py-3 rounded-lg transition-all duration-200 font-medium 
+                    flex items-center justify-center gap-2 shadow-lg mt-8
+                    ${isProcessing ? 'opacity-75 cursor-not-allowed' : ''}`}
+                  >
+                    <ShieldCheck className="w-5 h-5" />
+                    {isProcessing ? 'Processing...' : 'Place Secure Order'}
+                  </button>
+                </form>
+              </div>
             </div>
 
-            {/* Order Summary */}
-            <div>
+            {/* Order Summary - Made Responsive */}
+            <div className="w-full lg:w-1/2">
               <div className={`${
                 isDarkMode 
                   ? 'bg-gray-800 shadow-xl' 
                   : 'bg-white shadow-xl'
-              } rounded-2xl p-8`}>
-                <h2 className={`text-2xl font-bold mb-8 ${
+              } rounded-2xl p-6 sm:p-8 sticky top-4`}>
+                <h2 className={`text-xl sm:text-2xl font-bold mb-6 sm:mb-8 ${
                   isDarkMode ? 'text-gray-100' : 'text-gray-900'
                 }`}>Order Summary</h2>
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {cartItems.map((item) => (
-                    <div key={item.id} className={`flex items-start space-x-4 p-4 ${
+                    <div key={item.id} className={`flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 ${
                       isDarkMode ? 'bg-gray-700' : 'bg-gray-50'
                     } rounded-lg`}>
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-20 h-20 object-cover rounded-lg"
+                        className="w-full sm:w-20 h-40 sm:h-20 object-cover rounded-lg"
                       />
                       <div className="flex-1">
                         <h3 className={`font-semibold ${
@@ -256,7 +259,7 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
                         <p className={`text-sm ${
                           isDarkMode ? 'text-gray-400' : 'text-gray-500'
                         }`}>Quantity: {item.quantity}</p>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="flex flex-wrap items-center gap-2 mt-2">
                           <span className={`text-xs ${
                             isDarkMode
                               ? 'bg-blue-900/50 text-blue-300'
@@ -273,7 +276,7 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
                           </span>
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="w-full sm:w-auto text-right mt-2 sm:mt-0">
                         <span className={`font-medium ${
                           isDarkMode ? 'text-gray-100' : 'text-gray-900'
                         }`}>
@@ -285,37 +288,28 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
 
                   <div className={`border-t ${
                     isDarkMode ? 'border-gray-700' : 'border-gray-200'
-                  } pt-6 mt-6`}>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Subtotal</span>
-                      <span className={`font-medium ${
-                        isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                      }`}>{formatPrice(calculateTotal())}</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-4">
-                      <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Platform Fee</span>
-                      <span className="font-medium text-green-600">Free</span>
-                    </div>
-                    <div className="flex justify-between items-center text-lg">
-                      <span className={`font-medium ${
-                        isDarkMode ? 'text-gray-100' : 'text-gray-900'
-                      }`}>Total Amount</span>
-                      <span className={`text-2xl font-bold ${
-                        isDarkMode ? 'text-blue-400' : 'text-blue-600'
-                      }`}>
-                        {formatPrice(calculateTotal())}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className={`${
-                    isDarkMode
-                      ? 'bg-blue-900/20 text-blue-300'
-                      : 'bg-blue-50 text-blue-800'
-                  } p-4 rounded-lg mt-6`}>
-                    <div className="flex items-center gap-2 text-sm">
-                      <ShieldCheck className="w-5 h-5" />
-                      <span>Your payment is secured by industry-leading encryption</span>
+                  } pt-4 sm:pt-6 mt-4 sm:mt-6`}>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Subtotal</span>
+                        <span className={`font-medium ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>{formatPrice(calculateTotal())}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Platform Fee</span>
+                        <span className="font-medium text-green-600">Free</span>
+                      </div>
+                      <div className="flex justify-between items-center text-lg pt-3 border-t border-dashed">
+                        <span className={`font-medium ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>Total Amount</span>
+                        <span className={`text-xl sm:text-2xl font-bold ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                        }`}>
+                          {formatPrice(calculateTotal())}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -324,19 +318,9 @@ const CheckoutPage = ({ cartItems = [], calculateTotal }) => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className={`${
-              isDarkMode ? 'text-gray-300' : 'text-gray-500'
-            } text-lg mb-4`}>Your cart is empty</p>
-            <button
-              onClick={() => navigate('/')}
-              className={`${
-                isDarkMode
-                  ? 'bg-blue-500 hover:bg-blue-600'
-                  : 'bg-blue-600 hover:bg-blue-700'
-              } text-white px-8 py-3 rounded-lg transition-colors`}
-            >
-              Continue Shopping
-            </button>
+            <p className={`text-lg ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Your cart is empty. Please add some items to proceed with checkout.
+            </p>
           </div>
         )}
       </div>

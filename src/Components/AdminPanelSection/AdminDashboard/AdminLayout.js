@@ -93,7 +93,7 @@ const AdminLayout = () => {
       <header className={`fixed top-0 left-0 right-0 ${
         isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
       } z-40 border-b transition-colors duration-300`}>
-        <div className="flex items-center justify-between px-4 h-16 md:h-20">
+        <div className="flex items-center justify-between p-4">
           {/* Left Section */}
           <div className="flex items-center space-x-4">
             <button
@@ -105,7 +105,7 @@ const AdminLayout = () => {
               <Menu size={24} className={isDarkMode ? 'text-white' : 'text-gray-800'} />
             </button>
             <div className="flex items-center space-x-3">
-              <Package className="h-6 w-6 md:h-8 md:w-8 text-blue-500" />
+              <Package className="h-6 w-6 ml-14 md:h-8 md:w-8 text-blue-500" />
               <h1 className={`text-lg md:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
                 Admin Panel
               </h1>
@@ -113,7 +113,7 @@ const AdminLayout = () => {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center  space-x-3">
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}

@@ -127,11 +127,22 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300 text-sm mb-4 md:mb-0">
-              © {currentYear} MehareTech. All rights reserved.
-            </p>
+            {/* Copyright and Logo Column */}
+            <div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
+              <p className="text-gray-300 text-sm mb-2">
+                © {currentYear} MehareTech. All rights reserved.
+              </p>
+              {/* Logo */}
+              <Link to="/" className="flex items-center">
+                <img 
+                  src={`${process.env.PUBLIC_URL}/images/mainlogo.png`} 
+                  alt="Logo" 
+                  className="w-32 h-12" 
+                />
+              </Link>
+            </div>
             
-            {/* Social Media Links - Increased size and padding */}
+            {/* Social Media Links */}
             <div className="flex items-center space-x-6">
               <a 
                 href="https://facebook.com/meharetech" 

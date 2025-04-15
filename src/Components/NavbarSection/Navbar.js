@@ -198,14 +198,30 @@ const Navbar = () => {
               )}
             </div>
             
-            {/* Search Bar */}
-            <div className="relative hidden xl:block">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-48 xl:w-64 pl-9 pr-4 py-1 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            {/* Search Bar and Cart Icon Group */}
+            <div className="flex items-center space-x-4">
+              {/* Search Bar */}
+              <div className="relative hidden xl:block">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="w-48 xl:w-64 pl-9 pr-4 py-1 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Cart Icon */}
+              <Link
+                to="/cart"
+                className="relative inline-flex items-center p-2 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <ShoppingCart className="w-5 h-5 xl:w-6 xl:h-6" />
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 xl:w-5 xl:h-5 flex items-center justify-center">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Link>
             </div>
 
             {/* Auth Links */}
@@ -304,39 +320,24 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Cart Icon and Mobile Menu Button - Adjusted alignment */}
-          <div className="flex items-center space-x-2 h-full">
+          {/* Mobile Menu Button - Keep this separate for mobile view */}
+          <div className="flex lg:hidden items-center space-x-2">
             <Link
               to="/cart"
               className="relative inline-flex items-center p-2 text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
             >
-              <ShoppingCart className="w-5 h-5 xl:w-6 xl:h-6" />
+              <ShoppingCart className="w-5 h-5" />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 xl:w-5 xl:h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   {cartItemsCount}
                 </span>
               )}
             </Link>
-
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-md text-gray-700 hover:text-gray-900 focus:outline-none"
+              className="p-2 rounded-md text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200 focus:outline-none"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-
-            {/* Theme Toggle Button for Mobile */}
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-full lg:hidden ${
-                isDarkMode 
-                  ? 'bg-gray-700 text-yellow-300 hover:bg-gray-600' 
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              } transition-colors duration-200`}
-              aria-label="Toggle theme"
-            >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
           </div>
         </div>

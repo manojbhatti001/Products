@@ -1,46 +1,139 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, ShoppingCart, CreditCard, X } from 'lucide-react';
+import { Star, ShoppingCart, CreditCard, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useTheme } from '../../context/ThemeContext';
 
-const ImageModal = ({ image, onClose, isDarkMode }) => (
-  <motion.div 
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className={`fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 ${!isDarkMode && '!bg-white/90'}`}
-    onClick={onClose}
-  >
+const ImageModal = ({ image, onClose, isDarkMode, images, currentIndex, setSelectedImage }) => {
+  const showNext = () => {
+    if (currentIndex < images.length - 1) {
+      setSelectedImage(images[currentIndex + 1]);
+    }
+  };
+
+  const showPrevious = () => {
+    if (currentIndex > 0) {
+      setSelectedImage(images[currentIndex - 1]);
+    }
+  };
+
+  // Add keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrevious();
+      if (e.key === 'Escape') onClose();
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [currentIndex]);
+
+  const handleModalClick = (e) => {
+    // Close only if clicking the outer container
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  return (
     <motion.div 
-      initial={{ scale: 0.5 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0.5 }}
-      className="relative w-full max-w-[95vw] max-h-[95vh]"
-      onClick={e => e.stopPropagation()} // Prevents closing when clicking the image
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+      onClick={handleModalClick}
     >
-      <button 
-        onClick={onClose}
-        className={`absolute -top-6 -right-6 p-2 bg-white rounded-full text-gray-800 hover:bg-gray-100 shadow-lg z-50 ${!isDarkMode && '!bg-white !text-gray-800 !hover:bg-gray-100'}`}
+      <motion.div 
+        initial={{ scale: 0.5 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.5 }}
+        className="relative w-full max-w-[90vw] h-[90vh] flex items-center justify-center"
       >
-        <X className="w-8 h-8" />
-      </button>
-      
-      <div className="relative w-full h-full flex items-center justify-center">
-        <img 
-          src={image} 
-          alt="Full screen view"
-          className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-          style={{
-            minHeight: '60vh',
-            minWidth: '60vw'
+        {/* Close button - Repositioned and restyled */}
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
           }}
-        />
-      </div>
+          className="absolute top-2 right-2 z-50 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white 
+            transition-all duration-200 backdrop-blur-sm hover:scale-110"
+          aria-label="Close modal"
+        >
+          <X className="w-6 h-6" />
+        </button>
+
+        {/* Main image container */}
+        <div className="relative w-full h-full flex items-center justify-center">
+          <img 
+            src={image} 
+            alt="Full screen view"
+            className="max-w-full max-h-full object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          
+          {/* Navigation buttons */}
+          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between items-center px-4">
+            {/* Previous button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                showPrevious();
+              }}
+              className={`p-3 rounded-full bg-black/50 hover:bg-black/70 text-white 
+                transition-all duration-200 backdrop-blur-sm transform hover:scale-105
+                ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed hover:scale-100' : 'opacity-100 hover:shadow-lg'}`}
+              disabled={currentIndex === 0}
+            >
+              <ChevronLeft className="w-8 h-8" />
+            </button>
+
+            {/* Next button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                showNext();
+              }}
+              className={`p-3 rounded-full bg-black/50 hover:bg-black/70 text-white 
+                transition-all duration-200 backdrop-blur-sm transform hover:scale-105
+                ${currentIndex === images.length - 1 ? 'opacity-50 cursor-not-allowed hover:scale-100' : 'opacity-100 hover:shadow-lg'}`}
+              disabled={currentIndex === images.length - 1}
+            >
+              <ChevronRight className="w-8 h-8" />
+            </button>
+          </div>
+        </div>
+
+        {/* Image counter */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <div className="bg-black/50 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm">
+            {currentIndex + 1} of {images.length}
+          </div>
+        </div>
+
+        {/* Thumbnail navigation */}
+        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
+          <div className="flex gap-2 bg-black/30 p-2 rounded-full backdrop-blur-sm">
+            {images.map((img, index) => (
+              <button
+                key={index}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedImage(img);
+                }}
+                className={`w-2 h-2 rounded-full transition-all duration-200 
+                  ${index === currentIndex 
+                    ? 'bg-white scale-125' 
+                    : 'bg-white/50 hover:bg-white/75'}`}
+              />
+            ))}
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
-  </motion.div>
-);
+  );
+};
 
 const ProductPreview = () => {
   const { isDarkMode } = useTheme();
@@ -50,13 +143,18 @@ const ProductPreview = () => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const getCurrentImageIndex = () => {
+    if (!selectedImage || !product?.allImages) return 0;
+    return product.allImages.findIndex(img => img === selectedImage);
+  };
+
   useEffect(() => {
     // Get product from localStorage
     const products = JSON.parse(localStorage.getItem('products') || '[]');
     const foundProduct = products.find(p => p.id.toString() === id.toString());
     
     if (foundProduct) {
-      // Generate additional images based on the main image
+    
       foundProduct.allImages = [
         foundProduct.imageUrl || foundProduct.thumbnail,
         'https://placehold.co/600x400/21759b/FFFFFF/png?text=Additional+1',
@@ -67,7 +165,7 @@ const ProductPreview = () => {
       ];
       setProduct(foundProduct);
       
-      // For debugging
+     
       console.log('Product data loaded:', foundProduct);
     }
   }, [id]);
@@ -376,6 +474,9 @@ const ProductPreview = () => {
             image={selectedImage} 
             onClose={() => setSelectedImage(null)} 
             isDarkMode={isDarkMode}
+            images={product.allImages}
+            currentIndex={getCurrentImageIndex()}
+            setSelectedImage={setSelectedImage}
           />
         )}
       </AnimatePresence>
