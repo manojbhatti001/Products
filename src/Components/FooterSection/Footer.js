@@ -91,7 +91,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a 
-                  href={`${process.env.PUBLIC_URL}/pdf/Terms of Service.pdf`}
+                  href={`${process.env.PUBLIC_URL}/pdf/Terms-and-Condition.pdf`}
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-300 hover:text-white transition duration-300"
@@ -101,7 +101,7 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href={`${process.env.PUBLIC_URL}/pdf/Privacy Policy .pdf`}
+                  href={`${process.env.PUBLIC_URL}/pdf/Privacy-Policy1.pdf`}
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-300 hover:text-white transition duration-300"
